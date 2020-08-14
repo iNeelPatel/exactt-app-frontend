@@ -1,12 +1,12 @@
 import React from 'react';
 import '@atlaskit/css-reset';
 
-function App() {
+function Login() {
   return (
     <div>
-      Exactt
+      Login
     </div>
   );
 }
 
-export default App;
+export default Login;
