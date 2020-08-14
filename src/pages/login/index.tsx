@@ -9,8 +9,8 @@ function Login(props: any) {
   console.log(props)
   return (
     <div>
-      Login
-      <Button onClick={() => props.setHome("set")}>
+      Login Page
+      <Button onClick={() => props.setHome("setNew")}>
         Click
       </Button>
     </div>

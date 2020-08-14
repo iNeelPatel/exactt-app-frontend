@@ -1,13 +1,16 @@
 import React from 'react';
 import '@atlaskit/css-reset';
 import { Provider } from 'react-redux';
-import Store from './store'
+import { Store, Persistor } from './store'
+import { PersistGate } from 'redux-persist/integration/react'
 import Login from './pages/login'
 
 function App() {
   return (
     <Provider store={Store}>
-      <Login />
+      <PersistGate loading={null} persistor={Persistor}>
+        <Login />
+      </PersistGate>
     </Provider>
   );
 }
