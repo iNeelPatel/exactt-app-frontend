@@ -5,6 +5,8 @@
   "dependencies": {
     "@atlaskit/button": "^14.0.1",
     "@atlaskit/css-reset": "^6.0.0",
+    "@atlaskit/form": "^8.1.0",
+    "@atlaskit/textfield": "^4.0.1",
     "@atlaskit/theme": "^10.0.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -14,6 +16,7 @@
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "@types/react-redux": "^7.1.9",
+    "@types/styled-components": "^5.1.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",
