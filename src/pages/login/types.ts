@@ -1,8 +1,8 @@
-import { HomeState } from "../../redux/types/HomeTypes";
+import { UserState } from "../../redux/types/UserTypes";
 import { RouteProps } from "react-router-dom";
 
-export interface Props extends HomeState, RouteProps {
-   setHome: (data: string) => void;
+export interface Props extends UserState, RouteProps {
+   login: (username: string, password: string) => void;
 }
 
 export interface LoginForm {

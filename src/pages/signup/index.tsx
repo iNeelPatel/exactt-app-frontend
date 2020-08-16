@@ -45,12 +45,12 @@ const SignupComponent = (props: Props) => {
             </Heading>
             <div>
                <Form
-                  onSubmit={(formState: SignupForm) => {
-                     props.signup(formState);
+                  onSubmit={async (formState: SignupForm) => {
+                     await props.signup(formState);
                      console.log("form submitted", formState);
                   }}
                >
-                  {({ formProps, getValues }: any) => (
+                  {({ formProps, getValues, submitting }: any) => (
                      <form {...formProps}>
                         <Field label="Name" isRequired name="name">
                            {({ fieldProps }: any) => (
@@ -124,7 +124,7 @@ const SignupComponent = (props: Props) => {
                         </Field>
                         <div className="bottom-section">
                            <div />
-                           <Button type="submit" appearance="primary">
+                           <Button type="submit" appearance="primary" isLoading={submitting}>
                               Submit
                            </Button>
                         </div>

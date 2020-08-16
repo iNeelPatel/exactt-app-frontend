@@ -9,15 +9,14 @@ import Button from "@atlaskit/button";
 import { colors, typography } from "@atlaskit/theme";
 
 // ====================================== File imports ======================================
-import { setHome } from "../../redux/actions/HomeActions";
+import { login } from "../../redux/actions/UserActions";
 import { Box, Heading } from "../../components";
 import { Props, LoginForm } from "./types";
 import "./login.css";
 
 // ====================================== Component Render ======================================
-const Login = (props: Props) => {
+const LoginComponent = (props: Props) => {
    const exactt_logo = require("../../assets/images/exactt_logo.png");
-   console.log(props);
    return (
       <div className="container" style={{ background: colors.N10 }}>
          <div>
@@ -57,9 +56,7 @@ const Login = (props: Props) => {
                            )}
                         </Field>
                         <div className="bottom-section">
-                           <Button onClick={() => props.setHome("NEEL PATEL")} appearance="link">
-                              Forgot Password ?
-                           </Button>
+                           <Button appearance="link">Forgot Password ?</Button>
                            <Button type="submit" appearance="primary">
                               Login
                            </Button>
@@ -74,14 +71,13 @@ const Login = (props: Props) => {
 };
 
 const mapStateToProps = (state: any) => ({
-   home: state.home.home,
    user: state.home.user,
 });
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ setHome }, dispatch),
+      ...bindActionCreators({ login }, dispatch),
    };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginComponent);

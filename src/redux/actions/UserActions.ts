@@ -1,13 +1,6 @@
 import { UserDispatch, UserActionType } from "../types/UserTypes";
 import Parse from "parse";
 
-interface Login {
-   data: {
-      username: string;
-      password: string;
-   };
-}
-
 interface Signup {
    username: string;
    name: string;
@@ -16,17 +9,21 @@ interface Signup {
    password: string;
 }
 
-export function login(data: Login) {
-   return {
-      type: UserActionType.LOGIN,
-      payload: {},
+export function login(username: string, password: string) {
+   return (dispatch: UserDispatch): void => {
+      console.log("here");
+      Parse.User.logIn(username, password).then((user) => {
+         dispatch({
+            type: UserActionType.LOGIN,
+            payload: user,
+         });
+      });
    };
 }
 
 export function signup(data: Signup) {
-   return (dispatch: UserDispatch): void => {
-      console.log("here");
-      Parse.User.signUp(data.username, data.password, {
+   return async (dispatch: UserDispatch): Promise<void> => {
+      await Parse.User.signUp(data.username, data.password, {
          name: data.name,
          phone: parseInt(data.phone),
          email: data.email,
