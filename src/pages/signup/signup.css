@@ -1,0 +1,18 @@
+.container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   height: 100%;
+   width: 100%;
+}
+
+.logo {
+   width: 300px;
+}
+
+.bottom-section {
+   display: flex;
+   justify-content: space-between;
+   margin-top: 20px;
+}

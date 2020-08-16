@@ -1,18 +1,26 @@
 // ====================================== Module imports ======================================
-import React, { useEffect, useState } from "react";
-import Parse from "parse";
+import React from "react";
+import { connect } from "react-redux";
 
 // ====================================== File imports ======================================
 import AuthenticatedRoute from "./AuthenticatedRoute";
 import UnauthenticatedRoute from "./UnauthenticatedRoute";
+import AppState from "../redux/types";
 
-const Navigation = () => {
-   const [user, setUser] = useState<any>(undefined);
-   useEffect(() => {
-      setUser(Parse.User.current());
-   }, []);
+interface Props {
+   user: Object;
+}
+
+const Navigation = (props: Props) => {
+   const { user } = props;
+
+   console.log(user);
 
    return user ? <AuthenticatedRoute /> : <UnauthenticatedRoute />;
 };
 
-export default Navigation;
+const mapStateToProps = (state: AppState) => ({
+   user: state.user.user,
+});
+
+export default connect(mapStateToProps)(Navigation);

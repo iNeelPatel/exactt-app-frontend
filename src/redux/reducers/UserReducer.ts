@@ -1,7 +1,7 @@
 import { UserState, UserAction, UserActionType } from "../types/UserTypes";
 
 const initialState: UserState = {
-   user: {},
+   user: null,
 };
 
 export default (state: UserState = initialState, action: UserAction): UserState => {
@@ -11,6 +11,13 @@ export default (state: UserState = initialState, action: UserAction): UserState 
             ...state,
             user: action.payload,
          };
+
+      case UserActionType.SIGNUP:
+         return {
+            ...state,
+            user: action.payload,
+         };
+
       default:
          return state;
    }

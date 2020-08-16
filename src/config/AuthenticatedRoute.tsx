@@ -3,17 +3,16 @@ import React from "react";
 import { HashRouter, Route, Switch, HashRouterProps } from "react-router-dom";
 
 // ====================================== File import ======================================
-import Signup from "../pages/Signup";
-import Login from "../pages/Login";
+import Organization from "../pages/Organization";
 
 interface Props extends HashRouterProps {}
 
 const UnauthenticatedRoute = (props: Props) => {
    return (
       <HashRouter>
-         <Signup />
+         <h1>Side bar</h1>
          <Switch>
-            <Route exact path="/" component={Login} />
+            <Route exact path="/" component={Organization} />
          </Switch>
       </HashRouter>
    );

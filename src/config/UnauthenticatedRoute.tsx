@@ -1,5 +1,5 @@
 // ====================================== Module imports ======================================
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { HashRouter, Route, Switch, HashRouterProps } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -8,6 +8,8 @@ import { bindActionCreators } from "redux";
 import { getStatus } from "../redux/actions/AuthActions";
 import AppState from "../redux/types";
 import Login from "../pages/Login";
+import Signup from "../pages/Signup";
+import Loading from "../pages/Loading";
 
 interface Props extends HashRouterProps {
    status: number;
@@ -15,16 +17,24 @@ interface Props extends HashRouterProps {
 }
 
 const UnauthenticatedRoute = (props: Props) => {
-   const { status } = props;
-   useEffect(() => {
-      props.getStatus();
-      console.log(status);
-   }, [props, status]);
+   const [loading, setLoading] = useState(true);
+   const { status, getStatus } = props;
 
-   return (
+   useEffect(() => {
+      const api = async () => {
+         setLoading(true);
+         await getStatus();
+         setLoading(false);
+      };
+      api();
+   }, [status, getStatus]);
+
+   return loading ? (
+      <Loading />
+   ) : (
       <HashRouter>
          <Switch>
-            <Route exact path="/" component={Login} />
+            <Route exact path="/" component={status === 0 ? Signup : Login} />
          </Switch>
       </HashRouter>
    );

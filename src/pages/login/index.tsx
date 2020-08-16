@@ -1,17 +1,21 @@
+// ====================================== Module imports ======================================
 import React, { Fragment } from "react";
-import { Props } from "./types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setHome } from "../../redux/actions/HomeActions";
-import Button from "@atlaskit/button";
-import { colors, typography } from "@atlaskit/theme";
+import Textfield from "@atlaskit/textfield";
 import { fontFamily } from "@atlaskit/theme";
 import Form, { Field } from "@atlaskit/form";
+import Button from "@atlaskit/button";
+import { colors, typography } from "@atlaskit/theme";
+
+// ====================================== File imports ======================================
+import { setHome } from "../../redux/actions/HomeActions";
 import { Box, Heading } from "../../components";
-import Textfield from "@atlaskit/textfield";
+import { Props, LoginForm } from "./types";
 import "./login.css";
 
-function Login(props: Props) {
+// ====================================== Component Render ======================================
+const Login = (props: Props) => {
    const exactt_logo = require("../../assets/images/exactt_logo.png");
    console.log(props);
    return (
@@ -35,7 +39,7 @@ function Login(props: Props) {
                Login to your account
             </Heading>
             <div>
-               <Form onSubmit={(formState: any) => console.log("form submitted", formState)}>
+               <Form onSubmit={(formState: LoginForm) => console.log("form submitted", formState)}>
                   {({ formProps }: any) => (
                      <form {...formProps}>
                         <Field label="Username" isRequired name="username" defaultValue="">
@@ -67,7 +71,7 @@ function Login(props: Props) {
          </Box>
       </div>
    );
-}
+};
 
 const mapStateToProps = (state: any) => ({
    home: state.home.home,
