@@ -1,4 +1,7 @@
+// ====================================== Module imports ======================================
 import React from "react";
+
+// ====================================== File imports ======================================
 import AuthenticatedRoute from "./AuthenticatedRoute";
 import UnauthenticatedRoute from "./UnauthenticatedRoute";
 

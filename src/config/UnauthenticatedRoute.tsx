@@ -3,7 +3,7 @@ import React from "react";
 import { HashRouter, Route, Switch, HashRouterProps } from "react-router-dom";
 
 // ====================================== File import ======================================
-import Login from "../pages/login";
+import Login from "../pages/Login";
 
 interface Props extends HashRouterProps {}
 
