@@ -8,11 +8,11 @@ import "@atlaskit/css-reset";
 import Parse from "parse";
 
 // ====================================== File import ======================================
-import Login from "./pages/login";
 import ParseConfig from "./config/parse";
+import Navigation from "./config/Navigation";
 import "./App.css";
 
-// ====================================== File import ======================================
+// ====================================== Server Initialize ======================================
 Parse.initialize(ParseConfig.organizationId, ParseConfig.organizationSecret, ParseConfig.organizationSecret);
 Parse.serverURL = ParseConfig.url;
 
@@ -20,7 +20,7 @@ function App() {
    return (
       <Provider store={Store}>
          <PersistGate loading={null} persistor={Persistor}>
-            <Login />
+            <Navigation />
          </PersistGate>
       </Provider>
    );

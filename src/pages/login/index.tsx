@@ -13,7 +13,7 @@ import "./login.css";
 
 function Login(props: Props) {
    const exactt_logo = require("../../assets/images/exactt_logo.png");
-   console.log(props.home);
+   console.log(props);
    return (
       <div className="container" style={{ background: colors.N10 }}>
          <div>

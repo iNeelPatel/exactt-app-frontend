@@ -1,8 +1,8 @@
 import React from "react";
-import "@atlaskit/css-reset";
+import { withRouter } from "react-router-dom";
 
-function Signup() {
+function Signup(props: any) {
    return <div>Signup</div>;
 }
 
-export default Signup;
+export default withRouter(Signup);
