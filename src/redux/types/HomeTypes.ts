@@ -1,21 +1,21 @@
 import { Action } from "redux";
 
 interface HomeActionTypeInterface {
-    HOME: string;
+   HOME: string;
 }
 
 export const HomeActionType: HomeActionTypeInterface = {
-    HOME: "HOME",
+   HOME: "HOME",
 };
 
 export interface HomeAction extends Action {
-    type: string;
-    payload: string;
+   type: string;
+   payload: any;
 }
 
 export interface HomeState {
-    home: string;
-    user: {
-        name: string;
-    };
+   home: string;
+   user: {
+      name: string;
+   };
 }
