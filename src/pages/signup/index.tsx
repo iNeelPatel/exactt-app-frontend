@@ -1,12 +1,8 @@
-import React from 'react';
-import '@atlaskit/css-reset';
+import React from "react";
+import "@atlaskit/css-reset";
 
 function Signup() {
-  return (
-    <div>
-      Signup
-    </div>
-  );
+   return <div>Signup</div>;
 }
 
 export default Signup;

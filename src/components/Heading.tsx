@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Heading = styled.div<{ mixin: any }>`
-  ${props => props.mixin};
+   ${(props) => props.mixin};
 `;
 
-export default Heading
+export default Heading;
