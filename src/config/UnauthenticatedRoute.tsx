@@ -23,8 +23,7 @@ const UnauthenticatedRoute = (props: Props) => {
    useEffect(() => {
       const api = async () => {
          setLoading(true);
-         let res = await getStatus();
-         console.log(res);
+         await getStatus();
          setLoading(false);
       };
       api();

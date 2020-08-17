@@ -13,9 +13,6 @@ interface Props {
 
 const Navigation = (props: Props) => {
    const { user } = props;
-
-   console.log(user);
-
    return user ? <AuthenticatedRoute /> : <UnauthenticatedRoute />;
 };
 

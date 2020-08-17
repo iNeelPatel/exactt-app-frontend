@@ -47,7 +47,6 @@ const SignupComponent = (props: Props) => {
                <Form
                   onSubmit={async (formState: SignupForm) => {
                      await props.signup(formState);
-                     console.log("form submitted", formState);
                   }}
                >
                   {({ formProps, getValues, submitting }: any) => (

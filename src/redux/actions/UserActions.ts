@@ -10,9 +10,8 @@ interface Signup {
 }
 
 export function login(username: string, password: string) {
-   return (dispatch: UserDispatch): void => {
-      console.log("here");
-      Parse.User.logIn(username, password).then((user) => {
+   return async (dispatch: UserDispatch): Promise<void> => {
+      await Parse.User.logIn(username, password).then((user) => {
          dispatch({
             type: UserActionType.LOGIN,
             payload: user,

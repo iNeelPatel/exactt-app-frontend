@@ -38,8 +38,8 @@ const LoginComponent = (props: Props) => {
                Login to your account
             </Heading>
             <div>
-               <Form onSubmit={(formState: LoginForm) => console.log("form submitted", formState)}>
-                  {({ formProps }: any) => (
+               <Form onSubmit={async (formState: LoginForm) => await props.login(formState.username, formState.password)}>
+                  {({ formProps, submitting }: any) => (
                      <form {...formProps}>
                         <Field label="Username" isRequired name="username" defaultValue="">
                            {({ fieldProps }: any) => (
@@ -57,7 +57,7 @@ const LoginComponent = (props: Props) => {
                         </Field>
                         <div className="bottom-section">
                            <Button appearance="link">Forgot Password ?</Button>
-                           <Button type="submit" appearance="primary">
+                           <Button type="submit" appearance="primary" isLoading={submitting}>
                               Login
                            </Button>
                         </div>
