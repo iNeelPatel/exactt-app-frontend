@@ -7,6 +7,7 @@
       "@atlaskit/css-reset": "^6.0.0",
       "@atlaskit/form": "^8.1.0",
       "@atlaskit/progress-tracker": "^7.0.2",
+      "@atlaskit/select": "^13.0.0",
       "@atlaskit/spinner": "^15.0.1",
       "@atlaskit/textfield": "^4.0.1",
       "@atlaskit/theme": "^10.0.2",

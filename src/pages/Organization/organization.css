@@ -1,6 +1,5 @@
 .container {
    display: flex;
-   justify-content: center;
    align-items: center;
    flex-direction: column;
    min-height: 100%;
@@ -15,4 +14,31 @@
    display: flex;
    justify-content: space-between;
    margin-top: 20px;
+}
+
+.custom-file-input::-webkit-file-upload-button {
+   visibility: hidden;
+}
+.custom-file-input::before {
+   content: "Select logo";
+   display: inline-block;
+   background: #0052cc;
+   padding: 10px 8px;
+   border-radius: 3px;
+   outline: none;
+   white-space: nowrap;
+   -webkit-user-select: none;
+   cursor: pointer;
+   color: #ffffff;
+   font-weight: 700;
+   font-size: 10pt;
+   font-weight: 300;
+}
+
+.custom-file-input:hover::before {
+   border-color: black;
+ }
+
+.custom-file-input:active::before {
+   background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
 }
