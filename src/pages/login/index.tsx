@@ -3,10 +3,9 @@ import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Textfield from "@atlaskit/textfield";
-import { fontFamily } from "@atlaskit/theme";
 import Form, { Field } from "@atlaskit/form";
 import Button from "@atlaskit/button";
-import { colors, typography } from "@atlaskit/theme";
+import { colors, typography, fontFamily } from "@atlaskit/theme";
 
 // ====================================== File imports ======================================
 import { login } from "../../redux/actions/UserActions";

@@ -1,0 +1,22 @@
+{
+   "Create_Component": {
+      "prefix": "ercf",
+      "body": [
+         "// ====================================== Module imports ======================================",
+         "import React from \"react\";",
+         "",
+         "// ====================================== File imports ======================================",
+         "const $1 = () => {",
+         "   return (",
+         "      <div>",
+         "         $2",
+         "      </div>",
+         "   );",
+         "};",
+         "",
+         "export default $1;",
+         ""
+      ],
+      "description": "Create_Component"
+   }
+}

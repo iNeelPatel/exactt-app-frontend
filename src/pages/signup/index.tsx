@@ -15,14 +15,8 @@ import { Props, SignupForm } from "./types";
 import AppState from "../../redux/types";
 import "./signup.css";
 
-// ====================================== Main Function ======================================
 const SignupComponent = (props: Props) => {
-   // ====================================== Local Variables ======================================
    const exactt_logo = require("../../assets/images/exactt_logo.png");
-
-   console.log(props.user);
-
-   // ====================================== Component Render ======================================
    return (
       <div className="container" style={{ background: colors.N10 }}>
          <div>
