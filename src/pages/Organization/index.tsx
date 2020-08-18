@@ -65,7 +65,7 @@ const Organization = () => {
    });
 
    return (
-      <div className="container" style={{ background: colors.N10 }}>
+      <div className="org_container" style={{ background: colors.N10 }}>
          <div>
             <img src={exactt_logo} className="logo" alt="exactt-logo" />
          </div>

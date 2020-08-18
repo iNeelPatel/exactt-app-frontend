@@ -8,12 +8,13 @@ import UnauthenticatedRoute from "./UnauthenticatedRoute";
 import AppState from "../redux/types";
 
 interface Props {
-   user: Object;
+   user: any;
 }
 
 const Navigation = (props: Props) => {
    const { user } = props;
-   return user ? <AuthenticatedRoute /> : <UnauthenticatedRoute />;
+   console.log(user);
+   return user && !user.error ? <AuthenticatedRoute /> : <UnauthenticatedRoute />;
 };
 
 const mapStateToProps = (state: AppState) => ({

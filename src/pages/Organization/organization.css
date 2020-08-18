@@ -1,5 +1,7 @@
-.container {
+.org_container {
+   padding-top: 20px;
    display: flex;
+   justify-self: flex-start;
    align-items: center;
    flex-direction: column;
    min-height: 100%;

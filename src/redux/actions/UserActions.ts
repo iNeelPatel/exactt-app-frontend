@@ -10,13 +10,17 @@ interface Signup {
 }
 
 export function login(username: string, password: string) {
-   return async (dispatch: UserDispatch): Promise<void> => {
-      await Parse.User.logIn(username, password).then((user) => {
+   return async (dispatch: UserDispatch): Promise<object> => {
+      try {
+         let user = await Parse.User.logIn(username, password);
          dispatch({
             type: UserActionType.LOGIN,
             payload: user,
          });
-      });
+         return user;
+      } catch (error) {
+         return { error };
+      }
    };
 }
 

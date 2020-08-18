@@ -1,5 +1,5 @@
 // ====================================== Module imports ======================================
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Textfield from "@atlaskit/textfield";
@@ -11,10 +11,12 @@ import { colors, typography, fontFamily } from "@atlaskit/theme";
 import { login } from "../../redux/actions/UserActions";
 import { Box, Heading } from "../../components";
 import { Props, LoginForm } from "./types";
+import AppState from "../../redux/types";
 import "./login.css";
 
 // ====================================== Component Render ======================================
 const LoginComponent = (props: Props) => {
+   const [error, setError] = useState("");
    const exactt_logo = require("../../assets/images/exactt_logo.png");
    return (
       <div className="container" style={{ background: colors.N10 }}>
@@ -37,7 +39,12 @@ const LoginComponent = (props: Props) => {
                Login to your account
             </Heading>
             <div>
-               <Form onSubmit={async (formState: LoginForm) => await props.login(formState.username, formState.password)}>
+               <Form
+                  onSubmit={async (formState: LoginForm) => {
+                     let res = await props.login(formState.username, formState.password);
+                     setError(res.error.message);
+                  }}
+               >
                   {({ formProps, submitting }: any) => (
                      <form {...formProps}>
                         <Field label="Username" isRequired name="username" defaultValue="">
@@ -54,6 +61,7 @@ const LoginComponent = (props: Props) => {
                               </Fragment>
                            )}
                         </Field>
+                        {error && <div style={{ color: colors.R400, fontSize: 12, marginTop: 10 }}>Error: {error}</div>}
                         <div className="bottom-section">
                            <Button appearance="link">Forgot Password ?</Button>
                            <Button type="submit" appearance="primary" isLoading={submitting}>
@@ -69,8 +77,8 @@ const LoginComponent = (props: Props) => {
    );
 };
 
-const mapStateToProps = (state: any) => ({
-   user: state.home.user,
+const mapStateToProps = (state: AppState) => ({
+   user: state.user.user,
 });
 
 function mapDispatchToProps(dispatch: any) {
