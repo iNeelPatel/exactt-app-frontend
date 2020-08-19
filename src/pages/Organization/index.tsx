@@ -9,14 +9,16 @@ import Select from "@atlaskit/select";
 import Dropzone from "react-dropzone";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import Parse from "parse";
 
 // ====================================== File imports ======================================
 import { Box, Heading } from "../../components";
 import "./organization.css";
 import StatesAndDistricts from "../../constants/states-and-districts.json";
-import { OrgForm, Props } from "./types";
+import { Props } from "./types";
 import AppState from "../../redux/types";
 import { setOrganization } from "../../redux/actions/OrganizationActions";
+import { getStatus } from "../../redux/actions/AuthActions";
 
 const OrganizationComponenet = (props: Props) => {
    var defaultState = StatesAndDistricts.states.find((item) => item.state === "Andhra Pradesh");
@@ -88,18 +90,22 @@ const OrganizationComponenet = (props: Props) => {
             <ProgressTracker items={stepItems} animated={true} spacing="cosy" />
             <div style={{ textAlign: "left" }}>
                <Form
-                  onSubmit={async (formState: OrgForm) => {
-                     setStep(step - 1);
-                     // var parseLogo = new Parse.File("companyLogo.png", logo, "image/png");
-                     let formData = {
+                  onSubmit={async (formState: any) => {
+                     // setStep(step - 1);
+
+                     var parseLogo = new Parse.File("companyLogo.png", logo, "image/png");
+                     var logoFile = await parseLogo.save();
+
+                     let formData: any = {
+                        prefix: formState.prefix,
+                        gst: formState.gst,
                         name: formState.name,
                         contact: {
                            name: formState.contact_peron,
                            phone: formState.phone,
                            email: formState.email,
                         },
-                        perfix: formState.perfix,
-                        logo: logo,
+                        logo: logoFile,
                         email: formState.email,
                         address: {
                            line1: formState.line1,
@@ -115,146 +121,145 @@ const OrganizationComponenet = (props: Props) => {
                            branch: formState.branch,
                            ifsc: formState.ifsc,
                         },
-                        gst: formState.gst,
                      };
-                     let res = await props.setOrganization(formData);
                      console.log(formData);
-                     console.log(res);
+                     try {
+                        let res = await props.setOrganization(formData);
+                        console.log(res);
+                        let status = await props.getStatus();
+                        console.log(status);
+                     } catch (error) {
+                        console.log(error);
+                     }
                   }}
                >
                   {({ formProps, submitting }: any) => {
                      return (
                         <form {...formProps}>
-                           <div style={{ display: step === 0 ? "block" : "none" }}>
-                              <Field label="Orginazation name" isRequired name="name">
-                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                              </Field>
+                           <Field label="Orginazation name" isRequired name="name">
+                              {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                           </Field>
 
-                              <Field label="Prefix" isRequired name="perfix">
-                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                              </Field>
+                           <Field label="Prefix" isRequired name="prefix">
+                              {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                           </Field>
 
-                              <Dropzone
-                                 onDrop={async (acceptedFiles) => {
-                                    setLogo(acceptedFiles[0]);
-                                    var imgreader = new FileReader();
-                                    await imgreader.readAsDataURL(acceptedFiles[0]);
-                                    setRenderImg(imgreader);
-                                 }}
-                              >
-                                 {({ getRootProps, getInputProps }) => (
-                                    <section>
-                                       <div
-                                          {...getRootProps()}
-                                          className="logoSelection"
-                                          style={{
-                                             borderColor: colors.N40,
-                                             display: "flex",
-                                             alignItems: "center",
-                                             flexDirection: "column",
-                                          }}
-                                       >
-                                          <input {...getInputProps()} />
-                                          <img
-                                             src={logo && renderImg ? renderImg.result : empty_image}
-                                             style={{ width: logo ? 200 : 100 }}
-                                             alt="empty_image"
-                                          />
-                                          <Button appearance="primary">Select Logo</Button>
-                                       </div>
-                                    </section>
-                                 )}
-                              </Dropzone>
-                           </div>
-
-                           <div style={{ display: step === 1 ? "block" : "none" }}>
-                              <Field label="Contact Person" isRequired name="contact_peron">
-                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                              </Field>
-
-                              <Field label="Phone" isRequired name="phone">
-                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                              </Field>
-
-                              <Field label="Email" isRequired name="email">
-                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                              </Field>
-
-                              <Field label="Address line 1" isRequired name="line1">
-                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                              </Field>
-
-                              <Field label="Address line 2" isRequired name="line2">
-                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                              </Field>
-
-                              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                 <div style={{ width: "32%" }}>
-                                    <Field
-                                       label="State"
-                                       isRequired
-                                       name="state"
-                                       defaultValue={{ label: "Andhra Pradesh", value: "Andhra Pradesh" }}
+                           <Dropzone
+                              onDrop={async (acceptedFiles) => {
+                                 setLogo(acceptedFiles[0]);
+                                 var imgreader = new FileReader();
+                                 await imgreader.readAsDataURL(acceptedFiles[0]);
+                                 setRenderImg(imgreader);
+                              }}
+                           >
+                              {({ getRootProps, getInputProps }) => (
+                                 <section>
+                                    <div
+                                       {...getRootProps()}
+                                       className="logoSelection"
+                                       style={{
+                                          borderColor: colors.N40,
+                                          display: "flex",
+                                          alignItems: "center",
+                                          flexDirection: "column",
+                                       }}
                                     >
-                                       {({ fieldProps }: any) => (
-                                          <Select
-                                             {...fieldProps}
-                                             options={statesOption}
-                                             placeholder="Choose a state"
-                                             onChange={(value) => {
-                                                fieldProps.onChange();
-                                                setCityOption(value);
-                                             }}
-                                             style={{ width: "30%" }}
-                                          />
-                                       )}
-                                    </Field>
-                                 </div>
-                                 <div style={{ width: "32%" }}>
-                                    <Field label="City" isRequired name="city" defaultValue={{ label: "Anantapur", value: "Anantapur" }}>
-                                       {({ fieldProps }: any) => (
-                                          <Select
-                                             {...fieldProps}
-                                             options={cityOptions}
-                                             placeholder="Choose a city"
-                                             isDisabled={cityOptions.length === 0}
-                                          />
-                                       )}
-                                    </Field>
-                                 </div>
-                                 <div style={{ width: "32%" }}>
-                                    <Field label="Zip" isRequired name="zip">
-                                       {({ fieldProps }: any) => <Textfield {...fieldProps} maxLength={6} type="number" />}
-                                    </Field>
-                                 </div>
+                                       <input {...getInputProps()} />
+                                       <img
+                                          src={logo && renderImg ? renderImg.result : empty_image}
+                                          style={{ width: logo ? 200 : 100 }}
+                                          alt="empty_image"
+                                       />
+                                       <Button appearance="primary">Select Logo</Button>
+                                    </div>
+                                 </section>
+                              )}
+                           </Dropzone>
+
+                           <Field label="Contact Person" isRequired name="contact_peron">
+                              {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                           </Field>
+
+                           <Field label="Phone" isRequired name="phone">
+                              {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                           </Field>
+
+                           <Field label="Email" isRequired name="email">
+                              {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                           </Field>
+
+                           <Field label="Address line 1" isRequired name="line1">
+                              {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                           </Field>
+
+                           <Field label="Address line 2" isRequired name="line2">
+                              {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                           </Field>
+
+                           <div style={{ display: "flex", justifyContent: "space-between" }}>
+                              <div style={{ width: "32%" }}>
+                                 <Field
+                                    label="State"
+                                    isRequired
+                                    name="state"
+                                    defaultValue={{ label: "Andhra Pradesh", value: "Andhra Pradesh" }}
+                                 >
+                                    {({ fieldProps }: any) => (
+                                       <Select
+                                          {...fieldProps}
+                                          options={statesOption}
+                                          placeholder="Choose a state"
+                                          onChange={(value) => {
+                                             fieldProps.onChange();
+                                             setCityOption(value);
+                                          }}
+                                          style={{ width: "30%" }}
+                                       />
+                                    )}
+                                 </Field>
+                              </div>
+                              <div style={{ width: "32%" }}>
+                                 <Field label="City" isRequired name="city" defaultValue={{ label: "Anantapur", value: "Anantapur" }}>
+                                    {({ fieldProps }: any) => (
+                                       <Select
+                                          {...fieldProps}
+                                          options={cityOptions}
+                                          placeholder="Choose a city"
+                                          isDisabled={cityOptions.length === 0}
+                                       />
+                                    )}
+                                 </Field>
+                              </div>
+                              <div style={{ width: "32%" }}>
+                                 <Field label="Zip" isRequired name="zip">
+                                    {({ fieldProps }: any) => <Textfield {...fieldProps} maxLength={6} type="number" />}
+                                 </Field>
                               </div>
                            </div>
 
-                           <div style={{ display: step === 2 ? "block" : "none" }}>
-                              <Field label="Bank account name" name="bank_name">
-                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                              </Field>
+                           <Field label="Bank account name" name="bank_name">
+                              {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                           </Field>
 
-                              <Field label="Account name" name="acc_name">
-                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                              </Field>
+                           <Field label="Account name" name="acc_name">
+                              {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                           </Field>
 
-                              <Field label="Branch" name="branch">
-                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                              </Field>
+                           <Field label="Branch" name="branch">
+                              {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                           </Field>
 
-                              <Field label="Account number" name="acc_no">
-                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                              </Field>
+                           <Field label="Account number" name="acc_no">
+                              {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                           </Field>
 
-                              <Field label="IFSC Code" name="ifsc">
-                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                              </Field>
+                           <Field label="IFSC Code" name="ifsc">
+                              {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                           </Field>
 
-                              <Field label="GST Number" name="gst">
-                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                              </Field>
-                           </div>
+                           <Field label="GST Number" name="gst">
+                              {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                           </Field>
 
                            <div style={{ display: "flex", flex: 1, flexDirection: "row", justifyContent: "flex-end", marginTop: 30 }}>
                               <Button
@@ -268,15 +273,9 @@ const OrganizationComponenet = (props: Props) => {
                                  Back
                               </Button>
 
-                              {step === 3 ? (
-                                 <Button appearance="primary" type="submit" isLoading={submitting}>
-                                    Submit
-                                 </Button>
-                              ) : (
-                                 <Button appearance="primary" type="reset" onClick={() => setStep(step + 1)} isLoading={submitting}>
-                                    {step === 2 ? "Submit" : "Next"}
-                                 </Button>
-                              )}
+                              <Button appearance="primary" type="submit" isLoading={submitting}>
+                                 Submit
+                              </Button>
                            </div>
                         </form>
                      );
@@ -294,7 +293,7 @@ const mapStateToProps = (state: AppState) => ({
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ setOrganization }, dispatch),
+      ...bindActionCreators({ setOrganization, getStatus }, dispatch),
    };
 }
 

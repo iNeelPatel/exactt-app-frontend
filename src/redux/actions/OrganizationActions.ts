@@ -14,7 +14,7 @@ interface SetOrganization {
    line1: string;
    line2: string;
    name: string;
-   perfix: string;
+   prefix: string;
    phone: string;
    state: any;
    zip: string;
@@ -29,10 +29,8 @@ export function setOrganization(data: SetOrganization) {
             type: OrganizationActionType.SET_ORGANIZATION,
             payload: res,
          });
-         console.log(res);
          return res;
       } catch (error) {
-         console.log(error);
          return error;
       }
    };

@@ -2,7 +2,7 @@ import { AuthDispatch, AuthActionType } from "../types/AuthTypes";
 import Parse from "parse";
 
 export function getStatus() {
-   return async (dispatch: AuthDispatch): Promise<any> => {
+   return async (dispatch: AuthDispatch): Promise<number> => {
       try {
          let res = await Parse.Cloud.run("getOrganizationStatus");
          dispatch({
@@ -11,7 +11,7 @@ export function getStatus() {
          });
          return res;
       } catch (error) {
-         return { error };
+         throw new Error(error.message);
       }
    };
 }
