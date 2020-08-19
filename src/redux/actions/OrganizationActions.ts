@@ -4,9 +4,11 @@ import Parse from "parse";
 interface SetOrganization {
    acc_no: string;
    bank_name: string;
+   acc_name: string;
    branch: string;
-   city: object;
+   city: any;
    contact_peron: string;
+   email: string;
    gst: string;
    ifsc: string;
    line1: string;
@@ -14,23 +16,24 @@ interface SetOrganization {
    name: string;
    perfix: string;
    phone: string;
-   state: string;
+   state: any;
    zip: string;
+   logo: File;
 }
 
-export function setOrganization(formData: SetOrganization) {
-   return async (dispatch: OrganizationDispatch): Promise<void> => {
+export function setOrganization(data: SetOrganization) {
+   return async (dispatch: OrganizationDispatch): Promise<any> => {
       try {
-         let res = await Parse.Cloud.run("", formData);
+         let res = await Parse.Cloud.run("setOrganization", data);
          dispatch({
             type: OrganizationActionType.SET_ORGANIZATION,
             payload: res,
          });
-      } catch (err) {
-         dispatch({
-            type: OrganizationActionType.SET_ORGANIZATION,
-            payload: { error: err }
-         });
+         console.log(res);
+         return res;
+      } catch (error) {
+         console.log(error);
+         return error;
       }
    };
 }

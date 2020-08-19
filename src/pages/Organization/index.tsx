@@ -6,16 +6,27 @@ import { colors, typography } from "@atlaskit/theme";
 import Form, { Field } from "@atlaskit/form";
 import Textfield from "@atlaskit/textfield";
 import Select from "@atlaskit/select";
+import Dropzone from "react-dropzone";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 // ====================================== File imports ======================================
 import { Box, Heading } from "../../components";
 import "./organization.css";
 import StatesAndDistricts from "../../constants/states-and-districts.json";
+import { OrgForm, Props } from "./types";
+import AppState from "../../redux/types";
+import { setOrganization } from "../../redux/actions/OrganizationActions";
 
-const Organization = () => {
+const OrganizationComponenet = (props: Props) => {
+   var defaultState = StatesAndDistricts.states.find((item) => item.state === "Andhra Pradesh");
+   var defaultCity = defaultState ? defaultState.districts.map((item) => ({ label: item, value: item })) : [];
    const [step, setStep] = useState(0);
-   const [cityOptions, setCityOptions]: any = useState([]);
+   const [logo, setLogo] = useState<any>();
+   const [renderImg, setRenderImg] = useState<any>();
+   const [cityOptions, setCityOptions]: any = useState(defaultCity);
    const exactt_logo = require("../../assets/images/exactt_logo.png");
+   const empty_image = require("../../assets/images/image.png");
 
    const statesOption = StatesAndDistricts.states.map((item) => ({ label: item.state, value: item.state }));
 
@@ -53,7 +64,7 @@ const Organization = () => {
             percentageComplete: 0,
             status: "current",
          };
-      } else if (parseInt(item.id) < step) {
+      } else if (step < 3 && parseInt(item.id) < step) {
          return {
             ...item,
             percentageComplete: 100,
@@ -67,7 +78,7 @@ const Organization = () => {
    return (
       <div className="org_container" style={{ background: colors.N10 }}>
          <div>
-            <img src={exactt_logo} className="logo" alt="exactt-logo" />
+            <img src={exactt_logo} className="exactt-logo-org" alt="exactt-logo-org" />
          </div>
 
          <Box elevation="e300" style={{ width: 500 }}>
@@ -77,11 +88,41 @@ const Organization = () => {
             <ProgressTracker items={stepItems} animated={true} spacing="cosy" />
             <div style={{ textAlign: "left" }}>
                <Form
-                  onSubmit={async (formState: any) => {
-                     console.log(formState);
+                  onSubmit={async (formState: OrgForm) => {
+                     setStep(step - 1);
+                     // var parseLogo = new Parse.File("companyLogo.png", logo, "image/png");
+                     let formData = {
+                        name: formState.name,
+                        contact: {
+                           name: formState.contact_peron,
+                           phone: formState.phone,
+                           email: formState.email,
+                        },
+                        perfix: formState.perfix,
+                        logo: logo,
+                        email: formState.email,
+                        address: {
+                           line1: formState.line1,
+                           line2: formState.line2,
+                           state: formState.state.value,
+                           city: formState.city.value,
+                           zip: formState.zip,
+                        },
+                        bank: {
+                           name: formState.bank_name,
+                           acc_name: formState.acc_name,
+                           acc_no: formState.acc_no,
+                           branch: formState.branch,
+                           ifsc: formState.ifsc,
+                        },
+                        gst: formState.gst,
+                     };
+                     let res = await props.setOrganization(formData);
+                     console.log(formData);
+                     console.log(res);
                   }}
                >
-                  {({ formProps, submitting, getValues }: any) => {
+                  {({ formProps, submitting }: any) => {
                      return (
                         <form {...formProps}>
                            <div style={{ display: step === 0 ? "block" : "none" }}>
@@ -92,6 +133,38 @@ const Organization = () => {
                               <Field label="Prefix" isRequired name="perfix">
                                  {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                               </Field>
+
+                              <Dropzone
+                                 onDrop={async (acceptedFiles) => {
+                                    setLogo(acceptedFiles[0]);
+                                    var imgreader = new FileReader();
+                                    await imgreader.readAsDataURL(acceptedFiles[0]);
+                                    setRenderImg(imgreader);
+                                 }}
+                              >
+                                 {({ getRootProps, getInputProps }) => (
+                                    <section>
+                                       <div
+                                          {...getRootProps()}
+                                          className="logoSelection"
+                                          style={{
+                                             borderColor: colors.N40,
+                                             display: "flex",
+                                             alignItems: "center",
+                                             flexDirection: "column",
+                                          }}
+                                       >
+                                          <input {...getInputProps()} />
+                                          <img
+                                             src={logo && renderImg ? renderImg.result : empty_image}
+                                             style={{ width: logo ? 200 : 100 }}
+                                             alt="empty_image"
+                                          />
+                                          <Button appearance="primary">Select Logo</Button>
+                                       </div>
+                                    </section>
+                                 )}
+                              </Dropzone>
                            </div>
 
                            <div style={{ display: step === 1 ? "block" : "none" }}>
@@ -100,6 +173,10 @@ const Organization = () => {
                               </Field>
 
                               <Field label="Phone" isRequired name="phone">
+                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                              </Field>
+
+                              <Field label="Email" isRequired name="email">
                                  {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                               </Field>
 
@@ -113,20 +190,28 @@ const Organization = () => {
 
                               <div style={{ display: "flex", justifyContent: "space-between" }}>
                                  <div style={{ width: "32%" }}>
-                                    <Field label="State" isRequired name="state">
+                                    <Field
+                                       label="State"
+                                       isRequired
+                                       name="state"
+                                       defaultValue={{ label: "Andhra Pradesh", value: "Andhra Pradesh" }}
+                                    >
                                        {({ fieldProps }: any) => (
                                           <Select
                                              {...fieldProps}
                                              options={statesOption}
                                              placeholder="Choose a state"
-                                             onChange={(value) => setCityOption(value)}
+                                             onChange={(value) => {
+                                                fieldProps.onChange();
+                                                setCityOption(value);
+                                             }}
                                              style={{ width: "30%" }}
                                           />
                                        )}
                                     </Field>
                                  </div>
                                  <div style={{ width: "32%" }}>
-                                    <Field label="City" isRequired name="city">
+                                    <Field label="City" isRequired name="city" defaultValue={{ label: "Anantapur", value: "Anantapur" }}>
                                        {({ fieldProps }: any) => (
                                           <Select
                                              {...fieldProps}
@@ -147,6 +232,10 @@ const Organization = () => {
 
                            <div style={{ display: step === 2 ? "block" : "none" }}>
                               <Field label="Bank account name" name="bank_name">
+                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                              </Field>
+
+                              <Field label="Account name" name="acc_name">
                                  {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                               </Field>
 
@@ -179,13 +268,13 @@ const Organization = () => {
                                  Back
                               </Button>
 
-                              {step === 2 ? (
-                                 <Button appearance="primary" type="submit">
+                              {step === 3 ? (
+                                 <Button appearance="primary" type="submit" isLoading={submitting}>
                                     Submit
                                  </Button>
                               ) : (
-                                 <Button appearance="primary" onClick={() => setStep(step + 1)} isLoading={submitting}>
-                                    Next
+                                 <Button appearance="primary" type="reset" onClick={() => setStep(step + 1)} isLoading={submitting}>
+                                    {step === 2 ? "Submit" : "Next"}
                                  </Button>
                               )}
                            </div>
@@ -199,4 +288,14 @@ const Organization = () => {
    );
 };
 
-export default Organization;
+const mapStateToProps = (state: AppState) => ({
+   orgnization: state.orgnizationReducer,
+});
+
+function mapDispatchToProps(dispatch: any) {
+   return {
+      ...bindActionCreators({ setOrganization }, dispatch),
+   };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(OrganizationComponenet);
