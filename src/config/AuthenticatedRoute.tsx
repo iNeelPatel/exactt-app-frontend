@@ -32,7 +32,7 @@ const UnauthenticatedRoute = (props: Props) => {
       <Loading />
    ) : (
       <HashRouter>
-         {status === 3 && <h1>Side bar</h1>}
+         {status === 2 && <h1>Side bar</h1>}
          <Switch>
             <Route exact path="/" component={Organization} />
          </Switch>
