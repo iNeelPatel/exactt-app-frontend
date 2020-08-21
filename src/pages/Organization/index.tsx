@@ -261,6 +261,7 @@ const OrganizationComponenet = (props: Props) => {
                   <Form
                      onSubmit={async (formState: any) => {
                         var formData = { ...formState, ...basicDetails, ...contactDetails };
+                        console.log(formData);
                         var res = await props.setOrganization(formData);
                         var status = await props.getStatus();
                         console.log("response --> ", res);

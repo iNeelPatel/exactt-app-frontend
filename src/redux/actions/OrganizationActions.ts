@@ -32,8 +32,8 @@ export function setOrganization(data: SetOrganization) {
          address: {
             line1: data.line1,
             line2: data.line2,
-            state: data.state,
-            city: data.city,
+            state: data.state.value,
+            city: data.city.value,
             zip: data.zip,
          },
          contact: {
@@ -49,12 +49,26 @@ export function setOrganization(data: SetOrganization) {
             ifsc: data.ifsc,
          },
       };
-      console.log(formData);
 
       try {
          let res = await Parse.Cloud.run("setOrganization", formData);
          dispatch({
             type: OrganizationActionType.SET_ORGANIZATION,
+            payload: res,
+         });
+         return res;
+      } catch (error) {
+         return error;
+      }
+   };
+}
+
+export function getOrganization() {
+   return async (dispatch: OrganizationDispatch): Promise<any> => {
+      try {
+         let res = await Parse.Cloud.run("getOrganization");
+         dispatch({
+            type: OrganizationActionType.GET_ORGANIZATION,
             payload: res,
          });
          return res;

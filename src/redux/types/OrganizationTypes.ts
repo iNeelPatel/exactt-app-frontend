@@ -2,10 +2,12 @@ import { Action } from "redux";
 
 interface OrganizationActionTypeInterface {
    SET_ORGANIZATION: string;
+   GET_ORGANIZATION: string;
 }
 
 export const OrganizationActionType: OrganizationActionTypeInterface = {
    SET_ORGANIZATION: "SET_ORGANIZATION",
+   GET_ORGANIZATION: "GET_ORGANIZATION",
 };
 
 export interface OrganizationAction extends Action {

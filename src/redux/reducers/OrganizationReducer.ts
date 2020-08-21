@@ -12,6 +12,12 @@ export default (state: OrganizationState = initialState, action: OrganizationAct
             details: action.payload,
          };
 
+      case OrganizationActionType.GET_ORGANIZATION:
+         return {
+            ...state,
+            details: action.payload,
+         };
+
       default:
          return state;
    }

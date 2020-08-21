@@ -6,6 +6,7 @@ import { bindActionCreators } from "redux";
 
 // ====================================== File import ======================================
 import { getStatus } from "../redux/actions/AuthActions";
+import { getOrganization } from "../redux/actions/OrganizationActions";
 import AppState from "../redux/types";
 import Loading from "../pages/Loading";
 import Organization from "../pages/Organization";
@@ -13,20 +14,25 @@ import Organization from "../pages/Organization";
 interface Props extends HashRouterProps {
    status: number;
    getStatus: () => any;
+   getOrganization: () => any;
+   orgnizationDetails: object;
 }
 
 const UnauthenticatedRoute = (props: Props) => {
    const [loading, setLoading] = useState(true);
-   const { status, getStatus } = props;
+   const { status, getStatus, getOrganization, orgnizationDetails } = props;
 
    useEffect(() => {
       const api = async () => {
          setLoading(true);
          await getStatus();
+         await getOrganization();
          setLoading(false);
       };
       api();
-   }, [status, getStatus]);
+   }, [status, getStatus, getOrganization]);
+
+   console.log("orgnizationDetails ---> ", orgnizationDetails);
 
    return loading ? (
       <Loading />
@@ -42,11 +48,12 @@ const UnauthenticatedRoute = (props: Props) => {
 
 const mapStateToProps = (state: AppState) => ({
    status: state.auth.status,
+   orgnizationDetails: state.orgnizationReducer.details,
 });
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ getStatus }, dispatch),
+      ...bindActionCreators({ getStatus, getOrganization }, dispatch),
    };
 }
 
