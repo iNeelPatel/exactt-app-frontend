@@ -10,3 +10,14 @@ body {
 .App {
    height: 100%;
 }
+
+.mainBox {
+   -webkit-box-shadow: -1px 7px 49px -28px rgba(0, 0, 0, 1);
+   -moz-box-shadow: -1px 7px 49px -28px rgba(0, 0, 0, 1);
+   box-shadow: -1px 7px 49px -28px rgba(0, 0, 0, 1);
+}
+
+.error404 {
+   width: 657px;
+   height: 372px;
+}

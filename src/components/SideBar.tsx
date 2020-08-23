@@ -110,7 +110,13 @@ const SideBar = (props: Props) => {
                </Heading>
                <Divider />
                <div style={{ display: "flex", flexDirection: "row" }}>
-                  <Avatar size="large" appearance="square" />
+                  <Avatar
+                     size="large"
+                     appearance="square"
+                     src={`https://ui-avatars.com/api/?background=0052cc&color=fff&name=${props.user.name.split(" ")[0]}${
+                        props.user.name.split(" ")[1] ? "+" + props.user.name.split(" ")[1] : ""
+                     }`}
+                  />
                   <div style={{ marginLeft: 5, display: "flex", flexDirection: "column", justifyContent: "center" }}>
                      <Heading mixin={typography.h400} style={{ marginTop: 0, maxWidth: 120 }}>
                         {props.user.name}

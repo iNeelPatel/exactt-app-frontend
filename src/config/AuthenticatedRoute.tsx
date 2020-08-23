@@ -11,10 +11,11 @@ import { getOrganization } from "../redux/actions/OrganizationActions";
 import AppState from "../redux/types";
 import Loading from "../pages/Loading";
 import Organization from "../pages/Organization";
-import { SideBar } from "../components";
+import { SideBar, Box } from "../components";
 
 // ====================================== Page import ======================================
 import Dashboard from "../pages/Dashboard";
+import PageNotFound from "../pages/Errors/PageNotFound";
 
 interface Props extends HashRouterProps {
    status: number;
@@ -26,7 +27,7 @@ interface Props extends HashRouterProps {
 
 const UnauthenticatedRoute = (props: Props) => {
    const [loading, setLoading] = useState(true);
-   const { status, getStatus, getOrganization, orgnizationDetails, logout } = props;
+   const { status, getStatus, getOrganization, logout } = props;
 
    useEffect(() => {
       const api = async () => {
@@ -53,17 +54,21 @@ const UnauthenticatedRoute = (props: Props) => {
    ) : (
       <div style={{ height: "100%" }}>
          <HashRouter>
-            <div style={{ display: "flex", flexDirection: "row", flex: 1, height: "100%" }}>
+            <div className="mainBox" style={{ display: "flex", flexDirection: "row", flex: 1, height: "100%" }}>
                {status === 2 && (
                   <div style={{ minWidth: 320, maxWidth: 320 }}>
                      <SideBar />
                   </div>
                )}
-               <div style={{ display: "flex", flex: 1, paddingTop: 20, paddingLeft: 50, paddingRight: 50 }}>
+               <Box
+                  elevation="e300"
+                  style={{ display: "flex", flex: 1, paddingTop: 20, paddingLeft: 50, paddingRight: 50, margin: 0, borderRadius: 0 }}
+               >
                   <Switch>
                      <Route exact path="/" component={status === 2 ? Dashboard : Organization} />
+                     <Route component={PageNotFound} />
                   </Switch>
-               </div>
+               </Box>
             </div>
          </HashRouter>
       </div>
