@@ -169,6 +169,7 @@ const OrganizationComponenet = (props: Props) => {
                   <Form
                      onSubmit={async (formState: any) => {
                         setStep(step + 1);
+                        console.log(formState);
                         setContactDetails(formState);
                      }}
                   >
@@ -202,16 +203,13 @@ const OrganizationComponenet = (props: Props) => {
                                        isRequired
                                        name="state"
                                        defaultValue={{ label: "Andhra Pradesh", value: "Andhra Pradesh" }}
+                                       validate={(value: any) => setCityOption(value)}
                                     >
                                        {({ fieldProps }: any) => (
                                           <Select
                                              {...fieldProps}
                                              options={statesOption}
                                              placeholder="Choose a state"
-                                             onChange={(value) => {
-                                                fieldProps.onChange();
-                                                setCityOption(value);
-                                             }}
                                              style={{ width: "30%" }}
                                           />
                                        )}
@@ -260,8 +258,32 @@ const OrganizationComponenet = (props: Props) => {
                <div style={{ display: step === 2 ? "block" : "none" }}>
                   <Form
                      onSubmit={async (formState: any) => {
-                        var formData = { ...formState, ...basicDetails, ...contactDetails };
-                        console.log(formData);
+                        let formData: any = {};
+                        formData["name"] = basicDetails.name;
+                        formData["prefix"] = basicDetails.prefix;
+                        formData["email"] = contactDetails.email;
+                        formData["gst"] = formState.gst;
+                        formData["logo"] = basicDetails.logo;
+                        formData["address"] = {
+                           line1: contactDetails.line1,
+                           line2: contactDetails.line2,
+                           state: contactDetails.state.value,
+                           city: contactDetails.city.value,
+                           zip: contactDetails.zip,
+                        };
+                        formData["contact"] = {
+                           name: contactDetails.contact_peron,
+                           phone: contactDetails.phone,
+                           email: contactDetails.email,
+                        };
+                        formData["bank"] = {
+                           name: formState.bank_name,
+                           acc_name: formState.acc_name,
+                           acc_number: formState.acc_no,
+                           branch: formState.branch,
+                           ifsc: formState.ifsc,
+                        };
+                        // var formData = { ...formState, ...basicDetails, ...contactDetails };
                         var res = await props.setOrganization(formData);
                         var status = await props.getStatus();
                         console.log("response --> ", res);

@@ -21,37 +21,12 @@ interface SetOrganization {
    zip: string;
 }
 
-export function setOrganization(data: SetOrganization) {
+export function setOrganization(data: any) {
    return async (dispatch: OrganizationDispatch): Promise<any> => {
-      const formData = {
-         name: data.name,
-         prefix: data.prefix,
-         email: data.email,
-         gst: data.gst,
-         logo: data.logo,
-         address: {
-            line1: data.line1,
-            line2: data.line2,
-            state: data.state.value,
-            city: data.city.value,
-            zip: data.zip,
-         },
-         contact: {
-            name: data.contact_peron,
-            phone: data.phone,
-            email: data.email,
-         },
-         bank: {
-            name: data.bank_name,
-            acc_name: data.acc_name,
-            acc_number: data.acc_no,
-            branch: data.branch,
-            ifsc: data.ifsc,
-         },
-      };
+      console.log(data);
 
       try {
-         let res = await Parse.Cloud.run("setOrganization", formData);
+         let res = await Parse.Cloud.run("setOrganization", data);
          dispatch({
             type: OrganizationActionType.SET_ORGANIZATION,
             payload: res,
