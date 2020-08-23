@@ -13,9 +13,10 @@ export function login(username: string, password: string) {
    return async (dispatch: UserDispatch): Promise<object> => {
       try {
          let user = await Parse.User.logIn(username, password);
+         console.log(user);
          dispatch({
             type: UserActionType.LOGIN,
-            payload: user,
+            payload: user.attributes,
          });
          return user;
       } catch (error) {

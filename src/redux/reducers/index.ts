@@ -9,7 +9,7 @@ const rootReducer = combineReducers<AppState>({
    home: HomeReducer,
    user: UserReducer,
    auth: AuthReducer,
-   orgnizationReducer: OrgnizationReducer,
+   orgnization: OrgnizationReducer,
 });
 
 export default rootReducer;

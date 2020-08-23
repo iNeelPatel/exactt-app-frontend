@@ -1,20 +1,24 @@
 // ====================================== Module imports ======================================
 import React, { useState } from "react";
 import { withRouter, RouteProps } from "react-router-dom";
-import { colors } from "@atlaskit/theme";
+import { colors, typography } from "@atlaskit/theme";
 import PreferencesIcon from "@atlaskit/icon/glyph/preferences";
 import SignOutIcon from "@atlaskit/icon/glyph/sign-out";
 import Button from "@atlaskit/button";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import Avatar from "@atlaskit/avatar";
+import { MenuGroup, Section, LinkItem } from "@atlaskit/menu";
 
 // ====================================== File imports ========================================
 import { logout } from "../redux/actions/UserActions";
 import AppState from "../redux/types";
 import { UserState } from "../redux/types/UserTypes";
+import { OrganizationState } from "../redux/types/OrganizationTypes";
+import { Divider, Heading } from "./";
 
 // ========================================= Interface ========================================
-interface Props extends RouteProps, UserState {
+interface Props extends RouteProps, UserState, OrganizationState {
    logout: () => any;
 }
 
@@ -29,17 +33,20 @@ const styles: {
       flexDirection: "row",
       flex: 1,
       height: "100%",
+      maxWidth: 320,
    },
    titleBar: {
       background: colors.N800A,
       color: colors.N0,
-      width: 55,
+      maxWidth: 55,
+      minWidth: 55,
       height: "100%",
       display: "flex",
    },
    menuBar: {
       background: colors.N20,
       display: "flex",
+      flexDirection: "column",
       flex: 1,
       height: "100%",
    },
@@ -56,6 +63,21 @@ const styles: {
 const SideBar = (props: Props) => {
    const [isLogout, setIsLogout] = useState<boolean>(false);
    const exacttLogo = require("../assets/images/exactt_w.png");
+
+   const pathName = props.location?.pathname;
+
+   const menuItemCss = (currentStyles: any, path: any) => {
+      return {
+         ...currentStyles,
+         borderRadius: 3,
+         ...(path === pathName && { backgroundColor: colors.N40 }),
+         "&:hover": {
+            backgroundColor: colors.N30,
+            textDecoration: "none",
+         },
+      };
+   };
+
    return (
       <div style={styles.container}>
          <div style={{ ...styles.titleBar, justifyContent: "center" }}>
@@ -81,13 +103,43 @@ const SideBar = (props: Props) => {
                </div>
             </div>
          </div>
-         <div style={styles.menuBar}>b</div>
+         <div style={styles.menuBar}>
+            <div style={{ margin: 10 }}>
+               <Heading mixin={typography.h400} style={{ marginTop: 8 }}>
+                  {props.details.name}
+               </Heading>
+               <Divider />
+               <div style={{ display: "flex", flexDirection: "row" }}>
+                  <Avatar size="large" appearance="square" />
+                  <div style={{ marginLeft: 5, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                     <Heading mixin={typography.h400} style={{ marginTop: 0, maxWidth: 120 }}>
+                        {props.user.name}
+                     </Heading>
+                     <Heading mixin={typography.h100} style={{ marginTop: 0, textTransform: "capitalize" }}>
+                        {props.user.role}
+                     </Heading>
+                  </div>
+               </div>
+               <Divider />
+               <MenuGroup>
+                  <Section isScrollable>
+                     <LinkItem href="#/" cssFn={(currentStyles, isSelected) => menuItemCss(currentStyles, "/")}>
+                        Dashboard
+                     </LinkItem>
+                     <LinkItem href="#/test" cssFn={(currentStyles, isSelected) => menuItemCss(currentStyles, "/test")}>
+                        Test
+                     </LinkItem>
+                  </Section>
+               </MenuGroup>
+            </div>
+         </div>
       </div>
    );
 };
 
 const mapStateToProps = (state: AppState) => ({
    user: state.user.user,
+   details: state.orgnization.details,
 });
 
 function mapDispatchToProps(dispatch: any) {

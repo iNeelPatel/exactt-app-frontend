@@ -11,7 +11,7 @@ import { getOrganization } from "../redux/actions/OrganizationActions";
 import AppState from "../redux/types";
 import Loading from "../pages/Loading";
 import Organization from "../pages/Organization";
-import SideBar from "../components/SideBar";
+import { SideBar } from "../components";
 
 // ====================================== Page import ======================================
 import Dashboard from "../pages/Dashboard";
@@ -48,8 +48,6 @@ const UnauthenticatedRoute = (props: Props) => {
       api();
    }, [status, getStatus, getOrganization, logout]);
 
-   console.log("orgnizationDetails ---> ", orgnizationDetails);
-
    return loading ? (
       <Loading />
    ) : (
@@ -57,11 +55,11 @@ const UnauthenticatedRoute = (props: Props) => {
          <HashRouter>
             <div style={{ display: "flex", flexDirection: "row", flex: 1, height: "100%" }}>
                {status === 2 && (
-                  <div style={{ width: 320, maxWidth: 320 }}>
+                  <div style={{ minWidth: 320, maxWidth: 320 }}>
                      <SideBar />
                   </div>
                )}
-               <div style={{ display: "flex", flex: 1 }}>
+               <div style={{ display: "flex", flex: 1, paddingTop: 20, paddingLeft: 50, paddingRight: 50 }}>
                   <Switch>
                      <Route exact path="/" component={status === 2 ? Dashboard : Organization} />
                   </Switch>
@@ -74,7 +72,7 @@ const UnauthenticatedRoute = (props: Props) => {
 
 const mapStateToProps = (state: AppState) => ({
    status: state.auth.status,
-   orgnizationDetails: state.orgnizationReducer.details,
+   orgnizationDetails: state.orgnization.details,
 });
 
 function mapDispatchToProps(dispatch: any) {

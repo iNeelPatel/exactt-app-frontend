@@ -344,7 +344,7 @@ const OrganizationComponenet = (props: Props) => {
 };
 
 const mapStateToProps = (state: AppState) => ({
-   orgnization: state.orgnizationReducer,
+   orgnization: state.orgnization,
 });
 
 function mapDispatchToProps(dispatch: any) {

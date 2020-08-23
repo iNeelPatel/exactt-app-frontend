@@ -1,7 +1,7 @@
 import { OrganizationState, OrganizationAction, OrganizationActionType } from "../types/OrganizationTypes";
 
 const initialState: OrganizationState = {
-   details: null,
+   details: {},
 };
 
 export default (state: OrganizationState = initialState, action: OrganizationAction): OrganizationState => {

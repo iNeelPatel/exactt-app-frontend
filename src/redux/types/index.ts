@@ -7,5 +7,5 @@ export default interface AppState {
    home: HomeState;
    user: UserState;
    auth: AuthState;
-   orgnizationReducer: OrganizationState;
+   orgnization: OrganizationState;
 }
