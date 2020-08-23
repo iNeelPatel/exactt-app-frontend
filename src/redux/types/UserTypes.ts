@@ -3,11 +3,13 @@ import { Action } from "redux";
 interface UserActionTypeInterface {
    LOGIN: string;
    SIGNUP: string;
+   LOGOUT: string;
 }
 
 export const UserActionType: UserActionTypeInterface = {
    LOGIN: "LOGIN",
    SIGNUP: "SIGNUP",
+   LOGOUT: "LOGOUT",
 };
 
 export interface UserAction extends Action {

@@ -18,6 +18,12 @@ export default (state: UserState = initialState, action: UserAction): UserState 
             user: action.payload,
          };
 
+      case UserActionType.LOGOUT:
+         return {
+            ...state,
+            user: action.payload,
+         };
+
       default:
          return state;
    }

@@ -6,6 +6,7 @@ import { bindActionCreators } from "redux";
 
 // ====================================== File import ======================================
 import { getStatus } from "../redux/actions/AuthActions";
+import { logout } from "../redux/actions/UserActions";
 import AppState from "../redux/types";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
@@ -14,20 +15,30 @@ import Loading from "../pages/Loading";
 interface Props extends HashRouterProps {
    status: number;
    getStatus: () => any;
+   logout: () => any;
 }
 
 const UnauthenticatedRoute = (props: Props) => {
    const [loading, setLoading] = useState(true);
-   const { status, getStatus } = props;
+   const { status, getStatus, logout } = props;
 
    useEffect(() => {
       const api = async () => {
          setLoading(true);
-         await getStatus();
+         try {
+            await getStatus();
+         } catch (error) {
+            if (error.code === 209) {
+               await logout();
+            }
+            if (error.code === 100) {
+               alert("Internet is not connected ");
+            }
+         }
          setLoading(false);
       };
       api();
-   }, [status, getStatus]);
+   }, [status, getStatus, logout]);
 
    return loading ? (
       <Loading />
@@ -46,7 +57,7 @@ const mapStateToProps = (state: AppState) => ({
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ getStatus }, dispatch),
+      ...bindActionCreators({ getStatus, logout }, dispatch),
    };
 }
 

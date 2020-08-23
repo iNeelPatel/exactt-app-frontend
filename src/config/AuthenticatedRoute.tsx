@@ -6,43 +6,69 @@ import { bindActionCreators } from "redux";
 
 // ====================================== File import ======================================
 import { getStatus } from "../redux/actions/AuthActions";
+import { logout } from "../redux/actions/UserActions";
 import { getOrganization } from "../redux/actions/OrganizationActions";
 import AppState from "../redux/types";
 import Loading from "../pages/Loading";
 import Organization from "../pages/Organization";
+import SideBar from "../components/SideBar";
+
+// ====================================== Page import ======================================
+import Dashboard from "../pages/Dashboard";
 
 interface Props extends HashRouterProps {
    status: number;
    getStatus: () => any;
    getOrganization: () => any;
+   logout: () => any;
    orgnizationDetails: object;
 }
 
 const UnauthenticatedRoute = (props: Props) => {
    const [loading, setLoading] = useState(true);
-   const { status, getStatus, getOrganization, orgnizationDetails } = props;
+   const { status, getStatus, getOrganization, orgnizationDetails, logout } = props;
 
    useEffect(() => {
       const api = async () => {
          setLoading(true);
-         await getStatus();
-         await getOrganization();
-         setLoading(false);
+         try {
+            await getStatus();
+            await getOrganization();
+         } catch (error) {
+            if (error.code === 209) {
+               await logout();
+            }
+            if (error.code === 100) {
+               alert("Internet is not connected ");
+            }
+         } finally {
+            setLoading(false);
+         }
       };
       api();
-   }, [status, getStatus, getOrganization]);
+   }, [status, getStatus, getOrganization, logout]);
 
    console.log("orgnizationDetails ---> ", orgnizationDetails);
 
    return loading ? (
       <Loading />
    ) : (
-      <HashRouter>
-         {status === 2 && <h1>Side bar</h1>}
-         <Switch>
-            <Route exact path="/" component={Organization} />
-         </Switch>
-      </HashRouter>
+      <div style={{ height: "100%" }}>
+         <HashRouter>
+            <div style={{ display: "flex", flexDirection: "row", flex: 1, height: "100%" }}>
+               {status === 2 && (
+                  <div style={{ width: 320, maxWidth: 320 }}>
+                     <SideBar />
+                  </div>
+               )}
+               <div style={{ display: "flex", flex: 1 }}>
+                  <Switch>
+                     <Route exact path="/" component={status === 2 ? Dashboard : Organization} />
+                  </Switch>
+               </div>
+            </div>
+         </HashRouter>
+      </div>
    );
 };
 
@@ -53,7 +79,7 @@ const mapStateToProps = (state: AppState) => ({
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ getStatus, getOrganization }, dispatch),
+      ...bindActionCreators({ getStatus, getOrganization, logout }, dispatch),
    };
 }
 

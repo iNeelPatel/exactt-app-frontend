@@ -39,3 +39,17 @@ export function signup(data: Signup) {
       });
    };
 }
+
+export function logout() {
+   return async (dispatch: UserDispatch): Promise<void> => {
+      try {
+         await Parse.User.logOut();
+         dispatch({
+            type: UserActionType.LOGOUT,
+            payload: null,
+         });
+      } catch (error) {
+         return error;
+      }
+   };
+}

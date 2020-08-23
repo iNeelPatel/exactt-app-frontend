@@ -11,7 +11,7 @@ export function getStatus() {
          });
          return res;
       } catch (error) {
-         throw new Error(error.message);
+         throw error;
       }
    };
 }
