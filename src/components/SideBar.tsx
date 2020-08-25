@@ -128,12 +128,17 @@ const SideBar = (props: Props) => {
                </div>
                <Divider />
                <MenuGroup>
-                  <Section isScrollable>
-                     <LinkItem href="#/" cssFn={(currentStyles, isSelected) => menuItemCss(currentStyles, "/")}>
+                  <Section>
+                     <LinkItem href="#/" cssFn={(currentStyles) => menuItemCss(currentStyles, "/")}>
                         Dashboard
                      </LinkItem>
-                     <LinkItem href="#/test" cssFn={(currentStyles, isSelected) => menuItemCss(currentStyles, "/test")}>
+                     <LinkItem href="#/test" cssFn={(currentStyles) => menuItemCss(currentStyles, "/test")}>
                         Test
+                     </LinkItem>
+                  </Section>
+                  <Section title="Organization Settings">
+                     <LinkItem href="#/organizationsettings/role" cssFn={(currentStyles) => menuItemCss(currentStyles, "/organizationsettings/role")}>
+                        Role
                      </LinkItem>
                   </Section>
                </MenuGroup>

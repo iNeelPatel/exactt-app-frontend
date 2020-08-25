@@ -4,7 +4,9 @@
    "private": true,
    "dependencies": {
       "@atlaskit/avatar": "^20.0.2",
+      "@atlaskit/breadcrumbs": "^10.0.3",
       "@atlaskit/button": "^14.0.1",
+      "@atlaskit/checkbox": "^11.0.4",
       "@atlaskit/css-reset": "^6.0.0",
       "@atlaskit/form": "^8.1.0",
       "@atlaskit/icon": "^21.0.2",

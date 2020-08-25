@@ -15,6 +15,7 @@ import { SideBar, Box } from "../components";
 
 // ====================================== Page import ======================================
 import Dashboard from "../pages/Dashboard";
+import Role from "../pages/Role";
 import PageNotFound from "../pages/Errors/PageNotFound";
 
 interface Props extends HashRouterProps {
@@ -62,10 +63,21 @@ const UnauthenticatedRoute = (props: Props) => {
                )}
                <Box
                   elevation="e300"
-                  style={{ display: "flex", flex: 1, paddingTop: 20, paddingLeft: 50, paddingRight: 50, margin: 0, borderRadius: 0 }}
+                  style={{
+                     display: "flex",
+                     flex: 1,
+                     paddingTop: 20,
+                     paddingLeft: 50,
+                     paddingRight: 50,
+                     margin: 0,
+                     borderRadius: 0,
+                     textAlign: "left",
+                     overflow: "scroll",
+                  }}
                >
                   <Switch>
                      <Route exact path="/" component={status === 2 ? Dashboard : Organization} />
+                     <Route exact path="/organizationsettings/role" component={Role} />
                      <Route component={PageNotFound} />
                   </Switch>
                </Box>
