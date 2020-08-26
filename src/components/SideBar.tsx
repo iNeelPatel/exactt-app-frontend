@@ -118,11 +118,12 @@ const SideBar = (props: Props) => {
                      }`}
                   />
                   <div style={{ marginLeft: 5, display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                     <Heading mixin={typography.h400} style={{ marginTop: 0, maxWidth: 120 }}>
+                     <Heading mixin={typography.h400} style={{ marginTop: 0, maxWidth: `120` }}>
                         {props.user.name}
                      </Heading>
                      <Heading mixin={typography.h100} style={{ marginTop: 0, textTransform: "capitalize" }}>
-                        {props.user.role}
+                        {console.log(props.user)}
+                        {/* {props.user.role} */}
                      </Heading>
                   </div>
                </div>

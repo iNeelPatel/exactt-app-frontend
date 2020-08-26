@@ -9,6 +9,7 @@ export function getStatus() {
             type: AuthActionType.GET_STATUS,
             payload: res,
          });
+         console.log(res);
          return res;
       } catch (error) {
          throw error;

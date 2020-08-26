@@ -27,17 +27,23 @@ export function login(username: string, password: string) {
 
 export function signup(data: Signup) {
    return async (dispatch: UserDispatch): Promise<void> => {
-      await Parse.User.signUp(data.username, data.password, {
-         name: data.name,
-         phone: parseInt(data.phone),
-         email: data.email,
-         role: "admin",
-      }).then((user) => {
+      try {
+         let formData = {
+            username: data.username,
+            password: data.password,
+            phone: parseInt(data.phone),
+            name: data.name,
+            email: data.email,
+         };
+         let res = await Parse.Cloud.run("createAdminUser", formData);
          dispatch({
             type: UserActionType.SIGNUP,
-            payload: user,
+            payload: res,
          });
-      });
+         return res;
+      } catch (error) {
+         throw error;
+      }
    };
 }
 
