@@ -2,6 +2,7 @@ import { RoleState, RoleAction, RoleActionType } from "../types/RoleTypes";
 
 const initialState: RoleState = {
    access: {},
+   updateRole: {},
 };
 
 export default (state: RoleState = initialState, action: RoleAction): RoleState => {
@@ -10,6 +11,12 @@ export default (state: RoleState = initialState, action: RoleAction): RoleState 
          return {
             ...state,
             access: action.payload,
+         };
+
+      case RoleActionType.UPDATE_ROLE:
+         return {
+            ...state,
+            updateRole: action.payload,
          };
 
       default:

@@ -15,3 +15,18 @@ export function getRoleAccessPermission() {
       }
    };
 }
+
+export function updateRole(data: object) {
+   return async (dispatch: RoleDispatch): Promise<object> => {
+      try {
+         let res = await Parse.Cloud.run("updateRole", data);
+         dispatch({
+            type: RoleActionType.UPDATE_ROLE,
+            payload: res.permission,
+         });
+         return res;
+      } catch (error) {
+         throw error;
+      }
+   };
+}

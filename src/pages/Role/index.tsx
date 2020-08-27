@@ -7,7 +7,7 @@ import { bindActionCreators } from "redux";
 
 // ====================================== File imports ======================================
 import { Breadcrumb } from "../../components";
-import { getRoleAccessPermission } from "../../redux/actions/RoleActions";
+import { getRoleAccessPermission, updateRole } from "../../redux/actions/RoleActions";
 import AppState from "../../redux/types";
 import { ScreenLoader } from "../../components";
 import "./Role.css";
@@ -86,11 +86,12 @@ const Role = (props: any) => {
                               <Checkbox
                                  value="R"
                                  label="R"
+                                 isDisabled={role === "admin" || roleItems === "role"}
                                  defaultChecked={roles[role][roleItems].read}
-                                 onChange={() => {
+                                 onChange={async () => {
                                     var updateRoles = roles;
                                     updateRoles[role][roleItems]["read"] = !roles[role][roleItems].read;
-                                    console.log({ name: role, permission: updateRoles[role] });
+                                    await props.updateRole({ name: role, permission: updateRoles[role] });
                                     setRoles(updateRoles);
                                  }}
                                  name={`checkbox-r-${role + roleItems + idx}`}
@@ -99,11 +100,12 @@ const Role = (props: any) => {
                               <Checkbox
                                  value="W"
                                  label="W"
+                                 isDisabled={role === "admin" || roleItems === "role"}
                                  defaultChecked={roles[role][roleItems].write}
-                                 onChange={() => {
+                                 onChange={async () => {
                                     var updateRoles = roles;
                                     updateRoles[role][roleItems]["write"] = !roles[role][roleItems].write;
-                                    console.log({ name: role, permission: updateRoles[role] });
+                                    await props.updateRole({ name: role, permission: updateRoles[role] });
                                     setRoles(updateRoles);
                                  }}
                                  name={`checkbox-w-${role + roleItems}`}
@@ -126,7 +128,7 @@ const mapStateToProps = (state: AppState) => ({
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ getRoleAccessPermission }, dispatch),
+      ...bindActionCreators({ getRoleAccessPermission, updateRole }, dispatch),
    };
 }
 
