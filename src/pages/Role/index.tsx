@@ -75,14 +75,18 @@ const Role = (props: any) => {
                      </div>
                   ))}
                </div>
-               <div style={{ display: "flex", flex: 1, overflow: "scroll", background: colors.N10 }}>
+               <div style={{ display: "flex", flex: 1, overflow: "scroll", background: colors.N10, maxWidth: "80%" }}>
                   {Object.keys(roles).map((role: string, idx: number) => (
                      <div key={role + idx} style={{ display: "flex", flex: 1, flexDirection: "column" }}>
                         <div className="cell" style={{ borderColor: colors.N60, fontWeight: "bold", background: colors.N0 }}>
                            {role}
                         </div>
                         {Object.keys(roles[role]).map((roleItems: any, idx: number) => (
-                           <div className="cell" style={{ borderColor: colors.N60 }} key={role + roleItems + idx}>
+                           <div
+                              className="cell"
+                              style={{ borderColor: colors.N60 }}
+                              key={role + roleItems + idx}
+                           >
                               <Checkbox
                                  value="R"
                                  label="R"
