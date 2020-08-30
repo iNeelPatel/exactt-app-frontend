@@ -12,7 +12,7 @@ interface Props extends AlertBoxState {}
 
 const AlertBox = (props: Props) => {
    return props.visible ? (
-      <Box elevation="e400" style={{ position: "fixed", width: 500, zIndex: 1000, bottom: 5, right: 15, padding: 0 }}>
+      <Box elevation="e400" style={{ position: "fixed", maxWidth: 400, zIndex: 1000, bottom: 5, right: 15, padding: 0 }}>
          <SectionMessage appearance={props.appearance} title={props.title}>
             <p>{props.body}</p>
          </SectionMessage>
