@@ -1,4 +1,5 @@
-import { OrganizationDispatch, OrganizationActionType } from "../types/OrganizationTypes";
+import { DispatchType } from "../types/ActionDispatch";
+import ActionsTypes from ".";
 import Parse from "parse";
 
 interface SetOrganization {
@@ -22,13 +23,13 @@ interface SetOrganization {
 }
 
 export function setOrganization(data: any) {
-   return async (dispatch: OrganizationDispatch): Promise<any> => {
+   return async (dispatch: DispatchType): Promise<any> => {
       console.log(data);
 
       try {
          let res = await Parse.Cloud.run("setOrganization", data);
          dispatch({
-            type: OrganizationActionType.SET_ORGANIZATION,
+            type: ActionsTypes.SET_ORGANIZATION,
             payload: res,
          });
          return res;
@@ -39,11 +40,11 @@ export function setOrganization(data: any) {
 }
 
 export function getOrganization() {
-   return async (dispatch: OrganizationDispatch): Promise<any> => {
+   return async (dispatch: DispatchType): Promise<any> => {
       try {
          let res = await Parse.Cloud.run("getOrganization");
          dispatch({
-            type: OrganizationActionType.GET_ORGANIZATION,
+            type: ActionsTypes.GET_ORGANIZATION,
             payload: res,
          });
          return res;

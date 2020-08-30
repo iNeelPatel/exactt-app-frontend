@@ -1,12 +1,14 @@
-import { AuthDispatch, AuthActionType } from "../types/AuthTypes";
+import { DispatchType } from "../types/ActionDispatch";
+import ActionsTypes from ".";
+
 import Parse from "parse";
 
 export function getStatus() {
-   return async (dispatch: AuthDispatch): Promise<number> => {
+   return async (dispatch: DispatchType): Promise<number> => {
       try {
          let res = await Parse.Cloud.run("getOrganizationStatus");
          dispatch({
-            type: AuthActionType.GET_STATUS,
+            type: ActionsTypes.GET_STATUS,
             payload: res,
          });
          return res;

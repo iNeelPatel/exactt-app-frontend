@@ -11,7 +11,7 @@ import { getOrganization } from "../redux/actions/OrganizationActions";
 import AppState from "../redux/types";
 import Loading from "../pages/Loading";
 import Organization from "../pages/Organization";
-import { SideBar, Box } from "../components";
+import { SideBar, Box, AlertBox } from "../components";
 
 // ====================================== Page import ======================================
 import Dashboard from "../pages/Dashboard";
@@ -54,6 +54,7 @@ const UnauthenticatedRoute = (props: Props) => {
       <Loading />
    ) : (
       <div style={{ display: "flex", flex: 1, flexDirection: "column", height: "100%" }}>
+         <AlertBox />
          <HashRouter>
             <div className="mainBox" style={{ display: "flex", flexDirection: "row", flex: 1, height: "100%" }}>
                {status === 2 && (

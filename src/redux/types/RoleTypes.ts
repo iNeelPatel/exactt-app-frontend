@@ -3,11 +3,13 @@ import { Action } from "redux";
 interface RoleActionTypeInterface {
    GET_ROLE_ACCESS: string;
    UPDATE_ROLE: string;
+   CREATE_ROLE: string;
 }
 
 export const RoleActionType: RoleActionTypeInterface = {
    GET_ROLE_ACCESS: "GET_ROLE_ACCESS",
    UPDATE_ROLE: "UPDATE_ROLE",
+   CREATE_ROLE: "CREATE_ROLE",
 };
 
 export interface RoleAction extends Action {

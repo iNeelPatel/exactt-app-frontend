@@ -1,12 +1,14 @@
-import { AuthState, AuthAction, AuthActionType } from "../types/AuthTypes";
+import { AuthState } from "../types/AuthTypes";
+import { ActionInterface } from "../types/ActionDispatch";
+import ActionTypes from "../actions";
 
 const initialState: AuthState = {
    status: 0,
 };
 
-export default (state: AuthState = initialState, action: AuthAction): AuthState => {
+export default (state: AuthState = initialState, action: ActionInterface): AuthState => {
    switch (action.type) {
-      case AuthActionType.GET_STATUS:
+      case ActionTypes.GET_STATUS:
          return {
             ...state,
             status: action.payload,

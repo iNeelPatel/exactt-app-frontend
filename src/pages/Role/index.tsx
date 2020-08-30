@@ -2,13 +2,16 @@
 import React, { useState, useEffect } from "react";
 import { Checkbox } from "@atlaskit/checkbox";
 import { colors } from "@atlaskit/theme";
+import Button from "@atlaskit/button";
+import Textfield from "@atlaskit/textfield";
+import Form, { Field } from "@atlaskit/form";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 // ====================================== File imports ======================================
-import { Props } from './types'
+import { Props, AddRoleForm } from "./types";
 import { Breadcrumb } from "../../components";
-import { getRoleAccessPermission, updateRole } from "../../redux/actions/RoleActions";
+import { getRoleAccessPermission, updateRole, createRole } from "../../redux/actions/RoleActions";
 import AppState from "../../redux/types";
 import { ScreenLoader } from "../../components";
 import "./Role.css";
@@ -60,7 +63,41 @@ const Role = (props: Props) => {
 
    return (
       <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
-         <Breadcrumb items={breadcrumbItems} screen="Role" />
+         <Breadcrumb
+            items={breadcrumbItems}
+            screen="Role"
+            right={
+               <div style={{ display: "flex" }}>
+                  <Form
+                     onSubmit={async (addRoleForm: AddRoleForm) => {
+                        console.log(addRoleForm);
+                        try {
+                           let res: any = await props.createRole(addRoleForm);
+                           console.log(res);
+                        } catch (error) {
+                           console.log(error);
+                        }
+                     }}
+                  >
+                     {({ formProps, submitting }: any) => (
+                        <form {...formProps} style={{ display: "flex" }}>
+                           <Field label="" isRequired name="roleName" defaultValue="">
+                              {({ fieldProps }: any) => <Textfield {...fieldProps} placeholder="Role Name" style={{ width: 200 }} />}
+                           </Field>
+                           <Button
+                              type="submit"
+                              style={{ height: 38, marginLeft: 10, marginTop: 9 }}
+                              appearance="primary"
+                              isLoading={submitting}
+                           >
+                              Add new role
+                           </Button>
+                        </form>
+                     )}
+                  </Form>
+               </div>
+            }
+         />
          {loading ? (
             <ScreenLoader />
          ) : (
@@ -76,18 +113,14 @@ const Role = (props: Props) => {
                      </div>
                   ))}
                </div>
-               <div style={{ display: "flex", flex: 1, overflow: "scroll", background: colors.N10, maxWidth: "80%" }}>
+               <div style={{ display: "flex", flex: 1, overflow: "scroll", background: colors.N10, maxWidth: 750 }}>
                   {Object.keys(roles).map((role: string, idx: number) => (
                      <div key={role + idx} style={{ display: "flex", flex: 1, flexDirection: "column" }}>
                         <div className="cell" style={{ borderColor: colors.N60, fontWeight: "bold", background: colors.N0 }}>
                            {role}
                         </div>
                         {Object.keys(roles[role]).map((roleItems: any, idx: number) => (
-                           <div
-                              className="cell"
-                              style={{ borderColor: colors.N60 }}
-                              key={role + roleItems + idx}
-                           >
+                           <div className="cell" style={{ borderColor: colors.N60 }} key={role + roleItems + idx}>
                               <Checkbox
                                  value="R"
                                  label="R"
@@ -133,7 +166,7 @@ const mapStateToProps = (state: AppState) => ({
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ getRoleAccessPermission, updateRole }, dispatch),
+      ...bindActionCreators({ getRoleAccessPermission, updateRole, createRole }, dispatch),
    };
 }
 

@@ -12,6 +12,7 @@
       "@atlaskit/icon": "^21.0.2",
       "@atlaskit/menu": "^0.6.0",
       "@atlaskit/progress-tracker": "^7.0.2",
+      "@atlaskit/section-message": "^5.0.3",
       "@atlaskit/select": "^13.0.0",
       "@atlaskit/spinner": "^15.0.1",
       "@atlaskit/textfield": "^4.0.1",

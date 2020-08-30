@@ -1,4 +1,5 @@
-import { UserDispatch, UserActionType } from "../types/UserTypes";
+import { DispatchType } from "../types/ActionDispatch";
+import ActionsTypes from ".";
 import Parse from "parse";
 
 interface Signup {
@@ -10,12 +11,12 @@ interface Signup {
 }
 
 export function login(username: string, password: string) {
-   return async (dispatch: UserDispatch): Promise<object> => {
+   return async (dispatch: DispatchType): Promise<object> => {
       try {
          let user = await Parse.User.logIn(username, password);
          console.log(user);
          dispatch({
-            type: UserActionType.LOGIN,
+            type: ActionsTypes.LOGIN,
             payload: user.attributes,
          });
          return user;
@@ -26,7 +27,7 @@ export function login(username: string, password: string) {
 }
 
 export function signup(data: Signup) {
-   return async (dispatch: UserDispatch): Promise<void> => {
+   return async (dispatch: DispatchType): Promise<void> => {
       try {
          let formData = {
             username: data.username,
@@ -37,7 +38,7 @@ export function signup(data: Signup) {
          };
          let res = await Parse.Cloud.run("createAdminUser", formData);
          dispatch({
-            type: UserActionType.SIGNUP,
+            type: ActionsTypes.SIGNUP,
             payload: res,
          });
          return res;
@@ -48,11 +49,11 @@ export function signup(data: Signup) {
 }
 
 export function logout() {
-   return async (dispatch: UserDispatch): Promise<void> => {
+   return async (dispatch: DispatchType): Promise<void> => {
       try {
          await Parse.User.logOut();
          dispatch({
-            type: UserActionType.LOGOUT,
+            type: ActionsTypes.LOGOUT,
             payload: null,
          });
       } catch (error) {

@@ -1,24 +1,26 @@
-import { UserState, UserAction, UserActionType } from "../types/UserTypes";
+import { UserState } from "../types/UserTypes";
+import { ActionInterface } from "../types/ActionDispatch";
+import ActionTypes from "../actions";
 
 const initialState: UserState = {
    user: null,
 };
 
-export default (state: UserState = initialState, action: UserAction): UserState => {
+export default (state: UserState = initialState, action: ActionInterface): UserState => {
    switch (action.type) {
-      case UserActionType.LOGIN:
+      case ActionTypes.LOGIN:
          return {
             ...state,
             user: action.payload,
          };
 
-      case UserActionType.SIGNUP:
+      case ActionTypes.SIGNUP:
          return {
             ...state,
             user: action.payload,
          };
 
-      case UserActionType.LOGOUT:
+      case ActionTypes.LOGOUT:
          return {
             ...state,
             user: action.payload,
