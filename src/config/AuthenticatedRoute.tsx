@@ -53,7 +53,7 @@ const UnauthenticatedRoute = (props: Props) => {
    return loading ? (
       <Loading />
    ) : (
-      <div style={{ height: "100%" }}>
+      <div style={{ display: "flex", flex: 1, flexDirection: "column", height: "100%" }}>
          <HashRouter>
             <div className="mainBox" style={{ display: "flex", flexDirection: "row", flex: 1, height: "100%" }}>
                {status === 2 && (

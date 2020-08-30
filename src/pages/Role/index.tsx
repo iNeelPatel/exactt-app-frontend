@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 // ====================================== File imports ======================================
+import { Props } from './types'
 import { Breadcrumb } from "../../components";
 import { getRoleAccessPermission, updateRole } from "../../redux/actions/RoleActions";
 import AppState from "../../redux/types";
@@ -38,7 +39,7 @@ const roleItems: Array<string> = [
    "Samples/{id}/Result",
 ];
 
-const Role = (props: any) => {
+const Role = (props: Props) => {
    const [loading, setLoading] = useState<boolean>(true);
    const [roles, setRoles] = useState<any>({});
 
@@ -54,8 +55,8 @@ const Role = (props: any) => {
    }, []);
 
    useEffect(() => {
-      setRoles(props.accessList);
-   }, [props.accessList]);
+      setRoles(props.access);
+   }, [props.access]);
 
    return (
       <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
@@ -127,7 +128,7 @@ const Role = (props: any) => {
 };
 
 const mapStateToProps = (state: AppState) => ({
-   accessList: state.role.access,
+   access: state.role.access,
 });
 
 function mapDispatchToProps(dispatch: any) {
