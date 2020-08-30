@@ -37,12 +37,13 @@ const Department = (props: Props) => {
 
    useEffect(() => {
       let createRows: Array<object> = departments.map((department: Departments, id: number) => ({
-         key: `row-${department.objectId}`,
+         key: `row${department.objectId}`,
          cells: [
             {
-               key: `cell-${department.objectId}-${department.name}`,
+               key: `cell${department.objectId}${department.name}`,
                content: (
                   <InlineEdit
+                     hideActionButtons={true}
                      defaultValue={department.name}
                      editView={(fieldProps) => <Textfield {...fieldProps} autoFocus />}
                      readView={() => <div style={{ paddingBottom: 4 }}>{department.name}</div>}
@@ -57,10 +58,10 @@ const Department = (props: Props) => {
          ],
       }));
       createRows.push({
-         key: "row-add-department",
+         key: "rowAddDepartment",
          cells: [
             {
-               key: "cell-add-department",
+               key: "cellAddDepartment",
                content: (
                   <div style={{ display: "flex" }}>
                      <Form
@@ -104,6 +105,7 @@ const Department = (props: Props) => {
             key: "departmentName",
             content: "Department Name",
             isSortable: true,
+            shouldTruncate: true,
          },
       ],
    };
@@ -115,7 +117,7 @@ const Department = (props: Props) => {
             // caption={caption}
             head={head}
             rows={rows}
-            rowsPerPage={5}
+            rowsPerPage={20}
             defaultPage={1}
             isFixedSize
             isLoading={loading}
