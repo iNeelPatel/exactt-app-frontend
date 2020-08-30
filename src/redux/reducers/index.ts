@@ -4,6 +4,7 @@ import AuthReducer from "./AuthReducer";
 import OrgnizationReducer from "./OrganizationReducer";
 import RoleReducer from "./RoleReducer";
 import AlertBoxReducer from "./AlertBoxReducer";
+import DepartmentReducer from "./DepartmentReducer";
 import AppState from "../types";
 
 const rootReducer = combineReducers<AppState>({
@@ -12,6 +13,7 @@ const rootReducer = combineReducers<AppState>({
    orgnization: OrgnizationReducer,
    role: RoleReducer,
    alertBox: AlertBoxReducer,
+   department: DepartmentReducer,
 });
 
 export default rootReducer;

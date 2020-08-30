@@ -3,6 +3,7 @@ import { AuthState } from "./AuthTypes";
 import { OrganizationState } from "./OrganizationTypes";
 import { RoleState } from "./RoleTypes";
 import { AlertBoxState } from "./AlertBoxTypes";
+import { DepartmentState } from "./DepartmentTypes";
 
 export default interface AppState {
    user: UserState;
@@ -10,4 +11,5 @@ export default interface AppState {
    orgnization: OrganizationState;
    role: RoleState;
    alertBox: AlertBoxState;
+   department: DepartmentState;
 }

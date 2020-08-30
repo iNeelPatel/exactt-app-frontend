@@ -10,6 +10,9 @@ interface ActionsTypes {
    LOGIN: string;
    SIGNUP: string;
    LOGOUT: string;
+   GET_DEPARTMENTS: string;
+   CREATE_DEPARTMENT: string;
+   UPDATE_DEPARTMENT: string;
 }
 
 const Actions: ActionsTypes = {
@@ -24,6 +27,9 @@ const Actions: ActionsTypes = {
    LOGIN: "LOGIN",
    SIGNUP: "SIGNUP",
    LOGOUT: "LOGOUT",
+   GET_DEPARTMENTS: "GET_DEPARTMENTS",
+   CREATE_DEPARTMENT: "CREATE_DEPARTMENT",
+   UPDATE_DEPARTMENT: "UPDATE_DEPARTMENT",
 };
 
 export default Actions;

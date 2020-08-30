@@ -137,8 +137,17 @@ const SideBar = (props: Props) => {
                      </LinkItem>
                   </Section>
                   <Section title="Organization Settings">
-                     <LinkItem href="#/organizationsettings/role" cssFn={(currentStyles) => menuItemCss(currentStyles, "/organizationsettings/role")}>
+                     <LinkItem
+                        href="#/organizationsettings/role"
+                        cssFn={(currentStyles) => menuItemCss(currentStyles, "/organizationsettings/role")}
+                     >
                         Role
+                     </LinkItem>
+                     <LinkItem
+                        href="#/organizationsettings/department"
+                        cssFn={(currentStyles) => menuItemCss(currentStyles, "/organizationsettings/department")}
+                     >
+                        Department
                      </LinkItem>
                   </Section>
                </MenuGroup>
