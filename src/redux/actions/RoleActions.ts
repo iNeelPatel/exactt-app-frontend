@@ -40,6 +40,19 @@ export function createRole(data: object) {
             type: ActionsTypes.CREATE_ROLE,
             payload: res,
          });
+         dispatch({
+            type: ActionsTypes.ALERT_SHOW,
+            payload: {
+               appearance: "confirmation",
+               body: "Role created successfully.",
+            },
+         });
+         setTimeout(() => {
+            dispatch({
+               type: ActionsTypes.ALERT_HIDE,
+               payload: {},
+            });
+         }, 3000);
          return res;
       } catch (error) {
          dispatch({

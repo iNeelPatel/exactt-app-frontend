@@ -16,9 +16,8 @@ export default (state: AlertBoxState = initialState, action: ActionInterface): A
          return {
             ...state,
             visible: true,
-            title: action.payload.title,
+            title: action.payload.title ? action.payload.title : "",
             appearance: action.payload.appearance,
-            actions: "",
             body: action.payload.body,
          };
       case ActionTypes.ALERT_HIDE:

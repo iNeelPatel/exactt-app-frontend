@@ -70,13 +70,9 @@ const Role = (props: Props) => {
                <div style={{ display: "flex" }}>
                   <Form
                      onSubmit={async (addRoleForm: AddRoleForm) => {
-                        console.log(addRoleForm);
                         try {
-                           let res: any = await props.createRole(addRoleForm);
-                           console.log(res);
-                        } catch (error) {
-                           console.log(error);
-                        }
+                           await props.createRole(addRoleForm);
+                        } catch (error) {}
                      }}
                   >
                      {({ formProps, submitting }: any) => (
