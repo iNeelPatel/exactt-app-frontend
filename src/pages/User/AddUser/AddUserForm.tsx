@@ -1,12 +1,14 @@
 // ====================================== Module imports ======================================
-import React, { Fragment } from "react";
+import React from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import Form, { Field } from "@atlaskit/form";
 import Button from "@atlaskit/button";
 import Textfield from "@atlaskit/textfield";
+import Select from "@atlaskit/select";
 
 // ====================================== File imports ======================================
 import { AddUserFormProps } from "./types";
+import PhoneCodeList from "../../../constants/phone-code.json";
 
 const AddUserForm = (props: AddUserFormProps) => {
    return (
@@ -21,60 +23,49 @@ const AddUserForm = (props: AddUserFormProps) => {
                   {({ formProps, submitting }: any) => (
                      <form {...formProps}>
                         <Field label="Username" isRequired name="username" defaultValue="">
-                           {({ fieldProps }: any) => (
-                              <Fragment>
-                                 <Textfield {...fieldProps} />
-                              </Fragment>
-                           )}
+                           {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                         </Field>
-                        <Field label="Name" isRequired name="name" defaultValue="">
-                           {({ fieldProps }: any) => (
-                              <Fragment>
-                                 <Textfield {...fieldProps} />
-                              </Fragment>
-                           )}
+
+                        <Field label="Name" isRequired name="name">
+                           {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                         </Field>
+
                         <Field label="Email" isRequired name="email" defaultValue="">
-                           {({ fieldProps }: any) => (
-                              <Fragment>
-                                 <Textfield {...fieldProps} />
-                              </Fragment>
-                           )}
+                           {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                         </Field>
-                        <Field label="Phone" isRequired name="phone" defaultValue="">
-                           {({ fieldProps }: any) => (
-                              <Fragment>
-                                 <Textfield {...fieldProps} />
-                              </Fragment>
-                           )}
-                        </Field>
+
+                        <Grid>
+                           <GridColumn medium={3}>
+                              <Field label="Country code" isRequired name="countryCode" defaultValue={{ label: "+91 India", value: 91 }}>
+                                 {({ fieldProps }: any) => <Select {...fieldProps} options={PhoneCodeList} placeholder="Country code" />}
+                              </Field>
+                           </GridColumn>
+                           <GridColumn medium={9}>
+                              <Field label="Phone" isRequired name="phone" defaultValue="">
+                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                              </Field>
+                           </GridColumn>
+                        </Grid>
+
                         <Grid>
                            <GridColumn medium={6}>
-                              <Field label="Department" isRequired name="department" defaultValue="">
+                              <Field label="Department" isRequired name="department">
                                  {({ fieldProps }: any) => (
-                                    <Fragment>
-                                       <Textfield {...fieldProps} />
-                                    </Fragment>
+                                    <Select {...fieldProps} options={props.departmentList} placeholder="Select department" />
                                  )}
                               </Field>
                            </GridColumn>
                            <GridColumn medium={6}>
                               <Field label="Role" isRequired name="role" defaultValue="">
                                  {({ fieldProps }: any) => (
-                                    <Fragment>
-                                       <Textfield {...fieldProps} />
-                                    </Fragment>
+                                    <Select {...fieldProps} options={props.departmentList} placeholder="Select role" />
                                  )}
                               </Field>
                            </GridColumn>
                         </Grid>
 
                         <Field label="Password" isRequired name="password" defaultValue="">
-                           {({ fieldProps }: any) => (
-                              <Fragment>
-                                 <Textfield type="password" {...fieldProps} />
-                              </Fragment>
-                           )}
+                           {({ fieldProps }: any) => <Textfield type="password" {...fieldProps} />}
                         </Field>
 
                         <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}>
