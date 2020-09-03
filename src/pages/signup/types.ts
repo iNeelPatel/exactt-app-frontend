@@ -1,7 +1,7 @@
 import { UserState } from "../../redux/types/UserTypes";
-import { RouteProps } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 
-export interface Props extends UserState, RouteProps {
+export interface Props extends UserState, RouteComponentProps {
    signup: (data: { username: string; name: string; phone: string; email: string; password: string; confirmPassword: string }) => void;
 }
 

@@ -8,6 +8,7 @@ import Button from "@atlaskit/button";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
+import AddIcon from "@atlaskit/icon/glyph/add";
 
 // ====================================== File imports ======================================
 import { Breadcrumb } from "../../components";
@@ -82,6 +83,7 @@ const Department = (props: Props) => {
                                  )}
                               </Field>
                               <Button
+                                 iconBefore={<AddIcon label="Add icon" size="small" />}
                                  type="submit"
                                  style={{ height: 38, marginLeft: 10, marginTop: 9 }}
                                  appearance="primary"

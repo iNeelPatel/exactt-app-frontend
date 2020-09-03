@@ -1,6 +1,7 @@
 import { OrganizationState } from "../../redux/types/OrganizationTypes";
+import { RouteComponentProps } from "react-router-dom";
 
-export interface Props {
+export interface Props extends RouteComponentProps {
    organization: OrganizationState;
    setOrganization: (formData: any) => any;
    getStatus: () => any;

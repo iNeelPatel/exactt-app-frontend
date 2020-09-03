@@ -1,6 +1,6 @@
 // ====================================== Module imports ======================================
 import React, { useState } from "react";
-import { withRouter, RouteProps } from "react-router-dom";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import { colors, typography } from "@atlaskit/theme";
 import PreferencesIcon from "@atlaskit/icon/glyph/preferences";
 import SignOutIcon from "@atlaskit/icon/glyph/sign-out";
@@ -18,7 +18,7 @@ import { OrganizationState } from "../redux/types/OrganizationTypes";
 import { Divider, Heading } from "./";
 
 // ========================================= Interface ========================================
-interface Props extends RouteProps, UserState, OrganizationState {
+interface Props extends RouteComponentProps, UserState, OrganizationState {
    logout: () => any;
 }
 
