@@ -6,8 +6,9 @@ import Button from "@atlaskit/button";
 import Textfield from "@atlaskit/textfield";
 
 // ====================================== File imports ======================================
+import { AddUserFormProps } from "./types";
 
-const AddUserForm = () => {
+const AddUserForm = (props: AddUserFormProps) => {
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
@@ -77,7 +78,7 @@ const AddUserForm = () => {
                         </Field>
 
                         <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}>
-                           <Button type="submit" appearance="link" isLoading={submitting}>
+                           <Button appearance="link" disabled={submitting} onClick={() => props.onBack()}>
                               Back
                            </Button>
                            <Button type="submit" appearance="primary" isLoading={submitting}>
