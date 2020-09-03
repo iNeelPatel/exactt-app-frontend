@@ -7,6 +7,7 @@ import Form, { Field } from "@atlaskit/form";
 import Button from "@atlaskit/button";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import Page, { Grid, GridColumn } from "@atlaskit/page";
 
 // ====================================== File imports ======================================
 import { Breadcrumb } from "../../components";
@@ -111,22 +112,27 @@ const Department = (props: Props) => {
    };
 
    return (
-      <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
-         <Breadcrumb items={breadcrumbItems} screen="Department" />
-         <DynamicTable
-            // caption={caption}
-            head={head}
-            rows={rows}
-            rowsPerPage={20}
-            defaultPage={1}
-            isFixedSize
-            isLoading={loading}
-            defaultSortKey="term"
-            defaultSortOrder="ASC"
-            onSort={() => console.log("onSort")}
-            onSetPage={() => console.log("onSetPage")}
-         />
-      </div>
+      <Page>
+         <Grid spacing="compact" layout="fluid">
+            <GridColumn medium={12}>
+               <Breadcrumb items={breadcrumbItems} screen="Department" />
+            </GridColumn>
+            <GridColumn medium={12}>
+               <DynamicTable
+                  head={head}
+                  rows={rows}
+                  rowsPerPage={20}
+                  defaultPage={1}
+                  isFixedSize
+                  isLoading={loading}
+                  defaultSortKey="term"
+                  defaultSortOrder="ASC"
+                  onSort={() => console.log("onSort")}
+                  onSetPage={() => console.log("onSetPage")}
+               />
+            </GridColumn>
+         </Grid>
+      </Page>
    );
 };
 

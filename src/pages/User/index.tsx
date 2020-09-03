@@ -6,15 +6,16 @@ import Page, { Grid, GridColumn } from "@atlaskit/page";
 import { Breadcrumb } from "../../components";
 
 const breadcrumbItems = [
-   { path: "/", name: "Dashboard" },
+   { path: "/", name: "Organization Settings" },
+   { path: "/organizationsettings/user", name: "User" },
 ];
 
-const Dashboard = () => {
+const User = () => {
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
             <GridColumn medium={12}>
-               <Breadcrumb items={breadcrumbItems} screen="Dashboard" />
+               <Breadcrumb items={breadcrumbItems} screen="User" />
             </GridColumn>
             <GridColumn medium={12}>Dashboard</GridColumn>
          </Grid>
@@ -22,4 +23,4 @@ const Dashboard = () => {
    );
 };
 
-export default Dashboard;
+export default User;
