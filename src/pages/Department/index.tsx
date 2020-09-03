@@ -16,7 +16,7 @@ import { Departments } from "../../redux/types/DepartmentTypes";
 import { Props, CreateDepartmentForm } from "./types";
 
 const breadcrumbItems = [
-   { path: "/organizationsettings", name: "Organization Settings" },
+   { path: "/", name: "Organization Settings" },
    { path: "/organizationsettings/department", name: "Department" },
 ];
 

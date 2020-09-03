@@ -20,7 +20,7 @@ import "./Role.css";
 // ====================================== styles ======================================
 
 const breadcrumbItems = [
-   { path: "/organizationsettings", name: "Organization Settings" },
+   { path: "/", name: "Organization Settings" },
    { path: "/organizationsettings/role", name: "Role" },
 ];
 
