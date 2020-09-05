@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { colors, typography } from "@atlaskit/theme";
-import PreferencesIcon from "@atlaskit/icon/glyph/preferences";
+import SettingsIcon from "@atlaskit/icon/glyph/settings";
 import SignOutIcon from "@atlaskit/icon/glyph/sign-out";
 import Button from "@atlaskit/button";
 import { connect } from "react-redux";
@@ -87,7 +87,7 @@ const SideBar = (props: Props) => {
                </div>
                <div>
                   <Button style={{ color: colors.N0 }} appearance="link">
-                     <PreferencesIcon label="New" primaryColor={colors.N0} />
+                     <SettingsIcon label="Setting" primaryColor={colors.N0} />
                   </Button>
                   <Button
                      style={{ color: colors.N0 }}
