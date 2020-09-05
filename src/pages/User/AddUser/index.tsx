@@ -12,14 +12,9 @@ import { Departments } from "../../../redux/types/DepartmentTypes";
 import AppState from "../../../redux/types";
 import AddUserForm from "./AddUserForm";
 
-const breadcrumbItems = [
-   { path: "/", name: "Organization Settings" },
-   { path: "/organizationsettings/user", name: "Users" },
-   { path: "/organizationsettings/user/adduser", name: "Add user" },
-];
-
 const AddUser = (props: Props) => {
    const { departments } = props;
+   const { userId } = props.match.params;
    const [loading, setLoading] = useState(true);
    const [departmentList, setDepartmentList] = useState([]);
 
@@ -40,6 +35,12 @@ const AddUser = (props: Props) => {
       }
    }, [departments]);
 
+   const breadcrumbItems = [
+      { path: "/", name: "Organization Settings" },
+      { path: "/organizationsettings/user", name: "Users" },
+      { path: `/organizationsettings/user/${userId ? `edituser/${userId}` : "adduser"}`, name: userId ? "Edit user" : "Add user" },
+   ];
+
    const handleBack = () => {
       props.history.goBack();
    };
@@ -48,11 +49,12 @@ const AddUser = (props: Props) => {
       console.log(userData);
    };
 
+   console.log(props.match.params);
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
             <GridColumn medium={12}>
-               <Breadcrumb items={breadcrumbItems} screen="Add user" />
+               <Breadcrumb items={breadcrumbItems} screen={userId ? "Edit user" : "Add user"} />
             </GridColumn>
             {loading ? (
                <ScreenLoader />

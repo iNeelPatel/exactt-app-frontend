@@ -3,6 +3,7 @@ import { DepartmentState } from "../../../redux/types/DepartmentTypes";
 
 export interface Props extends RouteComponentProps, DepartmentState {
    getDepartments: () => any;
+   match: any;
 }
 
 export interface AddUserFormProps {

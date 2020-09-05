@@ -86,6 +86,7 @@ const UnauthenticatedRoute = (props: Props) => {
                      <Route exact path="/organizationsettings/department" component={Department} />
                      <Route exact path="/organizationsettings/user" component={User} />
                      <Route exact path="/organizationsettings/user/adduser" component={AddUser} />
+                     <Route exact path="/organizationsettings/user/edituser/:userId" component={AddUser} />
                      <Route exact path="/customer" component={Customer} />
                      <Route component={PageNotFound} />
                   </Switch>
