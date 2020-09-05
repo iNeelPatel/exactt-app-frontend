@@ -74,7 +74,6 @@ export function createUser(data: any) {
             roleId: data.role.value,
             departmentId: data.department.value,
          };
-         console.log(formData);
          let res = await Parse.Cloud.run("createUser", formData);
          dispatch({
             type: ActionsTypes.CREATE_USER,

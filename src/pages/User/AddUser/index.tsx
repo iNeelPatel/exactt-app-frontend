@@ -42,7 +42,6 @@ const AddUser = (props: Props) => {
          const list: any = rolesList.map((role: RoleItem) => ({ label: role.name, value: role.objectId }));
          setRoleList(list);
       }
-      console.log("rolesList -> ", rolesList);
    }, [departments, rolesList]);
 
    const breadcrumbItems = [

@@ -30,7 +30,7 @@ export default (state: UserState = initialState, action: ActionInterface): UserS
       case ActionTypes.CREATE_USER:
          return {
             ...state,
-            user: action.payload,
+            createUser: action.payload,
          };
 
       default:
