@@ -17,7 +17,12 @@ const AddUserForm = (props: AddUserFormProps) => {
             <GridColumn medium={12}>
                <Form
                   onSubmit={async (userData: UserData) => {
-                     props.onSubmit(userData);
+                     try {
+                        await props.onSubmit(userData);
+                        props.onBack();
+                     } catch (err) {
+                        console.log(err);
+                     }
                   }}
                >
                   {({ formProps, submitting }: any) => (
@@ -63,7 +68,7 @@ const AddUserForm = (props: AddUserFormProps) => {
                            </GridColumn>
                            <GridColumn medium={9}>
                               <Field label="Phone" isRequired name="phone" defaultValue="">
-                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                                 {({ fieldProps }: any) => <Textfield {...fieldProps} maxLength={10} />}
                               </Field>
                            </GridColumn>
                         </Grid>
@@ -78,16 +83,10 @@ const AddUserForm = (props: AddUserFormProps) => {
                            </GridColumn>
                            <GridColumn medium={6}>
                               <Field label="Role" isRequired name="role" defaultValue="">
-                                 {({ fieldProps }: any) => (
-                                    <Select {...fieldProps} options={props.departmentList} placeholder="Select role" />
-                                 )}
+                                 {({ fieldProps }: any) => <Select {...fieldProps} options={props.roleList} placeholder="Select role" />}
                               </Field>
                            </GridColumn>
                         </Grid>
-
-                        <Field label="Password" isRequired name="password" defaultValue="">
-                           {({ fieldProps }: any) => <Textfield type="password" {...fieldProps} />}
-                        </Field>
 
                         <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}>
                            <Button appearance="link" disabled={submitting} onClick={() => props.onBack()}>

@@ -1,14 +1,19 @@
 import { RouteComponentProps } from "react-router-dom";
 import { DepartmentState } from "../../../redux/types/DepartmentTypes";
+import { RoleItem } from "../../../redux/types/RoleTypes";
 
 export interface Props extends RouteComponentProps, DepartmentState {
    getDepartments: () => any;
+   createUser: (arg0: UserData) => any;
+   getAccessRoleList: () => any;
+   rolesList: RoleItem[];
    match: any;
 }
 
 export interface AddUserFormProps {
    onBack: () => void;
    onSubmit: (userData: UserData) => void;
+   roleList: Array<{ lable: string; value: string }>;
    departmentList: Array<{ lable: string; value: string }>;
 }
 
@@ -18,6 +23,6 @@ export interface UserData {
    email: string;
    countryCode: string;
    phone: string;
-   department: string;
-   password: string;
+   department: object;
+   role: object;
 }

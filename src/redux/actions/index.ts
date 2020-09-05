@@ -13,23 +13,38 @@ interface ActionsTypes {
    GET_DEPARTMENTS: string;
    CREATE_DEPARTMENT: string;
    UPDATE_DEPARTMENT: string;
+   CREATE_USER: string;
+   GET_ACCESS_ROLES_LIST: string;
 }
 
 const Actions: ActionsTypes = {
+   //Alert Box Actions
    ALERT_SHOW: "SHOW",
    ALERT_HIDE: "HIDE",
+
+   //Roles Actions
    GET_ROLE_ACCESS: "GET_ROLE_ACCESS",
    UPDATE_ROLE: "UPDATE_ROLE",
    CREATE_ROLE: "CREATE_ROLE",
-   GET_STATUS: "GET_STATUS",
-   SET_ORGANIZATION: "SET_ORGANIZATION",
-   GET_ORGANIZATION: "GET_ORGANIZATION",
+   GET_ACCESS_ROLES_LIST: "GET_ACCESS_ROLES_LIST",
+
+   //User Actions
    LOGIN: "LOGIN",
    SIGNUP: "SIGNUP",
    LOGOUT: "LOGOUT",
+   CREATE_USER: "CREATE_USER",
+
+   //Department Actions
    GET_DEPARTMENTS: "GET_DEPARTMENTS",
    CREATE_DEPARTMENT: "CREATE_DEPARTMENT",
    UPDATE_DEPARTMENT: "UPDATE_DEPARTMENT",
+
+   //Auth Actions
+   GET_STATUS: "GET_STATUS",
+
+   //Organization Actions
+   SET_ORGANIZATION: "SET_ORGANIZATION",
+   GET_ORGANIZATION: "GET_ORGANIZATION",
 };
 
 export default Actions;

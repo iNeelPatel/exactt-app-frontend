@@ -5,6 +5,7 @@ import ActionTypes from "../actions";
 const initialState: RoleState = {
    access: {},
    updateRole: {},
+   rolesList: [],
 };
 
 export default (state: RoleState = initialState, action: ActionInterface): RoleState => {
@@ -25,6 +26,12 @@ export default (state: RoleState = initialState, action: ActionInterface): RoleS
          return {
             ...state,
             access: { ...state.access, ...action.payload },
+         };
+
+      case ActionTypes.GET_ACCESS_ROLES_LIST:
+         return {
+            ...state,
+            rolesList: action.payload,
          };
 
       default:

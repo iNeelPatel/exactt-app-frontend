@@ -8,18 +8,23 @@ import { bindActionCreators } from "redux";
 import { Props, UserData } from "./types";
 import { Breadcrumb, ScreenLoader } from "../../../components";
 import { getDepartments } from "../../../redux/actions/DepartmentActions";
+import { getAccessRoleList } from "../../../redux/actions/RoleActions";
+import { createUser } from "../../../redux/actions/UserActions";
 import { Departments } from "../../../redux/types/DepartmentTypes";
+import { RoleItem } from "../../../redux/types/RoleTypes";
 import AppState from "../../../redux/types";
 import AddUserForm from "./AddUserForm";
 
 const AddUser = (props: Props) => {
-   const { departments } = props;
+   const { departments, rolesList } = props;
    const { userId } = props.match.params;
    const [loading, setLoading] = useState(true);
    const [departmentList, setDepartmentList] = useState([]);
+   const [roleList, setRoleList] = useState([]);
 
    const focus = async () => {
       await props.getDepartments();
+      await props.getAccessRoleList();
       setLoading(false);
    };
 
@@ -33,7 +38,12 @@ const AddUser = (props: Props) => {
          const list: any = departments.map((department: Departments) => ({ label: department.name, value: department.objectId }));
          setDepartmentList(list);
       }
-   }, [departments]);
+      if (rolesList.length > 0) {
+         const list: any = rolesList.map((role: RoleItem) => ({ label: role.name, value: role.objectId }));
+         setRoleList(list);
+      }
+      console.log("rolesList -> ", rolesList);
+   }, [departments, rolesList]);
 
    const breadcrumbItems = [
       { path: "/", name: "Organization Settings" },
@@ -45,11 +55,11 @@ const AddUser = (props: Props) => {
       props.history.goBack();
    };
 
-   const handleSubmit = (userData: UserData) => {
+   const handleSubmit = async (userData: UserData) => {
+      await props.createUser(userData);
       console.log(userData);
    };
 
-   console.log(props.match.params);
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
@@ -60,7 +70,7 @@ const AddUser = (props: Props) => {
                <ScreenLoader />
             ) : (
                <GridColumn medium={7}>
-                  <AddUserForm onBack={handleBack} onSubmit={handleSubmit} departmentList={departmentList} />
+                  <AddUserForm onBack={handleBack} onSubmit={handleSubmit} departmentList={departmentList} roleList={roleList} />
                </GridColumn>
             )}
          </Grid>
@@ -70,11 +80,12 @@ const AddUser = (props: Props) => {
 
 const mapStateToProps = (state: AppState) => ({
    departments: state.department.departments,
+   rolesList: state.role.rolesList,
 });
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ getDepartments }, dispatch),
+      ...bindActionCreators({ getDepartments, createUser, getAccessRoleList }, dispatch),
    };
 }
 

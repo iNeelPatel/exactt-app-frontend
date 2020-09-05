@@ -1,6 +1,7 @@
 import { DispatchType } from "../types/ActionDispatch";
 import ActionsTypes from ".";
 import Parse from "parse";
+import AlertBox from "./Alert";
 
 interface Signup {
    username: string;
@@ -32,7 +33,7 @@ export function signup(data: Signup) {
          let formData = {
             username: data.username,
             password: data.password,
-            phone: parseInt(data.phone),
+            phone: data.phone,
             name: data.name,
             email: data.email,
          };
@@ -58,6 +59,32 @@ export function logout() {
          });
       } catch (error) {
          return error;
+      }
+   };
+}
+
+export function createUser(data: any) {
+   return async (dispatch: DispatchType): Promise<void> => {
+      try {
+         let formData = {
+            username: data.username,
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+            roleId: data.role.value,
+            departmentId: data.department.value,
+         };
+         console.log(formData);
+         let res = await Parse.Cloud.run("createUser", formData);
+         dispatch({
+            type: ActionsTypes.CREATE_USER,
+            payload: res,
+         });
+         AlertBox(dispatch, "confirmation", "User created successfully. Password will be mailed to users email address.");
+         return res;
+      } catch (error) {
+         AlertBox(dispatch, "error", error.message);
+         throw error;
       }
    };
 }

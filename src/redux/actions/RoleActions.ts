@@ -1,4 +1,5 @@
 import { DispatchType } from "../types/ActionDispatch";
+import AlertBox from "./Alert";
 import ActionsTypes from ".";
 import Parse from "parse";
 
@@ -40,35 +41,26 @@ export function createRole(data: object) {
             type: ActionsTypes.CREATE_ROLE,
             payload: res,
          });
-         dispatch({
-            type: ActionsTypes.ALERT_SHOW,
-            payload: {
-               appearance: "confirmation",
-               body: "Role created successfully.",
-            },
-         });
-         setTimeout(() => {
-            dispatch({
-               type: ActionsTypes.ALERT_HIDE,
-               payload: {},
-            });
-         }, 3000);
+         AlertBox(dispatch, "confirmation", "Role created successfully.");
          return res;
       } catch (error) {
+         AlertBox(dispatch, "error", error.message);
+         throw new Error(error);
+      }
+   };
+}
+
+export function getAccessRoleList() {
+   return async (dispatch: DispatchType): Promise<object> => {
+      try {
+         let res = await Parse.Cloud.run("getAvailableRoles");
          dispatch({
-            type: ActionsTypes.ALERT_SHOW,
-            payload: {
-               title: "Add new role",
-               appearance: "error",
-               body: error.message,
-            },
+            type: ActionsTypes.GET_ACCESS_ROLES_LIST,
+            payload: res,
          });
-         setTimeout(() => {
-            dispatch({
-               type: ActionsTypes.ALERT_HIDE,
-               payload: {},
-            });
-         }, 3000);
+         return res;
+      } catch (error) {
+         AlertBox(dispatch, "error", error.message);
          throw new Error(error);
       }
    };
