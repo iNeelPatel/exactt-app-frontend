@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 // ====================================== File imports ======================================
-import { Props } from "./types";
+import { Props, UserData } from "./types";
 import { Breadcrumb, ScreenLoader } from "../../../components";
 import { getDepartments } from "../../../redux/actions/DepartmentActions";
 import { Departments } from "../../../redux/types/DepartmentTypes";
@@ -44,6 +44,10 @@ const AddUser = (props: Props) => {
       props.history.goBack();
    };
 
+   const handleSubmit = (userData: UserData) => {
+      console.log(userData);
+   };
+
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
@@ -54,7 +58,7 @@ const AddUser = (props: Props) => {
                <ScreenLoader />
             ) : (
                <GridColumn medium={7}>
-                  <AddUserForm onBack={handleBack} departmentList={departmentList} />
+                  <AddUserForm onBack={handleBack} onSubmit={handleSubmit} departmentList={departmentList} />
                </GridColumn>
             )}
          </Grid>

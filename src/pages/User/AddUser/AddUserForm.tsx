@@ -1,13 +1,13 @@
 // ====================================== Module imports ======================================
-import React from "react";
+import React, { Fragment } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
-import Form, { Field } from "@atlaskit/form";
+import Form, { Field, ErrorMessage } from "@atlaskit/form";
 import Button from "@atlaskit/button";
 import Textfield from "@atlaskit/textfield";
 import Select from "@atlaskit/select";
 
 // ====================================== File imports ======================================
-import { AddUserFormProps } from "./types";
+import { AddUserFormProps, UserData } from "./types";
 import PhoneCodeList from "../../../constants/phone-code.json";
 
 const AddUserForm = (props: AddUserFormProps) => {
@@ -16,8 +16,8 @@ const AddUserForm = (props: AddUserFormProps) => {
          <Grid spacing="compact" layout="fluid">
             <GridColumn medium={12}>
                <Form
-                  onSubmit={async (userData: any) => {
-                     console.log(userData);
+                  onSubmit={async (userData: UserData) => {
+                     props.onSubmit(userData);
                   }}
                >
                   {({ formProps, submitting }: any) => (
@@ -30,8 +30,29 @@ const AddUserForm = (props: AddUserFormProps) => {
                            {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                         </Field>
 
-                        <Field label="Email" isRequired name="email" defaultValue="">
-                           {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                        <Field
+                           label="Email"
+                           isRequired
+                           name="email"
+                           defaultValue=""
+                           validate={(value) => {
+                              if (!value) {
+                                 return;
+                              }
+
+                              var mailformat = /\S+@\S+\.\S+/;
+
+                              if (!value.match(mailformat)) {
+                                 return "INVALID_EMAIL";
+                              }
+                           }}
+                        >
+                           {({ fieldProps, error }: any) => (
+                              <Fragment>
+                                 <Textfield {...fieldProps} />
+                                 {error === "INVALID_EMAIL" && <ErrorMessage>Please enter valid email address.</ErrorMessage>}
+                              </Fragment>
+                           )}
                         </Field>
 
                         <Grid>
