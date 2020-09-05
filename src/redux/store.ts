@@ -1,10 +1,11 @@
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import reducer from "./reducers";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { WebStorage } from "redux-persist/es/types";
 import { createLogger } from "redux-logger";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 const persistConfig: { key: string; storage: WebStorage } = {
    key: "root",
@@ -19,7 +20,7 @@ if (process.env.NODE_ENV !== "production") {
    middleware.push(createLogger());
 }
 
-let Store = createStore(persistedReducer, applyMiddleware(...middleware));
+let Store = createStore(persistedReducer, composeWithDevTools(applyMiddleware(...middleware)));
 let Persistor = persistStore(Store);
 
 export { Store, Persistor };

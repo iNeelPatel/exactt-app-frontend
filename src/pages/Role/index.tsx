@@ -9,7 +9,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import AddIcon from "@atlaskit/icon/glyph/add";
-import Parse from "parse";
 
 // ====================================== File imports ======================================
 import { Props, AddRoleForm } from "./types";
