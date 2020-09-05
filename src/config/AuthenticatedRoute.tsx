@@ -20,6 +20,7 @@ import Department from "../pages/Department";
 import PageNotFound from "../pages/Errors/PageNotFound";
 import User from "../pages/User";
 import AddUser from "../pages/User/AddUser";
+import Customer from "../pages/Customer";
 
 interface Props extends HashRouterProps {
    status: number;
@@ -85,6 +86,7 @@ const UnauthenticatedRoute = (props: Props) => {
                      <Route exact path="/organizationsettings/department" component={Department} />
                      <Route exact path="/organizationsettings/user" component={User} />
                      <Route exact path="/organizationsettings/user/adduser" component={AddUser} />
+                     <Route exact path="/customer" component={Customer} />
                      <Route component={PageNotFound} />
                   </Switch>
                </Box>
