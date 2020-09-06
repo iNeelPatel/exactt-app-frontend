@@ -1,20 +1,38 @@
 // ====================================== Module imports ======================================
 import React from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
+import Button from "@atlaskit/button";
+import AddIcon from "@atlaskit/icon/glyph/add";
 
 // ====================================== File imports ======================================
+import { Props } from "./types";
 import { Breadcrumb } from "../../components";
 
 const breadcrumbItems = [
    { path: "/", name: "Dashboard" },
-   { path: "/customer", name: "Customer" },
+   { path: "/customer", name: "Customers" },
 ];
-const Customer = () => {
+
+const Customer = (props: Props) => {
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
             <GridColumn medium={12}>
-               <Breadcrumb items={breadcrumbItems} screen="Customer" />
+               <Breadcrumb
+                  items={breadcrumbItems}
+                  screen="Customers"
+                  right={
+                     <Button
+                        iconBefore={<AddIcon label="Add icon" size="small" />}
+                        type="submit"
+                        style={{ height: 38, marginLeft: 10, marginTop: 9 }}
+                        appearance="primary"
+                        onClick={() => props.history.push("/customer/add")}
+                     >
+                        Add customer
+                     </Button>
+                  }
+               />
             </GridColumn>
             <GridColumn medium={12}>Customer</GridColumn>
          </Grid>

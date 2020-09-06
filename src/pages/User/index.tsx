@@ -27,7 +27,7 @@ const User = (props: Props) => {
                         type="submit"
                         style={{ height: 38, marginLeft: 10, marginTop: 9 }}
                         appearance="primary"
-                        onClick={() => props.history.push("/organizationsettings/user/adduser")}
+                        onClick={() => props.history.push("/organizationsettings/user/add")}
                      >
                         Add new user
                      </Button>

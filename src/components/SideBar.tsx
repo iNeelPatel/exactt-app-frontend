@@ -64,7 +64,9 @@ const SideBar = (props: Props) => {
    const [isLogout, setIsLogout] = useState<boolean>(false);
    const exacttLogo = require("../assets/images/exactt_w.png");
 
-   const pathName = props.location?.pathname;
+   const fullPathName = props.location?.pathname;
+
+   const pathName = fullPathName?.split("/")[1] === "organizationsettings" ? fullPathName?.split("/")[2] : fullPathName?.split("/")[1];
 
    const menuItemCss = (currentStyles: any, path: any) => {
       return {
@@ -132,26 +134,26 @@ const SideBar = (props: Props) => {
                      <LinkItem href="#/" cssFn={(currentStyles) => menuItemCss(currentStyles, "/")}>
                         Dashboard
                      </LinkItem>
-                     <LinkItem href="#/customer" cssFn={(currentStyles) => menuItemCss(currentStyles, "/customer")}>
+                     <LinkItem href="#/customer" cssFn={(currentStyles) => menuItemCss(currentStyles, "customer")}>
                         Customer
                      </LinkItem>
                   </Section>
                   <Section title="Organization Settings">
                      <LinkItem
                         href="#/organizationsettings/user"
-                        cssFn={(currentStyles) => menuItemCss(currentStyles, "/organizationsettings/user")}
+                        cssFn={(currentStyles) => menuItemCss(currentStyles, "user")}
                      >
                         Users
                      </LinkItem>
                      <LinkItem
                         href="#/organizationsettings/role"
-                        cssFn={(currentStyles) => menuItemCss(currentStyles, "/organizationsettings/role")}
+                        cssFn={(currentStyles) => menuItemCss(currentStyles, "role")}
                      >
                         Role
                      </LinkItem>
                      <LinkItem
                         href="#/organizationsettings/department"
-                        cssFn={(currentStyles) => menuItemCss(currentStyles, "/organizationsettings/department")}
+                        cssFn={(currentStyles) => menuItemCss(currentStyles, "department")}
                      >
                         Department
                      </LinkItem>

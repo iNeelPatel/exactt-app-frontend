@@ -47,7 +47,7 @@ const AddUser = (props: Props) => {
    const breadcrumbItems = [
       { path: "/", name: "Organization Settings" },
       { path: "/organizationsettings/user", name: "Users" },
-      { path: `/organizationsettings/user/${userId ? `edituser/${userId}` : "adduser"}`, name: userId ? "Edit user" : "Add user" },
+      { path: `/organizationsettings/user/${userId ? `edit/${userId}` : "add"}`, name: userId ? "Edit user" : "Add user" },
    ];
 
    const handleBack = () => {
