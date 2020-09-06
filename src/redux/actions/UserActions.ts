@@ -70,7 +70,7 @@ export function createUser(data: any) {
             username: data.username,
             name: data.name,
             email: data.email,
-            phone: data.phone,
+            phone: data.countryCode.value + data.phone,
             roleId: data.role.value,
             departmentId: data.department.value,
          };
