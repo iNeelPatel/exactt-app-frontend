@@ -5,6 +5,7 @@ import Page, { Grid, GridColumn } from "@atlaskit/page";
 // ====================================== File imports ======================================
 import { Props } from "./types";
 import { Breadcrumb } from "../../../components";
+import AddCustomerForm from "./AddCustomerForm";
 
 const AddCustomer = (props: Props) => {
    const { customerId } = props.match.params;
@@ -19,7 +20,9 @@ const AddCustomer = (props: Props) => {
             <GridColumn medium={12}>
                <Breadcrumb items={breadcrumbItems} screen={customerId ? "Edit customer" : "Add customer"} />
             </GridColumn>
-            <GridColumn medium={12}>Add customer</GridColumn>
+            <GridColumn medium={7}>
+               <AddCustomerForm />
+            </GridColumn>
          </Grid>
       </Page>
    );

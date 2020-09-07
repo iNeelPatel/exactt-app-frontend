@@ -216,7 +216,7 @@ const OrganizationComponenet = (props: Props) => {
                                     </Field>
                                  </div>
                                  <div style={{ width: "32%" }}>
-                                    <Field label="City" isRequired name="city" defaultValue={{ label: "Anantapur", value: "Anantapur" }}>
+                                    <Field label="City" isRequired name="city" defaultValue={cityOptions[0]}>
                                        {({ fieldProps }: any) => (
                                           <Select
                                              {...fieldProps}
