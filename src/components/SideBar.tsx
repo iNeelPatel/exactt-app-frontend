@@ -97,6 +97,7 @@ const SideBar = (props: Props) => {
                      onClick={async () => {
                         setIsLogout(true);
                         await props.logout();
+                        props.history.push("/");
                      }}
                      isLoading={isLogout}
                   >
@@ -139,22 +140,13 @@ const SideBar = (props: Props) => {
                      </LinkItem>
                   </Section>
                   <Section title="Organization Settings">
-                     <LinkItem
-                        href="#/organizationsettings/user"
-                        cssFn={(currentStyles) => menuItemCss(currentStyles, "user")}
-                     >
+                     <LinkItem href="#/organizationsettings/user" cssFn={(currentStyles) => menuItemCss(currentStyles, "user")}>
                         Users
                      </LinkItem>
-                     <LinkItem
-                        href="#/organizationsettings/role"
-                        cssFn={(currentStyles) => menuItemCss(currentStyles, "role")}
-                     >
+                     <LinkItem href="#/organizationsettings/role" cssFn={(currentStyles) => menuItemCss(currentStyles, "role")}>
                         Role
                      </LinkItem>
-                     <LinkItem
-                        href="#/organizationsettings/department"
-                        cssFn={(currentStyles) => menuItemCss(currentStyles, "department")}
-                     >
+                     <LinkItem href="#/organizationsettings/department" cssFn={(currentStyles) => menuItemCss(currentStyles, "department")}>
                         Department
                      </LinkItem>
                   </Section>
