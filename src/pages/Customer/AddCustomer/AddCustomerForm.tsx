@@ -143,8 +143,28 @@ const AddCustomerForm = (props: any) => {
                            {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                         </Field>
 
-                        <Field label="GST Number" name="gst">
-                           {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                        <Field
+                           label="GST Number"
+                           name="gst"
+                           validate={(value) => {
+                              if (!value) {
+                                 return;
+                              }
+
+                              var gst_format = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
+
+                              if (!value.match(gst_format)) {
+                                 return "INVALID_GST";
+                              }
+                           }}
+                           defaultValue="24ABCDE1234F2ZF"
+                        >
+                           {({ fieldProps, error }: any) => (
+                              <Fragment>
+                                 <Textfield {...fieldProps} />
+                                 {error === "INVALID_GST" && <ErrorMessage>Please enter valid GST number.</ErrorMessage>}
+                              </Fragment>
+                           )}
                         </Field>
 
                         <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20, marginBottom: 20 }}>
