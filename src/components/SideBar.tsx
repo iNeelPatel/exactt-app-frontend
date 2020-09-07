@@ -107,7 +107,7 @@ const SideBar = (props: Props) => {
             </div>
          </div>
          <div style={styles.menuBar}>
-            <div style={{ margin: 10 }}>
+            <div style={{ margin: 10, overflow: "scroll" }}>
                <Heading mixin={typography.h400} style={{ marginTop: 8 }}>
                   {props.details.name}
                </Heading>
