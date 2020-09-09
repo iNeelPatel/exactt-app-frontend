@@ -11,6 +11,7 @@ import AppState from "../redux/types";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import Loading from "../pages/Loading";
+import PageNotFound from "../pages/Errors/PageNotFound";
 
 interface Props extends HashRouterProps {
    status: number;
@@ -46,6 +47,7 @@ const UnauthenticatedRoute = (props: Props) => {
       <HashRouter>
          <Switch>
             <Route exact path="/" component={status === 0 ? Signup : Login} />
+            <Route component={PageNotFound} />
          </Switch>
       </HashRouter>
    );
