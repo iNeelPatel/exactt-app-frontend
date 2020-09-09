@@ -15,6 +15,7 @@ interface ActionsTypes {
    UPDATE_DEPARTMENT: string;
    CREATE_USER: string;
    GET_ACCESS_ROLES_LIST: string;
+   GET_PROFILE: string;
 }
 
 const Actions: ActionsTypes = {
@@ -33,6 +34,7 @@ const Actions: ActionsTypes = {
    SIGNUP: "SIGNUP",
    LOGOUT: "LOGOUT",
    CREATE_USER: "CREATE_USER",
+   GET_PROFILE: "GET_PROFILE",
 
    //Department Actions
    GET_DEPARTMENTS: "GET_DEPARTMENTS",

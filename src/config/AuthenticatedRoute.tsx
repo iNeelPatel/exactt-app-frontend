@@ -8,6 +8,7 @@ import { bindActionCreators } from "redux";
 import { getStatus } from "../redux/actions/AuthActions";
 import { logout } from "../redux/actions/UserActions";
 import { getOrganization } from "../redux/actions/OrganizationActions";
+import { getProfile } from "../redux/actions/UserActions";
 import AppState from "../redux/types";
 import Loading from "../pages/Loading";
 import Organization from "../pages/Organization";
@@ -28,12 +29,13 @@ interface Props extends HashRouterProps {
    getStatus: () => any;
    getOrganization: () => any;
    logout: () => any;
+   getProfile: () => any;
    orgnizationDetails: object;
 }
 
 const UnauthenticatedRoute = (props: Props) => {
    const [loading, setLoading] = useState(true);
-   const { status, getStatus, getOrganization, logout } = props;
+   const { status, getStatus, getOrganization, logout, getProfile } = props;
 
    useEffect(() => {
       const api = async () => {
@@ -41,6 +43,7 @@ const UnauthenticatedRoute = (props: Props) => {
          try {
             await getStatus();
             await getOrganization();
+            let res = await getProfile();
          } catch (error) {
             if (error.code === 209) {
                await logout();
@@ -53,7 +56,7 @@ const UnauthenticatedRoute = (props: Props) => {
          }
       };
       api();
-   }, [status, getStatus, getOrganization, logout]);
+   }, [status, getStatus, getOrganization, logout, getProfile]);
 
    return loading ? (
       <Loading />
@@ -107,7 +110,7 @@ const mapStateToProps = (state: AppState) => ({
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ getStatus, getOrganization, logout }, dispatch),
+      ...bindActionCreators({ getStatus, getOrganization, getProfile, logout }, dispatch),
    };
 }
 

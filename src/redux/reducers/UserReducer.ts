@@ -33,6 +33,12 @@ export default (state: UserState = initialState, action: ActionInterface): UserS
             createUser: action.payload,
          };
 
+      case ActionTypes.GET_PROFILE:
+         return {
+            ...state,
+            user: action.payload,
+         };
+
       default:
          return state;
    }

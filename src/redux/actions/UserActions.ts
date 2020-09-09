@@ -49,6 +49,27 @@ export function signup(data: Signup) {
    };
 }
 
+export function getProfile() {
+   return async (dispatch: DispatchType): Promise<void> => {
+      let user: any = Parse.User.current();
+      console.log("user->", user);
+
+      try {
+         let formData = {
+            objectId: user.id,
+         };
+         let res = await Parse.Cloud.run("getUser", formData);
+         dispatch({
+            type: ActionsTypes.GET_PROFILE,
+            payload: { ...res, role: res?.role?.toJSON(), department: res.department ? res?.department?.toJSON() : { name: "Admin" } },
+         });
+         return res;
+      } catch (error) {
+         throw error;
+      }
+   };
+}
+
 export function logout() {
    return async (dispatch: DispatchType): Promise<void> => {
       try {
