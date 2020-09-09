@@ -124,7 +124,7 @@ const SideBar = (props: Props) => {
                      <Heading mixin={typography.h400} style={{ marginTop: 0, maxWidth: `120` }}>
                         {props.user.name}
                      </Heading>
-                     <Heading mixin={typography.h100} style={{ marginTop: 0, textTransform: "capitalize" }}>
+                     <Heading mixin={typography.h200} style={{ marginTop: 0, textTransform: "capitalize", fontWeight: "normal" }}>
                         {props?.user?.role?.name} | {props?.user?.department?.name}
                      </Heading>
                   </div>
