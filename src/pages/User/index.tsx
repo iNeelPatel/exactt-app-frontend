@@ -16,8 +16,7 @@ const breadcrumbItems = [
 ];
 
 const User = (props: Props) => {
-   const { permission } = props.user.role;
-   const userPermission = permission.user;
+   const { userPermission } = props;
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
@@ -47,7 +46,7 @@ const User = (props: Props) => {
 };
 
 const mapStateToProps = (state: AppState) => ({
-   user: state.user.user,
+   userPermission: state.user.user.role.permission.user,
 });
 
 export default connect(mapStateToProps)(User);

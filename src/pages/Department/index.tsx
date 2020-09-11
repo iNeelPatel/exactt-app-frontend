@@ -25,7 +25,7 @@ const breadcrumbItems = [
 const Department = (props: Props) => {
    const [loading, setLoading] = useState<boolean>(true);
    const [rows, setRows] = useState<any>([]);
-   const { departments, createDepartment, updateDepartment } = props;
+   const { departments, createDepartment, updateDepartment, departmentPermission } = props;
 
    const focus = async () => {
       await props.getDepartments();
@@ -43,7 +43,7 @@ const Department = (props: Props) => {
          cells: [
             {
                key: `cell${department.objectId}${department.name}`,
-               content: (
+               content: departmentPermission.write ? (
                   <InlineEdit
                      hideActionButtons={true}
                      defaultValue={department.name}
@@ -55,50 +55,54 @@ const Department = (props: Props) => {
                         setLoading(false);
                      }}
                   />
+               ) : (
+                  <div style={{ paddingBottom: 4 }}>{department.name}</div>
                ),
             },
          ],
       }));
-      createRows.push({
-         key: "rowAddDepartment",
-         cells: [
-            {
-               key: "cellAddDepartment",
-               content: (
-                  <div style={{ display: "flex" }}>
-                     <Form
-                        onSubmit={async (createDepartmentForm: CreateDepartmentForm) => {
-                           try {
-                              await createDepartment(createDepartmentForm);
-                           } catch (error) {
-                              console.log(error);
-                           }
-                        }}
-                     >
-                        {({ formProps, submitting }: any) => (
-                           <form {...formProps} style={{ display: "flex" }}>
-                              <Field label="" isRequired name="name" defaultValue="">
-                                 {({ fieldProps }: any) => (
-                                    <Textfield {...fieldProps} placeholder="Department name" style={{ width: 200 }} />
-                                 )}
-                              </Field>
-                              <Button
-                                 iconBefore={<AddIcon label="Add icon" size="small" />}
-                                 type="submit"
-                                 style={{ height: 38, marginLeft: 10, marginTop: 9 }}
-                                 appearance="primary"
-                                 isLoading={submitting}
-                              >
-                                 Add new department
-                              </Button>
-                           </form>
-                        )}
-                     </Form>
-                  </div>
-               ),
-            },
-         ],
-      });
+      if (departmentPermission.write) {
+         createRows.push({
+            key: "rowAddDepartment",
+            cells: [
+               {
+                  key: "cellAddDepartment",
+                  content: (
+                     <div style={{ display: "flex" }}>
+                        <Form
+                           onSubmit={async (createDepartmentForm: CreateDepartmentForm) => {
+                              try {
+                                 await createDepartment(createDepartmentForm);
+                              } catch (error) {
+                                 console.log(error);
+                              }
+                           }}
+                        >
+                           {({ formProps, submitting }: any) => (
+                              <form {...formProps} style={{ display: "flex" }}>
+                                 <Field label="" isRequired name="name" defaultValue="">
+                                    {({ fieldProps }: any) => (
+                                       <Textfield {...fieldProps} placeholder="Department name" style={{ width: 200 }} />
+                                    )}
+                                 </Field>
+                                 <Button
+                                    iconBefore={<AddIcon label="Add icon" size="small" />}
+                                    type="submit"
+                                    style={{ height: 38, marginLeft: 10, marginTop: 9 }}
+                                    appearance="primary"
+                                    isLoading={submitting}
+                                 >
+                                    Add new department
+                                 </Button>
+                              </form>
+                           )}
+                        </Form>
+                     </div>
+                  ),
+               },
+            ],
+         });
+      }
       setRows(createRows);
    }, [departments, createDepartment, updateDepartment]);
 
@@ -140,6 +144,7 @@ const Department = (props: Props) => {
 
 const mapStateToProps = (state: AppState) => ({
    departments: state.department.departments,
+   departmentPermission: state.user.user.role.permission.department,
 });
 
 function mapDispatchToProps(dispatch: any) {
