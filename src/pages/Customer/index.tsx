@@ -47,7 +47,7 @@ const Customer = (props: Props) => {
 };
 
 const mapStateToProps = (state: AppState) => ({
-   customerPermission: state.user.user.role,
+   customerPermission: state.user.user.role.permission.customer,
 });
 
 export default connect(mapStateToProps)(Customer);
