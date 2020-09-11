@@ -31,11 +31,13 @@ interface Props extends HashRouterProps {
    logout: () => any;
    getProfile: () => any;
    orgnizationDetails: object;
+   user: any;
 }
 
-const UnauthenticatedRoute = (props: Props) => {
+const AuthenticatedRoute = (props: Props) => {
    const [loading, setLoading] = useState(true);
    const { status, getStatus, getOrganization, logout, getProfile } = props;
+   const { permission } = props.user.role;
 
    useEffect(() => {
       const api = async () => {
@@ -57,6 +59,27 @@ const UnauthenticatedRoute = (props: Props) => {
       };
       api();
    }, [status, getStatus, getOrganization, logout, getProfile]);
+
+   const organizationsettingsAccess: any =
+      permission?.user?.read ||
+      permission?.user?.write ||
+      permission?.department?.read ||
+      permission?.department?.write ||
+      permission?.role?.read ||
+      permission?.role?.write;
+
+   interface Permission {
+      read: boolean;
+      write: boolean;
+   }
+
+   const checkPermission = (permission: Permission): boolean => {
+      if (permission.read || permission.write) {
+         return true;
+      } else {
+         return false;
+      }
+   };
 
    return loading ? (
       <Loading />
@@ -86,14 +109,18 @@ const UnauthenticatedRoute = (props: Props) => {
                >
                   <Switch>
                      <Route exact path="/" component={status === 2 ? Dashboard : Organization} />
-                     <Route exact path="/organizationsettings/role" component={Role} />
-                     <Route exact path="/organizationsettings/department" component={Department} />
-                     <Route exact path="/organizationsettings/user" component={User} />
-                     <Route exact path="/organizationsettings/user/add" component={AddUser} />
-                     <Route exact path="/organizationsettings/user/edit/:userId" component={AddUser} />
                      <Route exact path="/customer" component={Customer} />
                      <Route exact path="/customer/add" component={AddCustomer} />
                      <Route exact path="/customer/edit/:customerId" component={AddCustomer} />
+                     {organizationsettingsAccess && (
+                        <React.Fragment>
+                           {checkPermission(permission.role) && <Route exact path="/organizationsettings/role" component={Role} />}
+                           {checkPermission(permission.department) && (<Route exact path="/organizationsettings/department" component={Department} />)}
+                           {checkPermission(permission.user) && <Route exact path="/organizationsettings/user" component={User} />}
+                           {permission.user.write && <Route exact path="/organizationsettings/user/add" component={AddUser} />}
+                           {permission.user.write && <Route exact path="/organizationsettings/user/edit/:userId" component={AddUser} />}
+                        </React.Fragment>
+                     )}
                      <Route component={PageNotFound} />
                   </Switch>
                </Box>
@@ -106,6 +133,7 @@ const UnauthenticatedRoute = (props: Props) => {
 const mapStateToProps = (state: AppState) => ({
    status: state.auth.status,
    orgnizationDetails: state.orgnization.details,
+   user: state.user.user,
 });
 
 function mapDispatchToProps(dispatch: any) {
@@ -114,4 +142,4 @@ function mapDispatchToProps(dispatch: any) {
    };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UnauthenticatedRoute);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthenticatedRoute);

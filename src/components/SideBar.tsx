@@ -61,6 +61,7 @@ const styles: {
 };
 
 const SideBar = (props: Props) => {
+   const { permission } = props.user.role;
    const [isLogout, setIsLogout] = useState<boolean>(false);
    const exacttLogo = require("../assets/images/exactt_w.png");
 
@@ -78,6 +79,27 @@ const SideBar = (props: Props) => {
             textDecoration: "none",
          },
       };
+   };
+
+   const organizationsettingsAccess: any =
+      permission?.user?.read ||
+      permission?.user?.write ||
+      permission?.department?.read ||
+      permission?.department?.write ||
+      permission?.role?.read ||
+      permission?.role?.write;
+
+   interface Permission {
+      read: boolean;
+      write: boolean;
+   }
+
+   const checkPermission = (permission: Permission): boolean => {
+      if (permission.read || permission.write) {
+         return true;
+      } else {
+         return false;
+      }
    };
 
    return (
@@ -139,17 +161,25 @@ const SideBar = (props: Props) => {
                         Customer
                      </LinkItem>
                   </Section>
-                  <Section title="Organization Settings">
-                     <LinkItem href="#/organizationsettings/user" cssFn={(currentStyles) => menuItemCss(currentStyles, "user")}>
-                        Users
-                     </LinkItem>
-                     <LinkItem href="#/organizationsettings/role" cssFn={(currentStyles) => menuItemCss(currentStyles, "role")}>
-                        Role
-                     </LinkItem>
-                     <LinkItem href="#/organizationsettings/department" cssFn={(currentStyles) => menuItemCss(currentStyles, "department")}>
-                        Department
-                     </LinkItem>
-                  </Section>
+                  {organizationsettingsAccess && (
+                     <Section title="Organization Settings">
+                        {checkPermission(permission.user) && (
+                           <LinkItem href="#/organizationsettings/user" cssFn={(currentStyles) => menuItemCss(currentStyles, "user")}>
+                              Users
+                           </LinkItem>
+                        )}
+                        {checkPermission(permission.role) && (
+                           <LinkItem href="#/organizationsettings/role" cssFn={(currentStyles) => menuItemCss(currentStyles, "role")}>
+                              Role
+                           </LinkItem>
+                        )}
+                        {checkPermission(permission.department) && (
+                           <LinkItem href="#/organizationsettings/department" cssFn={(currentStyles) => menuItemCss(currentStyles, "department")}>
+                              Department
+                           </LinkItem>
+                        )}
+                     </Section>
+                  )}
                </MenuGroup>
             </div>
          </div>

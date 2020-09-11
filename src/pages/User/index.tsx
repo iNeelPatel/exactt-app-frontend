@@ -3,10 +3,12 @@ import React from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import Button from "@atlaskit/button";
 import AddIcon from "@atlaskit/icon/glyph/add";
+import { connect } from "react-redux";
 
 // ====================================== File imports ======================================
 import { Breadcrumb } from "../../components";
 import { Props } from "./types";
+import AppState from "../../redux/types";
 
 const breadcrumbItems = [
    { path: "/", name: "Organization Settings" },
@@ -14,6 +16,8 @@ const breadcrumbItems = [
 ];
 
 const User = (props: Props) => {
+   const { permission } = props.user.role;
+   const userPermission = permission.user;
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
@@ -22,15 +26,17 @@ const User = (props: Props) => {
                   items={breadcrumbItems}
                   screen="Users"
                   right={
-                     <Button
-                        iconBefore={<AddIcon label="Add icon" size="small" />}
-                        type="submit"
-                        style={{ height: 38, marginLeft: 10, marginTop: 9 }}
-                        appearance="primary"
-                        onClick={() => props.history.push("/organizationsettings/user/add")}
-                     >
-                        Add new user
-                     </Button>
+                     userPermission.write && (
+                        <Button
+                           iconBefore={<AddIcon label="Add icon" size="small" />}
+                           type="submit"
+                           style={{ height: 38, marginLeft: 10, marginTop: 9 }}
+                           appearance="primary"
+                           onClick={() => props.history.push("/organizationsettings/user/add")}
+                        >
+                           Add new user
+                        </Button>
+                     )
                   }
                />
             </GridColumn>
@@ -40,4 +46,8 @@ const User = (props: Props) => {
    );
 };
 
-export default User;
+const mapStateToProps = (state: AppState) => ({
+   user: state.user.user,
+});
+
+export default connect(mapStateToProps)(User);

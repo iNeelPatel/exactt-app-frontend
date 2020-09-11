@@ -15,7 +15,6 @@ export function login(username: string, password: string) {
    return async (dispatch: DispatchType): Promise<object> => {
       try {
          let user = await Parse.User.logIn(username, password);
-         console.log(user);
          dispatch({
             type: ActionsTypes.LOGIN,
             payload: user.attributes,
@@ -52,7 +51,6 @@ export function signup(data: Signup) {
 export function getProfile() {
    return async (dispatch: DispatchType): Promise<void> => {
       let user: any = Parse.User.current();
-      console.log("user->", user);
 
       try {
          let formData = {
