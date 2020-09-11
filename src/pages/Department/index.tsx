@@ -104,7 +104,7 @@ const Department = (props: Props) => {
          });
       }
       setRows(createRows);
-   }, [departments, createDepartment, updateDepartment]);
+   }, [departments, createDepartment, updateDepartment, departmentPermission.write]);
 
    const head: any = {
       cells: [

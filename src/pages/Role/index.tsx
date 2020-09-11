@@ -177,7 +177,7 @@ const Role = (props: Props) => {
 
 const mapStateToProps = (state: AppState) => ({
    access: state.role.access,
-   rolePermission: state.user.user.role.permision.role,
+   rolePermission: state.user.user.role.permission.role,
 });
 
 function mapDispatchToProps(dispatch: any) {

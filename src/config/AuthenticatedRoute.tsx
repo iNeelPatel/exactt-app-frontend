@@ -1,5 +1,5 @@
 // ====================================== Module imports ======================================
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import { HashRouter, Route, Switch, HashRouterProps } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -60,14 +60,6 @@ const AuthenticatedRoute = (props: Props) => {
       api();
    }, [status, getStatus, getOrganization, logout, getProfile]);
 
-   const organizationsettingsAccess: any =
-      permission?.user?.read ||
-      permission?.user?.write ||
-      permission?.department?.read ||
-      permission?.department?.write ||
-      permission?.role?.read ||
-      permission?.role?.write;
-
    interface Permission {
       read: boolean;
       write: boolean;
@@ -109,23 +101,17 @@ const AuthenticatedRoute = (props: Props) => {
                >
                   <Switch>
                      <Route exact path="/" component={status === 2 ? Dashboard : Organization} />
-                     {checkPermission(permission.customer) && (
-                        <Fragment>
-                           <Route exact path="/customer" component={Customer} />
-                           {permission.customer.write && <Route exact path="/customer/add" component={AddCustomer} />}
-                           {permission.customer.write && <Route exact path="/customer/edit/:customerId" component={AddCustomer} />}
-                        </Fragment>
+                     {checkPermission(permission.customer) && <Route exact path="/customer" component={Customer} />}
+                     {permission.customer.write && <Route exact path="/customer/add" component={AddCustomer} />}
+                     {permission.customer.write && <Route exact path="/customer/edit/:customerId" component={AddCustomer} />}
+                     {checkPermission(permission.role) && <Route exact path="/organizationsettings/role" component={Role} />}
+                     {checkPermission(permission.department) && (
+                        <Route exact path="/organizationsettings/department" component={Department} />
                      )}
+                     {checkPermission(permission.user) && <Route exact path="/organizationsettings/user" component={User} />}
+                     {permission.user.write && <Route exact path="/organizationsettings/user/add" component={AddUser} />}
+                     {permission.user.write && <Route exact path="/organizationsettings/user/edit/:userId" component={AddUser} />}
 
-                     {organizationsettingsAccess && (
-                        <Fragment>
-                           {checkPermission(permission.role) && <Route exact path="/organizationsettings/role" component={Role} />}
-                           {checkPermission(permission.department) && <Route exact path="/organizationsettings/department" component={Department} />}
-                           {checkPermission(permission.user) && <Route exact path="/organizationsettings/user" component={User} />}
-                           {permission.user.write && <Route exact path="/organizationsettings/user/add" component={AddUser} />}
-                           {permission.user.write && <Route exact path="/organizationsettings/user/edit/:userId" component={AddUser} />}
-                        </Fragment>
-                     )}
                      <Route component={PageNotFound} />
                   </Switch>
                </Box>
