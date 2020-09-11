@@ -71,32 +71,36 @@ const Role = (props: Props) => {
                   items={breadcrumbItems}
                   screen="Role"
                   right={
-                     <div style={{ display: "flex" }}>
-                        <Form
-                           onSubmit={async (addRoleForm: AddRoleForm) => {
-                              try {
-                                 await props.createRole(addRoleForm);
-                              } catch (error) {}
-                           }}
-                        >
-                           {({ formProps, submitting }: any) => (
-                              <form {...formProps} style={{ display: "flex" }}>
-                                 <Field label="" isRequired name="roleName" defaultValue="">
-                                    {({ fieldProps }: any) => <Textfield {...fieldProps} placeholder="Role Name" style={{ width: 200 }} />}
-                                 </Field>
-                                 <Button
-                                    iconBefore={<AddIcon label="Add icon" size="small" />}
-                                    type="submit"
-                                    style={{ height: 38, marginLeft: 10, marginTop: 9 }}
-                                    appearance="primary"
-                                    isLoading={submitting}
-                                 >
-                                    Add new role
-                                 </Button>
-                              </form>
-                           )}
-                        </Form>
-                     </div>
+                     props.rolePermission.write && (
+                        <div style={{ display: "flex" }}>
+                           <Form
+                              onSubmit={async (addRoleForm: AddRoleForm) => {
+                                 try {
+                                    await props.createRole(addRoleForm);
+                                 } catch (error) {}
+                              }}
+                           >
+                              {({ formProps, submitting }: any) => (
+                                 <form {...formProps} style={{ display: "flex" }}>
+                                    <Field label="" isRequired name="roleName" defaultValue="">
+                                       {({ fieldProps }: any) => (
+                                          <Textfield {...fieldProps} placeholder="Role Name" style={{ width: 200 }} />
+                                       )}
+                                    </Field>
+                                    <Button
+                                       iconBefore={<AddIcon label="Add icon" size="small" />}
+                                       type="submit"
+                                       style={{ height: 38, marginLeft: 10, marginTop: 9 }}
+                                       appearance="primary"
+                                       isLoading={submitting}
+                                    >
+                                       Add new role
+                                    </Button>
+                                 </form>
+                              )}
+                           </Form>
+                        </div>
+                     )
                   }
                />
             </GridColumn>
@@ -173,6 +177,7 @@ const Role = (props: Props) => {
 
 const mapStateToProps = (state: AppState) => ({
    access: state.role.access,
+   rolePermission: state.user.user.role.permision.role,
 });
 
 function mapDispatchToProps(dispatch: any) {

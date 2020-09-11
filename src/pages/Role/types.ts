@@ -5,6 +5,10 @@ export interface Props extends RoleState, RouteComponentProps {
    updateRole: (arg0: UpdateRoleParams) => object;
    getRoleAccessPermission: () => object;
    createRole: (arg0: CreateRoleParams) => object;
+   rolePermission: {
+      read: boolean;
+      write: boolean;
+   };
 }
 
 interface UpdateRoleParams {
