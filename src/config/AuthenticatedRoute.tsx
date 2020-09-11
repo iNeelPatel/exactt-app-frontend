@@ -43,7 +43,7 @@ const UnauthenticatedRoute = (props: Props) => {
          try {
             await getStatus();
             await getOrganization();
-            let res = await getProfile();
+            await getProfile();
          } catch (error) {
             if (error.code === 209) {
                await logout();
