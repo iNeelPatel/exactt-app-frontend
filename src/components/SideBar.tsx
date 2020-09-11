@@ -157,9 +157,11 @@ const SideBar = (props: Props) => {
                      <LinkItem href="#/" cssFn={(currentStyles) => menuItemCss(currentStyles, "/")}>
                         Dashboard
                      </LinkItem>
-                     <LinkItem href="#/customer" cssFn={(currentStyles) => menuItemCss(currentStyles, "customer")}>
-                        Customer
-                     </LinkItem>
+                     {checkPermission(permission.customer) && (
+                        <LinkItem href="#/customer" cssFn={(currentStyles) => menuItemCss(currentStyles, "customer")}>
+                           Customer
+                        </LinkItem>
+                     )}
                   </Section>
                   {organizationsettingsAccess && (
                      <Section title="Organization Settings">

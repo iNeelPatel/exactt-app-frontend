@@ -3,10 +3,12 @@ import React from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import Button from "@atlaskit/button";
 import AddIcon from "@atlaskit/icon/glyph/add";
+import { connect } from "react-redux";
 
 // ====================================== File imports ======================================
 import { Props } from "./types";
 import { Breadcrumb } from "../../components";
+import AppState from "../../redux/types";
 
 const breadcrumbItems = [
    { path: "/", name: "Dashboard" },
@@ -14,6 +16,8 @@ const breadcrumbItems = [
 ];
 
 const Customer = (props: Props) => {
+   const { customerPermission } = props;
+   console.log(customerPermission);
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
@@ -22,15 +26,17 @@ const Customer = (props: Props) => {
                   items={breadcrumbItems}
                   screen="Customers"
                   right={
-                     <Button
-                        iconBefore={<AddIcon label="Add icon" size="small" />}
-                        type="submit"
-                        style={{ height: 38, marginLeft: 10, marginTop: 9 }}
-                        appearance="primary"
-                        onClick={() => props.history.push("/customer/add")}
-                     >
-                        Add customer
-                     </Button>
+                     customerPermission.write && (
+                        <Button
+                           iconBefore={<AddIcon label="Add icon" size="small" />}
+                           type="submit"
+                           style={{ height: 38, marginLeft: 10, marginTop: 9 }}
+                           appearance="primary"
+                           onClick={() => props.history.push("/customer/add")}
+                        >
+                           Add customer
+                        </Button>
+                     )
                   }
                />
             </GridColumn>
@@ -40,4 +46,8 @@ const Customer = (props: Props) => {
    );
 };
 
-export default Customer;
+const mapStateToProps = (state: AppState) => ({
+   customerPermission: state.user.user.role,
+});
+
+export default connect(mapStateToProps)(Customer);
