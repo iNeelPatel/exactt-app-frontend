@@ -59,7 +59,11 @@ export function getProfile() {
          let res = await Parse.Cloud.run("getUser", formData);
          dispatch({
             type: ActionsTypes.GET_PROFILE,
-            payload: { ...res, role: res?.role?.toJSON(), department: res.department ? res?.department?.toJSON() : { name: "Admin" } },
+            payload: {
+               ...res,
+               role: res?.role?.toJSON(),
+               department: res.department ? res?.department?.toJSON() : { name: "Admin", objectId: "" },
+            },
          });
          return res;
       } catch (error) {
@@ -89,7 +93,7 @@ export function createUser(data: any) {
             username: data.username,
             name: data.name,
             email: data.email,
-            phone: data.countryCode.value + data.phone,
+            phone: "+" + data.countryCode.value + " " + data.phone,
             roleId: data.role.value,
             departmentId: data.department.value,
          };
@@ -102,6 +106,48 @@ export function createUser(data: any) {
          return res;
       } catch (error) {
          AlertBox(dispatch, "error", error.message);
+         throw error;
+      }
+   };
+}
+
+export function getUser(userId: string) {
+   return async (dispatch: DispatchType): Promise<void> => {
+      try {
+         let formData = {
+            objectId: userId,
+         };
+         let res = await Parse.Cloud.run("getUser", formData);
+         dispatch({
+            type: ActionsTypes.GET_USER,
+            payload: {
+               ...res,
+               role: res?.role?.toJSON(),
+               department: res.department ? res?.department?.toJSON() : { name: "Admin", objectId: "" },
+            },
+         });
+         return res;
+      } catch (error) {
+         throw error;
+      }
+   };
+}
+
+export function getUsers() {
+   return async (dispatch: DispatchType): Promise<void> => {
+      try {
+         let res = await Parse.Cloud.run("getUsers");
+         let users = await res.map((user: any) => ({
+            ...user,
+            role: user.role.toJSON(),
+            department: user.department ? user?.department?.toJSON() : { name: "Admin", objectId: "" },
+         }));
+         dispatch({
+            type: ActionsTypes.GET_USERS,
+            payload: users,
+         });
+         return res;
+      } catch (error) {
          throw error;
       }
    };

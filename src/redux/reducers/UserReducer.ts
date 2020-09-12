@@ -5,6 +5,8 @@ import ActionTypes from "../actions";
 const initialState: UserState = {
    user: null,
    createUser: null,
+   userData: null,
+   users: null,
 };
 
 export default (state: UserState = initialState, action: ActionInterface): UserState => {
@@ -37,6 +39,18 @@ export default (state: UserState = initialState, action: ActionInterface): UserS
          return {
             ...state,
             user: action.payload,
+         };
+
+      case ActionTypes.GET_USER:
+         return {
+            ...state,
+            userData: action.payload,
+         };
+
+      case ActionTypes.GET_USERS:
+         return {
+            ...state,
+            users: action.payload,
          };
 
       default:

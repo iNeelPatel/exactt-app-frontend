@@ -5,4 +5,6 @@ export interface Props extends RouteComponentProps {
       read: boolean;
       write: boolean;
    };
+   getUsers: () => any;
+   users: Array<object>;
 }

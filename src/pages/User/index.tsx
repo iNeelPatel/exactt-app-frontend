@@ -1,14 +1,18 @@
 // ====================================== Module imports ======================================
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import Button from "@atlaskit/button";
 import AddIcon from "@atlaskit/icon/glyph/add";
+import EditIcon from "@atlaskit/icon/glyph/edit";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import DynamicTable from "@atlaskit/dynamic-table";
 
 // ====================================== File imports ======================================
 import { Breadcrumb } from "../../components";
 import { Props } from "./types";
 import AppState from "../../redux/types";
+import { getUsers } from "../../redux/actions/UserActions";
 
 const breadcrumbItems = [
    { path: "/", name: "Organization Settings" },
@@ -16,7 +20,107 @@ const breadcrumbItems = [
 ];
 
 const User = (props: Props) => {
-   const { userPermission } = props;
+   const { userPermission, getUsers, users } = props;
+   const [loading, setLoading] = useState(true);
+   const [rows, setRows] = useState<any>([]);
+
+   const focus = async () => {
+      await getUsers();
+      setLoading(false);
+   };
+
+   useEffect(() => {
+      focus();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
+
+   useEffect(() => {
+      let createRows: Array<object> = users.map((user: any, id: number) => ({
+         key: `row${user.objectId}`,
+         cells: [
+            {
+               key: `cell${user.objectId}${user.name}`,
+               content: <div>{user.name}</div>,
+            },
+            {
+               key: `cell${user.objectId}${user.department.name}`,
+               content: <div>{user.department.name}</div>,
+            },
+            {
+               key: `cell${user.objectId}${user.role.name}`,
+               content: <div>{user.role.name}</div>,
+            },
+            {
+               key: `cell${user.objectId}${user.phone}`,
+               content: <div>{user.phone}</div>,
+            },
+            {
+               key: `cell${user.objectId}${user.email}`,
+               content: <div>{user.email}</div>,
+            },
+            {
+               key: `cell${user.objectId}-action`,
+               content: (
+                  <Button
+                     iconBefore={<EditIcon label="Edit icon" size="small" />}
+                     appearance="link"
+                     isDisabled={user.department.name === "Admin"}
+                     onClick={() => props.history.push(`/organizationsettings/user/edit/${user.objectId}`)}
+                  >
+                     Edit
+                  </Button>
+               ),
+            },
+         ],
+      }));
+
+      setRows(createRows);
+   }, [users, props.history]);
+
+   const head: any = {
+      cells: [
+         {
+            key: "userName",
+            content: "Name",
+            isSortable: true,
+            shouldTruncate: false,
+         },
+         {
+            key: "Department",
+            width: 15,
+            content: "Department",
+            isSortable: false,
+            shouldTruncate: true,
+         },
+         {
+            key: "role",
+            content: "Role",
+            width: 10,
+            isSortable: false,
+            shouldTruncate: true,
+         },
+         {
+            key: "phone",
+            content: "Phone",
+            isSortable: false,
+            shouldTruncate: true,
+         },
+         {
+            key: "email",
+            content: "Email",
+            isSortable: false,
+            shouldTruncate: true,
+         },
+         {
+            key: "action",
+            content: "",
+            width: 10,
+            isSortable: false,
+            shouldTruncate: false,
+         },
+      ],
+   };
+
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
@@ -39,7 +143,20 @@ const User = (props: Props) => {
                   }
                />
             </GridColumn>
-            <GridColumn medium={12}>User</GridColumn>
+            <GridColumn medium={12}>
+               <DynamicTable
+                  head={head}
+                  rows={rows}
+                  rowsPerPage={20}
+                  defaultPage={1}
+                  isFixedSize
+                  isLoading={loading}
+                  defaultSortKey="term"
+                  defaultSortOrder="ASC"
+                  onSort={() => console.log("onSort")}
+                  onSetPage={() => console.log("onSetPage")}
+               />
+            </GridColumn>
          </Grid>
       </Page>
    );
@@ -47,6 +164,13 @@ const User = (props: Props) => {
 
 const mapStateToProps = (state: AppState) => ({
    userPermission: state.user.user.role.permission.user,
+   users: state.user.users,
 });
 
-export default connect(mapStateToProps)(User);
+function mapDispatchToProps(dispatch: any) {
+   return {
+      ...bindActionCreators({ getUsers }, dispatch),
+   };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(User);
