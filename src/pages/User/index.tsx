@@ -151,8 +151,8 @@ const User = (props: Props) => {
                   defaultPage={1}
                   isFixedSize
                   isLoading={loading}
-                  // defaultSortKey="name"
-                  // defaultSortOrder="DESC"
+                  defaultSortKey="name"
+                  defaultSortOrder="ASC"
                   onSort={() => console.log("onSort")}
                   onSetPage={() => console.log("onSetPage")}
                />
