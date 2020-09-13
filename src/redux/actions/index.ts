@@ -18,6 +18,7 @@ interface ActionsTypes {
    GET_PROFILE: string;
    GET_USER: string;
    GET_USERS: string;
+   UPDATE_USER: string;
 }
 
 const Actions: ActionsTypes = {
@@ -39,6 +40,7 @@ const Actions: ActionsTypes = {
    GET_PROFILE: "GET_PROFILE",
    GET_USER: "GET_USER",
    GET_USERS: "GET_USERS",
+   UPDATE_USER: "UPDATE_USER",
 
    //Department Actions
    GET_DEPARTMENTS: "GET_DEPARTMENTS",

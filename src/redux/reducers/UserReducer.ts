@@ -53,6 +53,12 @@ export default (state: UserState = initialState, action: ActionInterface): UserS
             users: action.payload,
          };
 
+      case ActionTypes.UPDATE_USER:
+         return {
+            ...state,
+            userData: action.payload,
+         };
+
       default:
          return state;
    }

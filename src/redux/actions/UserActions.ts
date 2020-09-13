@@ -125,11 +125,16 @@ export function updateUser(data: any) {
             departmentId: data.department.value,
          };
          let res = await Parse.Cloud.run("updateUser", formData);
+         console.log(res);
          dispatch({
-            type: ActionsTypes.CREATE_USER,
-            payload: res,
+            type: ActionsTypes.UPDATE_USER,
+            payload: {
+               ...res,
+               role: res?.role?.toJSON(),
+               department: res.department ? res?.department?.toJSON() : { name: "Admin", objectId: "" },
+            },
          });
-         AlertBox(dispatch, "confirmation", "User created successfully. Password will be mailed to users email address.");
+         AlertBox(dispatch, "confirmation", "User update successfully.");
          return res;
       } catch (error) {
          AlertBox(dispatch, "error", error.message);
