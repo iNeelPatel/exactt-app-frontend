@@ -1,13 +1,15 @@
 // ====================================== Module imports ======================================
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import Button from "@atlaskit/button";
 import AddIcon from "@atlaskit/icon/glyph/add";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 // ====================================== File imports ======================================
 import { Props } from "./types";
-import { Breadcrumb } from "../../components";
+import { Breadcrumb, ScreenLoader } from "../../components";
+import { getCustomers } from "../../redux/actions/CustomerActions";
 import AppState from "../../redux/types";
 
 const breadcrumbItems = [
@@ -16,9 +18,24 @@ const breadcrumbItems = [
 ];
 
 const Customer = (props: Props) => {
+   const [loading, setLoading] = useState<boolean>(true);
+   // const [rows, setRows] = useState<any>([]);
+
+   const focus = async () => {
+      await props.getCustomers();
+      setLoading(false);
+   };
+
+   useEffect(() => {
+      focus();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
+
    const { customerPermission } = props;
-   console.log(customerPermission);
-   return (
+   
+   return loading ? (
+      <ScreenLoader />
+   ) : (
       <Page>
          <Grid spacing="compact" layout="fluid">
             <GridColumn medium={12}>
@@ -50,4 +67,10 @@ const mapStateToProps = (state: AppState) => ({
    customerPermission: state.user.user.role.permission.customer,
 });
 
-export default connect(mapStateToProps)(Customer);
+function mapDispatchToProps(dispatch: any) {
+   return {
+      ...bindActionCreators({ getCustomers }, dispatch),
+   };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Customer);

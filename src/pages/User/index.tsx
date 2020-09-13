@@ -165,6 +165,7 @@ const User = (props: Props) => {
 const mapStateToProps = (state: AppState) => ({
    userPermission: state.user.user.role.permission.user,
    users: state.user.users,
+   customers: state.customer.customers,
 });
 
 function mapDispatchToProps(dispatch: any) {

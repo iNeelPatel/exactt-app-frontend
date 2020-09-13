@@ -19,6 +19,8 @@ interface ActionsTypes {
    GET_USER: string;
    GET_USERS: string;
    UPDATE_USER: string;
+   GET_CUSTOMERS: string;
+   CREATE_CUSTOMERS: string;
 }
 
 const Actions: ActionsTypes = {
@@ -53,6 +55,10 @@ const Actions: ActionsTypes = {
    //Organization Actions
    SET_ORGANIZATION: "SET_ORGANIZATION",
    GET_ORGANIZATION: "GET_ORGANIZATION",
+
+   //Customer Actions
+   GET_CUSTOMERS: "GET_CUSTOMERS",
+   CREATE_CUSTOMERS: "CREATE_CUSTOMERS",
 };
 
 export default Actions;

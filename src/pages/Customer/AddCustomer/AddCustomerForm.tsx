@@ -9,8 +9,9 @@ import Select from "@atlaskit/select";
 // ====================================== File imports ======================================
 import PhoneCodeList from "../../../constants/phone-code.json";
 import StatesAndDistricts from "../../../constants/states-and-districts.json";
+import { AddCustomerProps } from "./types";
 
-const AddCustomerForm = (props: any) => {
+const AddCustomerForm = (props: AddCustomerProps) => {
    var defaultState = StatesAndDistricts.states.find((item) => item.state === "Andhra Pradesh");
    var defaultCity = defaultState ? defaultState.districts.map((item) => ({ label: item, value: item })) : [];
    const [cityOptions, setCityOptions]: any = useState(defaultCity);
