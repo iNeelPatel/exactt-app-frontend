@@ -11,6 +11,13 @@ import { AddUserFormProps, UserData } from "./types";
 import PhoneCodeList from "../../../constants/phone-code.json";
 
 const AddUserForm = (props: AddUserFormProps) => {
+   const { edit, editUser } = props;
+   let editUserPhoneCode: object | undefined;
+
+   if (edit) {
+      editUserPhoneCode = PhoneCodeList.find((code) => code.value.toString() === editUser?.phone?.split("-")[0]?.split("+")[1]);
+   }
+
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
@@ -27,11 +34,11 @@ const AddUserForm = (props: AddUserFormProps) => {
                >
                   {({ formProps, submitting }: any) => (
                      <form {...formProps}>
-                        <Field label="Username" isRequired name="username" defaultValue="">
+                        <Field label="Username" isRequired name="username" defaultValue={edit && editUser.username}>
                            {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                         </Field>
 
-                        <Field label="Name" isRequired name="name">
+                        <Field label="Name" isRequired name="name" defaultValue={edit && editUser.name}>
                            {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                         </Field>
 
@@ -39,7 +46,7 @@ const AddUserForm = (props: AddUserFormProps) => {
                            label="Email"
                            isRequired
                            name="email"
-                           defaultValue=""
+                           defaultValue={edit && editUser.email}
                            validate={(value) => {
                               if (!value) {
                                  return;
@@ -62,12 +69,17 @@ const AddUserForm = (props: AddUserFormProps) => {
 
                         <Grid>
                            <GridColumn medium={3}>
-                              <Field label="Country code" isRequired name="countryCode" defaultValue={{ label: "+91 India", value: 91 }}>
+                              <Field
+                                 label="Country code"
+                                 isRequired
+                                 name="countryCode"
+                                 defaultValue={editUserPhoneCode ? editUserPhoneCode : { label: "+91 India", value: 91 }}
+                              >
                                  {({ fieldProps }: any) => <Select {...fieldProps} options={PhoneCodeList} placeholder="Country code" />}
                               </Field>
                            </GridColumn>
                            <GridColumn medium={9}>
-                              <Field label="Phone" isRequired name="phone" defaultValue="">
+                              <Field label="Phone" isRequired name="phone" defaultValue={edit && editUser?.phone?.split("-")[1]}>
                                  {({ fieldProps }: any) => <Textfield {...fieldProps} maxLength={10} />}
                               </Field>
                            </GridColumn>
@@ -75,14 +87,24 @@ const AddUserForm = (props: AddUserFormProps) => {
 
                         <Grid>
                            <GridColumn medium={6}>
-                              <Field label="Department" isRequired name="department">
+                              <Field
+                                 label="Department"
+                                 isRequired
+                                 name="department"
+                                 defaultValue={edit && { label: editUser.department.name, value: editUser.department.objectId }}
+                              >
                                  {({ fieldProps }: any) => (
                                     <Select {...fieldProps} options={props.departmentList} placeholder="Select department" />
                                  )}
                               </Field>
                            </GridColumn>
                            <GridColumn medium={6}>
-                              <Field label="Role" isRequired name="role" defaultValue="">
+                              <Field
+                                 label="Role"
+                                 isRequired
+                                 name="role"
+                                 defaultValue={edit && { label: editUser.role.name, value: editUser.role.objectId }}
+                              >
                                  {({ fieldProps }: any) => <Select {...fieldProps} options={props.roleList} placeholder="Select role" />}
                               </Field>
                            </GridColumn>
@@ -93,7 +115,7 @@ const AddUserForm = (props: AddUserFormProps) => {
                               Back
                            </Button>
                            <Button type="submit" appearance="primary" isLoading={submitting}>
-                              Add user
+                              {edit ? "Edit user" : "Add user"}
                            </Button>
                         </div>
                      </form>

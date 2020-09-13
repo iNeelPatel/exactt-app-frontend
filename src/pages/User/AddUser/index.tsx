@@ -9,20 +9,23 @@ import { Props, UserData } from "./types";
 import { Breadcrumb, ScreenLoader } from "../../../components";
 import { getDepartments } from "../../../redux/actions/DepartmentActions";
 import { getAccessRoleList } from "../../../redux/actions/RoleActions";
-import { createUser } from "../../../redux/actions/UserActions";
+import { createUser, getUser } from "../../../redux/actions/UserActions";
 import { Departments } from "../../../redux/types/DepartmentTypes";
 import { RoleItem } from "../../../redux/types/RoleTypes";
 import AppState from "../../../redux/types";
 import AddUserForm from "./AddUserForm";
 
 const AddUser = (props: Props) => {
-   const { departments, rolesList } = props;
+   const { departments, rolesList, editUser } = props;
    const { userId } = props.match.params;
    const [loading, setLoading] = useState(true);
    const [departmentList, setDepartmentList] = useState([]);
    const [roleList, setRoleList] = useState([]);
 
    const focus = async () => {
+      if (userId) {
+         await props.getUser(userId);
+      }
       await props.getDepartments();
       await props.getAccessRoleList();
       setLoading(false);
@@ -69,7 +72,14 @@ const AddUser = (props: Props) => {
                <ScreenLoader />
             ) : (
                <GridColumn medium={7}>
-                  <AddUserForm onBack={handleBack} onSubmit={handleSubmit} departmentList={departmentList} roleList={roleList} />
+                  <AddUserForm
+                     onBack={handleBack}
+                     onSubmit={handleSubmit}
+                     departmentList={departmentList}
+                     roleList={roleList}
+                     edit={userId?.length > 0}
+                     editUser={editUser}
+                  />
                </GridColumn>
             )}
          </Grid>
@@ -80,11 +90,12 @@ const AddUser = (props: Props) => {
 const mapStateToProps = (state: AppState) => ({
    departments: state.department.departments,
    rolesList: state.role.rolesList,
+   editUser: state.user.userData,
 });
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ getDepartments, createUser, getAccessRoleList }, dispatch),
+      ...bindActionCreators({ getDepartments, createUser, getAccessRoleList, getUser }, dispatch),
    };
 }
 

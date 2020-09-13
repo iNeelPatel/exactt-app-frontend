@@ -80,13 +80,13 @@ const User = (props: Props) => {
    const head: any = {
       cells: [
          {
-            key: "userName",
+            key: "name",
             content: "Name",
             isSortable: true,
             shouldTruncate: false,
          },
          {
-            key: "Department",
+            key: "department",
             width: 15,
             content: "Department",
             isSortable: false,
@@ -147,12 +147,12 @@ const User = (props: Props) => {
                <DynamicTable
                   head={head}
                   rows={rows}
-                  rowsPerPage={20}
+                  rowsPerPage={10}
                   defaultPage={1}
                   isFixedSize
                   isLoading={loading}
-                  defaultSortKey="term"
-                  defaultSortOrder="ASC"
+                  // defaultSortKey="name"
+                  // defaultSortOrder="DESC"
                   onSort={() => console.log("onSort")}
                   onSetPage={() => console.log("onSetPage")}
                />
