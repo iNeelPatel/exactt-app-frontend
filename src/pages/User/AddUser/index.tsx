@@ -16,7 +16,7 @@ import AppState from "../../../redux/types";
 import AddUserForm from "./AddUserForm";
 
 const AddUser = (props: Props) => {
-   const { departments, rolesList, editUser, updateUser } = props;
+   const { departments, rolesList, editUser } = props;
    const { userId } = props.match.params;
    const [loading, setLoading] = useState(true);
    const [departmentList, setDepartmentList] = useState([]);
