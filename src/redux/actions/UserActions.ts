@@ -76,10 +76,11 @@ export function logout() {
    return async (dispatch: DispatchType): Promise<void> => {
       try {
          await Parse.User.logOut();
-         dispatch({
+         await dispatch({
             type: ActionsTypes.LOGOUT,
             payload: null,
          });
+         await window.close();
       } catch (error) {
          return error;
       }

@@ -21,7 +21,7 @@ const LoginComponent = (props: Props) => {
    return (
       <div className="container" style={{ background: colors.N10 }}>
          <div>
-            <img src={exactt_logo} className="logo" alt="exactt-logo" />
+            <img src={exactt_logo} className="login-logo" alt="exactt-logo" />
          </div>
 
          <div

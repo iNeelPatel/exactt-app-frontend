@@ -4,7 +4,7 @@ const path = require("path");
 
 let mainWindow;
 
-function createWindow() {
+const createWindow = () => {
    mainWindow = new BrowserWindow({
       title: "Exactt",
       fullscreen: true,
@@ -19,5 +19,6 @@ function createWindow() {
    mainWindow.on("closed", () => {
       mainWindow = null;
    });
-}
+};
+
 app.on("ready", createWindow);

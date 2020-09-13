@@ -38,8 +38,8 @@ const Department = (props: Props) => {
    }, []);
 
    useEffect(() => {
-      let createRows: Array<object> = departments.map((department: Departments, id: number) => ({
-         key: `row${department.objectId}`,
+      let createRows: Array<object> = departments.map((department: Departments) => ({
+         key: `row-${department.objectId}`,
          cells: [
             {
                key: `cell${department.objectId}${department.name}`,

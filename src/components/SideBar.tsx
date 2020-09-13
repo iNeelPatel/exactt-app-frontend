@@ -138,7 +138,7 @@ const SideBar = (props: Props) => {
                   <Avatar
                      size="large"
                      appearance="square"
-                     src={`https://ui-avatars.com/api/?background=0052cc&color=fff&name=${props.user.name.split(" ")[0]}${
+                     src={`https://ui-avatars.com/api/?bold=true&background=0052cc&color=fff&name=${props.user.name.split(" ")[0]}${
                         props.user.name.split(" ")[1] ? "+" + props.user.name.split(" ")[1] : ""
                      }`}
                   />
