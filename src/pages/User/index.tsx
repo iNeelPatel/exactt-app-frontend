@@ -35,7 +35,7 @@ const User = (props: Props) => {
    }, []);
 
    useEffect(() => {
-      let createRows: Array<object> = users.map((user: any, id: number) => ({
+      let createRows: Array<object> = users?.map((user: any, id: number) => ({
          key: `row${user.objectId}`,
          cells: [
             {

@@ -94,11 +94,37 @@ export function createUser(data: any) {
             username: data.username,
             name: data.name,
             email: data.email,
-            phone: "+" + data.countryCode.value + " " + data.phone,
+            phone: "+" + data.countryCode.value + "-" + data.phone,
             roleId: data.role.value,
             departmentId: data.department.value,
          };
          let res = await Parse.Cloud.run("createUser", formData);
+         dispatch({
+            type: ActionsTypes.CREATE_USER,
+            payload: res,
+         });
+         AlertBox(dispatch, "confirmation", "User created successfully. Password will be mailed to users email address.");
+         return res;
+      } catch (error) {
+         AlertBox(dispatch, "error", error.message);
+         throw error;
+      }
+   };
+}
+
+export function updateUser(data: any) {
+   return async (dispatch: DispatchType): Promise<void> => {
+      try {
+         let formData = {
+            objectId: data.objectId,
+            username: data.username,
+            name: data.name,
+            email: data.email,
+            phone: "+" + data.countryCode.value + "-" + data.phone,
+            roleId: data.role.value,
+            departmentId: data.department.value,
+         };
+         let res = await Parse.Cloud.run("updateUser", formData);
          dispatch({
             type: ActionsTypes.CREATE_USER,
             payload: res,

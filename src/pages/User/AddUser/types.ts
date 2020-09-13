@@ -6,6 +6,7 @@ export interface Props extends RouteComponentProps, DepartmentState {
    getDepartments: () => any;
    createUser: (arg0: UserData) => any;
    getAccessRoleList: () => any;
+   updateUser: (arg0: UpdateUserData) => any;
    rolesList: RoleItem[];
    getUser: (id: string) => any;
    match: any;
@@ -19,6 +20,17 @@ export interface AddUserFormProps {
    departmentList: Array<{ lable: string; value: string }>;
    edit: boolean;
    editUser: any;
+}
+
+export interface UpdateUserData {
+   objectId: string;
+   username: string;
+   name: string;
+   email: string;
+   countryCode: string;
+   phone: string;
+   department: object;
+   role: object;
 }
 
 export interface UserData {

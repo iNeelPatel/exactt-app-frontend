@@ -78,6 +78,7 @@ const AddUserForm = (props: AddUserFormProps) => {
                                  {({ fieldProps }: any) => <Select {...fieldProps} options={PhoneCodeList} placeholder="Country code" />}
                               </Field>
                            </GridColumn>
+                           {console.log(editUser?.phoneNumber?.split("-")[1])}
                            <GridColumn medium={9}>
                               <Field label="Phone" isRequired name="phone" defaultValue={edit ? editUser?.phone?.split("-")[1] : ""}>
                                  {({ fieldProps }: any) => <Textfield {...fieldProps} maxLength={10} />}

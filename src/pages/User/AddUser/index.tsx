@@ -9,14 +9,14 @@ import { Props, UserData } from "./types";
 import { Breadcrumb, ScreenLoader } from "../../../components";
 import { getDepartments } from "../../../redux/actions/DepartmentActions";
 import { getAccessRoleList } from "../../../redux/actions/RoleActions";
-import { createUser, getUser } from "../../../redux/actions/UserActions";
+import { createUser, getUser, updateUser } from "../../../redux/actions/UserActions";
 import { Departments } from "../../../redux/types/DepartmentTypes";
 import { RoleItem } from "../../../redux/types/RoleTypes";
 import AppState from "../../../redux/types";
 import AddUserForm from "./AddUserForm";
 
 const AddUser = (props: Props) => {
-   const { departments, rolesList, editUser } = props;
+   const { departments, rolesList, editUser, updateUser } = props;
    const { userId } = props.match.params;
    const [loading, setLoading] = useState(true);
    const [departmentList, setDepartmentList] = useState([]);
@@ -58,8 +58,11 @@ const AddUser = (props: Props) => {
    };
 
    const handleSubmit = async (userData: UserData) => {
-      await props.createUser(userData);
-      console.log(userData);
+      if (userId) {
+         await props.updateUser({ ...userData, objectId: userId });
+      } else {
+         await props.createUser(userData);
+      }
    };
 
    return (
@@ -95,7 +98,7 @@ const mapStateToProps = (state: AppState) => ({
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ getDepartments, createUser, getAccessRoleList, getUser }, dispatch),
+      ...bindActionCreators({ getDepartments, createUser, getAccessRoleList, getUser, updateUser }, dispatch),
    };
 }
 
