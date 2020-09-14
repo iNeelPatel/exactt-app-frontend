@@ -60,7 +60,7 @@ const User = (props: Props) => {
             },
             {
                key: `cell${user.objectId}-action`,
-               content: (
+               content: userPermission.write && (
                   <Button
                      iconBefore={<EditIcon label="Edit icon" size="small" />}
                      appearance="link"
@@ -75,7 +75,7 @@ const User = (props: Props) => {
       }));
 
       setRows(createRows);
-   }, [users, props.history]);
+   }, [users, props.history, userPermission.write]);
 
    const head: any = {
       cells: [
@@ -114,7 +114,7 @@ const User = (props: Props) => {
          {
             key: "action",
             content: "",
-            width: 10,
+            width: userPermission.write ? 10 : 1,
             isSortable: false,
             shouldTruncate: false,
          },
