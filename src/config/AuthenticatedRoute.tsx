@@ -23,6 +23,7 @@ import User from "../pages/User";
 import AddUser from "../pages/User/AddUser";
 import Customer from "../pages/Customer";
 import AddCustomer from "../pages/Customer/AddCustomer";
+import TestGroup from "../pages/TestGroup";
 
 interface Props extends HashRouterProps {
    status: number;
@@ -111,6 +112,8 @@ const AuthenticatedRoute = (props: Props) => {
                      {checkPermission(permission.user) && <Route exact path="/organizationsettings/user" component={User} />}
                      {permission.user.write && <Route exact path="/organizationsettings/user/add" component={AddUser} />}
                      {permission.user.write && <Route exact path="/organizationsettings/user/edit/:userId" component={AddUser} />}
+                     
+                     {checkPermission(permission.samples_group) && <Route exact path="/organizationsettings/testgroup" component={TestGroup} />}
 
                      <Route component={PageNotFound} />
                   </Switch>

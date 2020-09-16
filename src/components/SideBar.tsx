@@ -180,6 +180,10 @@ const SideBar = (props: Props) => {
                               Department
                            </LinkItem>
                         )}
+                        <Divider />
+                        <LinkItem href="#/organizationsettings/testgroup" cssFn={(currentStyles) => menuItemCss(currentStyles, "testgroup")}>
+                           Test Group
+                        </LinkItem>
                      </Section>
                   )}
                </MenuGroup>
