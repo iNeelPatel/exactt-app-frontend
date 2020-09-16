@@ -15,6 +15,24 @@ export default (state: CustomerState = initialState, action: ActionInterface): C
             customers: action.payload,
          };
 
+      case ActionTypes.CREATE_CUSTOMER:
+         return {
+            ...state,
+            customer: action.payload,
+         };
+
+      case ActionTypes.GET_CUSTOMER:
+         return {
+            ...state,
+            customer: action.payload,
+         };
+
+      case ActionTypes.UPDATE_CUSTOMER:
+         return {
+            ...state,
+            customer: action.payload,
+         };
+
       default:
          return state;
    }

@@ -9,7 +9,7 @@ import { bindActionCreators } from "redux";
 import DynamicTable from "@atlaskit/dynamic-table";
 
 // ====================================== File imports ======================================
-import { Breadcrumb } from "../../components";
+import { Breadcrumb, DeleteButton } from "../../components";
 import { Props } from "./types";
 import AppState from "../../redux/types";
 import { getUsers } from "../../redux/actions/UserActions";
@@ -40,7 +40,7 @@ const User = (props: Props) => {
          cells: [
             {
                key: `cell${user.objectId}${user.name}`,
-               content: <div>{user.name}</div>,
+               content: <div style={{ height: 34, display: "flex", alignItems: "center" }}>{user.name}</div>,
             },
             {
                key: `cell${user.objectId}${user.department.name}`,
@@ -61,14 +61,20 @@ const User = (props: Props) => {
             {
                key: `cell${user.objectId}-action`,
                content: userPermission.write && (
-                  <Button
-                     iconBefore={<EditIcon label="Edit icon" size="small" />}
-                     appearance="link"
-                     isDisabled={user.department.name === "Admin"}
-                     onClick={() => props.history.push(`/organizationsettings/user/edit/${user.objectId}`)}
-                  >
-                     Edit
-                  </Button>
+                  <div style={{ display: "flex" }}>
+                     <Button
+                        iconBefore={<EditIcon label="Edit icon" size="small" />}
+                        appearance="link"
+                        isDisabled={user.department.name === "Admin"}
+                        onClick={() => props.history.push(`/organizationsettings/user/edit/${user.objectId}`)}
+                     >
+                        Edit
+                     </Button>
+                     <DeleteButton
+                        onClick={() => props.history.push(`/organizationsettings/user/edit/${user.objectId}`)}
+                        isDisabled={user.department.name === "Admin"}
+                     />
+                  </div>
                ),
             },
          ],
@@ -114,7 +120,7 @@ const User = (props: Props) => {
          {
             key: "action",
             content: "",
-            width: userPermission.write ? 10 : 1,
+            width: userPermission.write ? 17 : 1,
             isSortable: false,
             shouldTruncate: false,
          },

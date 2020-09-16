@@ -12,6 +12,8 @@ import StatesAndDistricts from "../../../constants/states-and-districts.json";
 import { AddCustomerProps } from "./types";
 
 const AddCustomerForm = (props: AddCustomerProps) => {
+   const { customer } = props;
+
    var defaultState = StatesAndDistricts.states.find((item) => item.state === "Andhra Pradesh");
    var defaultCity = defaultState ? defaultState.districts.map((item) => ({ label: item, value: item })) : [];
    const [cityOptions, setCityOptions]: any = useState(defaultCity);
@@ -23,6 +25,10 @@ const AddCustomerForm = (props: AddCustomerProps) => {
       var citys = selectedState && selectedState.districts ? selectedState.districts.map((item) => ({ label: item, value: item })) : [];
       setCityOptions(citys);
    };
+
+   const phoneCode = customer?.contact?.phone?.split("+")[1]?.split("-")[0];
+   const phoneNo = customer?.contact?.phone?.split("+")[1]?.split("-")[1];
+   const phoneCodeOption = PhoneCodeList.find((item) => item.value.toString() === phoneCode);
 
    return (
       <Page>
@@ -40,11 +46,11 @@ const AddCustomerForm = (props: AddCustomerProps) => {
                >
                   {({ formProps, submitting }: any) => (
                      <form {...formProps}>
-                        <Field label="Customer name" isRequired name="name">
+                        <Field label="Customer name" isRequired name="name" defaultValue={customer?.name}>
                            {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                         </Field>
 
-                        <Field label="Contact person name" isRequired name="personName">
+                        <Field label="Contact person name" isRequired name="personName" defaultValue={customer?.contact?.name}>
                            {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                         </Field>
 
@@ -52,7 +58,7 @@ const AddCustomerForm = (props: AddCustomerProps) => {
                            label="Email"
                            isRequired
                            name="email"
-                           defaultValue=""
+                           defaultValue={customer.contact?.email}
                            validate={(value) => {
                               if (!value) {
                                  return;
@@ -75,22 +81,27 @@ const AddCustomerForm = (props: AddCustomerProps) => {
 
                         <Grid>
                            <GridColumn medium={3}>
-                              <Field label="Country code" isRequired name="countryCode" defaultValue={{ label: "+91 India", value: 91 }}>
+                              <Field
+                                 label="Country code"
+                                 isRequired
+                                 name="countryCode"
+                                 defaultValue={customer ? phoneCodeOption : { label: "+91 India", value: 91 }}
+                              >
                                  {({ fieldProps }: any) => <Select {...fieldProps} options={PhoneCodeList} placeholder="Country code" />}
                               </Field>
                            </GridColumn>
                            <GridColumn medium={9}>
-                              <Field label="Phone" isRequired name="phone" defaultValue="">
+                              <Field label="Phone" isRequired name="phone" defaultValue={phoneNo}>
                                  {({ fieldProps }: any) => <Textfield {...fieldProps} maxLength={10} />}
                               </Field>
                            </GridColumn>
                         </Grid>
 
-                        <Field label="Address line 1" isRequired name="line1">
+                        <Field label="Address line 1" isRequired name="line1" defaultValue={customer?.address?.line1}>
                            {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                         </Field>
 
-                        <Field label="Address line 2" isRequired name="line2">
+                        <Field label="Address line 2" isRequired name="line2" defaultValue={customer?.address?.line2}>
                            {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                         </Field>
 
@@ -100,19 +111,24 @@ const AddCustomerForm = (props: AddCustomerProps) => {
                                  label="State"
                                  isRequired
                                  name="state"
-                                 defaultValue={statesOption[0]}
+                                 defaultValue={customer ? { label: customer?.address?.state, value: customer?.address?.state } : undefined}
                                  validate={(value: any) => setCityOption(value)}
                               >
                                  {({ fieldProps }: any) => <Select {...fieldProps} options={statesOption} placeholder="Select state" />}
                               </Field>
                            </GridColumn>
                            <GridColumn medium={4}>
-                              <Field label="City" isRequired name="city" defaultValue={cityOptions[0]}>
+                              <Field
+                                 label="City"
+                                 isRequired
+                                 name="city"
+                                 defaultValue={customer ? { label: customer?.address?.city, value: customer?.address?.city } : undefined}
+                              >
                                  {({ fieldProps }: any) => <Select {...fieldProps} options={cityOptions} placeholder="Select city" />}
                               </Field>
                            </GridColumn>
                            <GridColumn medium={4}>
-                              <Field label="Zip Code" isRequired name="zip">
+                              <Field label="Zip Code" isRequired name="zip" defaultValue={customer?.address?.zip}>
                                  {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                               </Field>
                            </GridColumn>
@@ -120,27 +136,27 @@ const AddCustomerForm = (props: AddCustomerProps) => {
 
                         <Grid>
                            <GridColumn medium={4}>
-                              <Field label="Bank name" name="bankname">
+                              <Field label="Bank name" name="bankname" defaultValue={customer?.bank?.name}>
                                  {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                               </Field>
                            </GridColumn>
                            <GridColumn medium={4}>
-                              <Field label="Branch" name="branch">
+                              <Field label="Branch" name="branch" defaultValue={customer?.bank?.branch}>
                                  {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                               </Field>
                            </GridColumn>
                            <GridColumn medium={4}>
-                              <Field label="IFSC Code" name="ifsc">
+                              <Field label="IFSC Code" name="ifsc" defaultValue={customer?.bank?.ifsc}>
                                  {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                               </Field>
                            </GridColumn>
                         </Grid>
 
-                        <Field label="Account name" name="acc_name">
+                        <Field label="Account name" name="acc_name" defaultValue={customer?.bank?.acc_name}>
                            {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                         </Field>
 
-                        <Field label="Account Number" name="acc_number">
+                        <Field label="Account Number" name="acc_number" defaultValue={customer?.bank?.acc_number}>
                            {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                         </Field>
 
@@ -173,7 +189,7 @@ const AddCustomerForm = (props: AddCustomerProps) => {
                               Back
                            </Button>
                            <Button type="submit" appearance="primary" isLoading={submitting}>
-                              Add customer
+                              {customer ? "Edit customer" : "Add customer"}
                            </Button>
                         </div>
                      </form>
