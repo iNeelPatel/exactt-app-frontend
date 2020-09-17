@@ -14,7 +14,7 @@ import AppState from "../../redux/types";
 
 const breadcrumbItems = [
    { path: "/", name: "Organization Settings" },
-   { path: "/organizationsettings/testgroup", name: "Test Group" },
+   { path: "/organizationsettings/samplegroup", name: "Sample Group" },
 ];
 
 const SampleGroup = (props: Props) => {
@@ -91,7 +91,7 @@ const SampleGroup = (props: Props) => {
             <GridColumn medium={12}>
                <Breadcrumb
                   items={breadcrumbItems}
-                  screen="Test Group"
+                  screen="Sample Group"
                   right={
                      sampleGroupPermission.write && (
                         <Button

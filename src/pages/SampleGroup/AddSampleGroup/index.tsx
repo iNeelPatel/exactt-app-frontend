@@ -11,11 +11,11 @@ import { Props } from "./types";
 
 const breadcrumbItems = [
    { path: "/", name: "Organization Settings" },
-   { path: "/organizationsettings/testgroup", name: "Test Group" },
-   { path: "/organizationsettings/testgroup/add", name: "Add" },
+   { path: "/organizationsettings/samplegroup", name: "Sample Group" },
+   { path: "/organizationsettings/samplegroup/add", name: "Add" },
 ];
 
-const AddTestGroup = (props: Props) => {
+const AddSampleGroup = (props: Props) => {
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
@@ -34,4 +34,4 @@ const mapStateToProps = (state: AppState) => ({
    sampleGroupPermission: state.user.user.role.permission.samples_group,
 });
 
-export default connect(mapStateToProps)(AddTestGroup);
+export default connect(mapStateToProps)(AddSampleGroup);
