@@ -54,7 +54,7 @@ const AddTestGroup = (props: AddSampleGroupForm) => {
                                        return;
                                     }
 
-                                    var gst_format = /[A-Z]/;
+                                    var gst_format = /[A-Z][A-Z][A-Z]/;
 
                                     if (!value.match(gst_format)) {
                                        return "NOT_BLOCK_LETTERS";
