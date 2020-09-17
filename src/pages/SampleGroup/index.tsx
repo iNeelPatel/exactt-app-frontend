@@ -17,7 +17,7 @@ const breadcrumbItems = [
    { path: "/organizationsettings/testgroup", name: "Test Group" },
 ];
 
-const TestGroup = (props: Props) => {
+const SampleGroup = (props: Props) => {
    const { sampleGroupPermission } = props;
    const head: any = {
       cells: [
@@ -99,7 +99,7 @@ const TestGroup = (props: Props) => {
                            type="submit"
                            style={{ height: 38, marginLeft: 10, marginTop: 9 }}
                            appearance="primary"
-                           onClick={() => props.history.push("/organizationsettings/user/add")}
+                           onClick={() => props.history.push("/organizationsettings/samplegroup/add")}
                         >
                            Add sample group
                         </Button>
@@ -130,4 +130,4 @@ const mapStateToProps = (state: AppState) => ({
    sampleGroupPermission: state.user.user.role.permission.samples_group,
 });
 
-export default connect(mapStateToProps)(TestGroup);
+export default connect(mapStateToProps)(SampleGroup);
