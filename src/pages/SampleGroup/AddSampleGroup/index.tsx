@@ -16,6 +16,14 @@ const breadcrumbItems = [
 ];
 
 const AddSampleGroup = (props: Props) => {
+   const onBack = () => {
+      props.history.goBack();
+   };
+
+   const onSubmit = (data: any) => {
+      console.log(data);
+   };
+
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
@@ -23,7 +31,7 @@ const AddSampleGroup = (props: Props) => {
                <Breadcrumb items={breadcrumbItems} screen="Add Sample Group" />
             </GridColumn>
             <GridColumn medium={7}>
-               <AddSampleGroupForm />
+               <AddSampleGroupForm onBack={onBack} onSubmit={onSubmit} />
             </GridColumn>
          </Grid>
       </Page>
