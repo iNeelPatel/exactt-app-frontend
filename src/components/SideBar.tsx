@@ -87,7 +87,9 @@ const SideBar = (props: Props) => {
       permission?.department?.read ||
       permission?.department?.write ||
       permission?.role?.read ||
-      permission?.role?.write;
+      permission?.role?.write ||
+      permission?.samples_group?.read ||
+      permission?.samples_group?.write;
 
    interface Permission {
       read: boolean;
@@ -180,10 +182,11 @@ const SideBar = (props: Props) => {
                               Department
                            </LinkItem>
                         )}
-                        <Divider />
-                        <LinkItem href="#/organizationsettings/testgroup" cssFn={(currentStyles) => menuItemCss(currentStyles, "testgroup")}>
-                           Test Group
-                        </LinkItem>
+                        {checkPermission(permission.samples_group) && (
+                           <LinkItem href="#/organizationsettings/testgroup" cssFn={(currentStyles) => menuItemCss(currentStyles, "testgroup")}>
+                              Test Group
+                           </LinkItem>
+                        )}
                      </Section>
                   )}
                </MenuGroup>
