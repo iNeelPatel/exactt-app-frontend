@@ -18,9 +18,18 @@ const AddTestGroup = (props: AddSampleGroupForm) => {
          <Grid spacing="compact" layout="fluid">
             <GridColumn medium={12}>
                <Form
-                  onSubmit={async (userData: any) => {
+                  onSubmit={async (data: any) => {
+                     delete data["customeField0"];
+                     delete data["label"];
+                     let customeFieldData = customeField.map((item, id) => {
+                        delete data[`customeField${id}`];
+                        return item ? item : undefined;
+                     });
+
+                     customeFieldData = customeFieldData.filter((item) => item !== undefined);
+
                      try {
-                        await props.onSubmit(userData);
+                        await props.onSubmit({ ...data, customeFields: customeFieldData });
                         props.onBack();
                      } catch (err) {
                         console.log(err);
@@ -61,6 +70,27 @@ const AddTestGroup = (props: AddSampleGroupForm) => {
                               </Field>
                            </GridColumn>
                         </Grid>
+
+                        <Field name="label" label="Custom field">
+                           {({ fieldProps }: any) => <div />}
+                        </Field>
+
+                        {customeField.map((item, index) => (
+                           <Field
+                              name={`customeField${index}`}
+                              validate={(value) => {
+                                 let updateFieldList: any = customeField.map((data, id) => (id === index ? value : data));
+                                 setCustomeField(updateFieldList);
+                              }}
+                           >
+                              {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                           </Field>
+                        ))}
+                        <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 5 }}>
+                           <Button appearance="link" disabled={submitting} onClick={() => setCustomeField([...customeField, ""])}>
+                              Add more customer field
+                           </Button>
+                        </div>
 
                         <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}>
                            <Button appearance="link" disabled={submitting} onClick={() => props.onBack()}>
