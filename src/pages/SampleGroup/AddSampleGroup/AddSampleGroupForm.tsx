@@ -72,19 +72,42 @@ const AddTestGroup = (props: AddSampleGroupForm) => {
                         </Grid>
 
                         <Field name="label" label="Custom field">
-                           {({ fieldProps }: any) => <div />}
+                           {() => <div />}
                         </Field>
 
                         {customeField.map((item, index) => (
-                           <Field
-                              name={`customeField${index}`}
-                              validate={(value) => {
-                                 let updateFieldList: any = customeField.map((data, id) => (id === index ? value : data));
-                                 setCustomeField(updateFieldList);
-                              }}
-                           >
-                              {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                           </Field>
+                           <Grid>
+                              <GridColumn medium={10} css={{ background: "red" }}>
+                                 <Field name={`customeField${index}`}>
+                                    {({ fieldProps }: any) => (
+                                       <Textfield
+                                          {...fieldProps}
+                                          onKeyUp={() => {
+                                             let updateFieldList: any = customeField.map((data, id) =>
+                                                id === index ? fieldProps.value : data
+                                             );
+                                             setCustomeField(updateFieldList);
+                                          }}
+                                          value={item}
+                                       />
+                                    )}
+                                 </Field>
+                              </GridColumn>
+                              <GridColumn medium={2} css={{ background: "red" }}>
+                                 <Button
+                                    isDisabled={!item || submitting}
+                                    appearance="subtle"
+                                    onClick={() => {
+                                       let updateCustomeField = customeField.filter((data, id) => id !== index);
+                                       setCustomeField(updateCustomeField);
+                                    }}
+                                    shouldFitContainer
+                                    style={{ height: 40, marginTop: 8 }}
+                                 >
+                                    Remove
+                                 </Button>
+                              </GridColumn>
+                           </Grid>
                         ))}
                         <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 5 }}>
                            <Button appearance="link" disabled={submitting} onClick={() => setCustomeField([...customeField, ""])}>
