@@ -9,6 +9,7 @@ const createWindow = () => {
       title: "Exactt",
       fullscreen: true,
       show: false,
+      frame: false,
       icon: __dirname + "/Icon/AppIcon.icns",
    });
    const startURL = isDev ? "http://localhost:3000" : `file://${path.join(__dirname, "../build/index.html")}`;
