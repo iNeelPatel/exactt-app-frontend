@@ -23,9 +23,10 @@ import User from "../pages/User";
 import AddUser from "../pages/User/AddUser";
 import Customer from "../pages/Customer";
 import AddCustomer from "../pages/Customer/AddCustomer";
-import SampleGroup from "../pages/SampleGroup";
-import AddSampleGroup from "../pages/SampleGroup/AddSampleGroup";
+import TestGroup from "../pages/TestGroup";
+import AddTestGroup from "../pages/TestGroup/AddTestGroup";
 import Parameter from "../pages/Parameter";
+import AddParameter from "../pages/Parameter/AddParameter";
 
 interface Props extends HashRouterProps {
    status: number;
@@ -113,11 +114,13 @@ const AuthenticatedRoute = (props: Props) => {
                      {permission.user.write && <Route exact path="/organizationsettings/user/add" component={AddUser} />}
                      {permission.user.write && <Route exact path="/organizationsettings/user/edit/:userId" component={AddUser} />}
                      
-                     {checkPermission(permission.samples_group) && <Route exact path="/organizationsettings/samplegroup" component={SampleGroup} />}
-                     {permission.samples_group.write && <Route exact path="/organizationsettings/samplegroup/add" component={AddSampleGroup} />}
-                     {permission.samples_group.write && <Route exact path="/organizationsettings/samplegroup/edit/:groupId" component={AddSampleGroup} />}
+                     {checkPermission(permission.samples_group) && <Route exact path="/organizationsettings/testgroup" component={TestGroup} />}
+                     {permission.samples_group.write && <Route exact path="/organizationsettings/testgroup/add" component={AddTestGroup} />}
+                     {permission.samples_group.write && <Route exact path="/organizationsettings/testgroup/edit/:groupId" component={AddTestGroup} />}
 
                      {checkPermission(permission.samples_group) && <Route exact path="/organizationsettings/parameter" component={Parameter} />}
+                     {permission.samples_group.write && <Route exact path="/organizationsettings/parameter/add" component={AddParameter} />}
+                     {permission.samples_group.write && <Route exact path="/organizationsettings/parameter/edit/:parameterId" component={AddParameter} />}
 
                      <Route component={PageNotFound} />
                   </Switch>

@@ -4,7 +4,7 @@ export interface Props extends RouteComponentProps {
    match: any;
 }
 
-export interface AddSampleGroupForm {
+export interface AddParameterFormProps {
    onBack: () => void;
    onSubmit: (arg0: any) => void;
 }

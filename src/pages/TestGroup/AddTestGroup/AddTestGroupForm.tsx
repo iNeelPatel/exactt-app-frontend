@@ -8,9 +8,9 @@ import Button from "@atlaskit/button";
 import Textfield from "@atlaskit/textfield";
 
 // ====================================== File imports ======================================
-import { AddSampleGroupForm } from "./types";
+import { AddTestGroupFormProps } from "./types";
 
-const AddTestGroup = (props: AddSampleGroupForm) => {
+const AddTestGroupForm = (props: AddTestGroupFormProps) => {
    const [customeField, setCustomeField] = useState([""]);
 
    return (
@@ -88,7 +88,6 @@ const AddTestGroup = (props: AddSampleGroupForm) => {
                                              );
                                              setCustomeField(updateFieldList);
                                           }}
-                                          value={item}
                                        />
                                     )}
                                  </Field>
@@ -120,7 +119,7 @@ const AddTestGroup = (props: AddSampleGroupForm) => {
                               Back
                            </Button>
                            <Button type="submit" appearance="primary" isLoading={submitting}>
-                              Add sample group
+                              Add test group
                            </Button>
                         </div>
                      </form>
@@ -136,4 +135,4 @@ const mapStateToProps = (state: AppState) => ({
    sampleGroupPermission: state.user.user.role.permission.samples_group,
 });
 
-export default connect(mapStateToProps)(AddTestGroup);
+export default connect(mapStateToProps)(AddTestGroupForm);

@@ -6,16 +6,16 @@ import { connect } from "react-redux";
 
 // ====================================== File imports ======================================
 import { Breadcrumb } from "../../../components";
-import AddSampleGroupForm from "./AddSampleGroupForm";
+import AddParameterForm from "./AddParameterForm";
 import { Props } from "./types";
 
 const AddSampleGroup = (props: Props) => {
-   const { groupId } = props.match.params;
+   const { parameterId } = props.match.params;
 
    const breadcrumbItems = [
       { path: "/", name: "Organization Settings" },
-      { path: "/organizationsettings/samplegroup", name: "Sample Group" },
-      { path: `/organizationsettings/samplegroup/${groupId ? `edit/${groupId}` : "add"}`, name: groupId ? "Edit" : "Add" },
+      { path: "/organizationsettings/parameter", name: "Parameters" },
+      { path: `/organizationsettings/parameter/${parameterId ? `edit/${parameterId}` : "add"}`, name: parameterId ? "Edit" : "Add" },
    ];
 
    const onBack = () => {
@@ -30,10 +30,10 @@ const AddSampleGroup = (props: Props) => {
       <Page>
          <Grid spacing="compact" layout="fluid">
             <GridColumn medium={12}>
-               <Breadcrumb items={breadcrumbItems} screen={ groupId ? "Edit Sample Group" : "Add Sample Group"} />
+               <Breadcrumb items={breadcrumbItems} screen={parameterId ? "Edit Parameter" : "Add Parameter"} />
             </GridColumn>
             <GridColumn medium={7}>
-               <AddSampleGroupForm onBack={onBack} onSubmit={onSubmit} />
+               <AddParameterForm onBack={onBack} onSubmit={onSubmit} />
             </GridColumn>
          </Grid>
       </Page>

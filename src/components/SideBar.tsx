@@ -167,14 +167,14 @@ const SideBar = (props: Props) => {
                   </Section>
                   {organizationsettingsAccess && (
                      <Section title="Organization Settings">
-                        {checkPermission(permission.user) && (
-                           <LinkItem href="#/organizationsettings/user" cssFn={(currentStyles) => menuItemCss(currentStyles, "user")}>
-                              Users
-                           </LinkItem>
-                        )}
                         {checkPermission(permission.role) && (
                            <LinkItem href="#/organizationsettings/role" cssFn={(currentStyles) => menuItemCss(currentStyles, "role")}>
                               Role
+                           </LinkItem>
+                        )}
+                        {checkPermission(permission.user) && (
+                           <LinkItem href="#/organizationsettings/user" cssFn={(currentStyles) => menuItemCss(currentStyles, "user")}>
+                              Users
                            </LinkItem>
                         )}
                         {checkPermission(permission.department) && (
@@ -183,7 +183,7 @@ const SideBar = (props: Props) => {
                            </LinkItem>
                         )}
                         {checkPermission(permission.samples_group) && (
-                           <LinkItem href="#/organizationsettings/samplegroup" cssFn={(currentStyles) => menuItemCss(currentStyles, "samplegroup")}>
+                           <LinkItem href="#/organizationsettings/testgroup" cssFn={(currentStyles) => menuItemCss(currentStyles, "testgroup")}>
                               Test Group
                            </LinkItem>
                         )}

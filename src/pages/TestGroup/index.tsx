@@ -14,10 +14,10 @@ import AppState from "../../redux/types";
 
 const breadcrumbItems = [
    { path: "/", name: "Organization Settings" },
-   { path: "/organizationsettings/samplegroup", name: "Sample Group" },
+   { path: "/organizationsettings/testGroup", name: "Test Group" },
 ];
 
-const SampleGroup = (props: Props) => {
+const TestGroup = (props: Props) => {
    const { sampleGroupPermission } = props;
    const head: any = {
       cells: [
@@ -74,11 +74,11 @@ const SampleGroup = (props: Props) => {
                      <Button
                         iconBefore={<EditIcon label="Edit icon" size="small" />}
                         appearance="link"
-                        onClick={() => props.history.push(`/organizationsettings/user/edit`)}
+                        onClick={() => props.history.push(`/organizationsettings/testgroup/edit/rendomid`)}
                      >
                         Edit
                      </Button>
-                     <DeleteButton onClick={() => props.history.push(`/organizationsettings/user/`)} />
+                     <DeleteButton onClick={() => props.history.push(`/organizationsettings/testgroup/`)} />
                   </div>
                ),
             },
@@ -91,7 +91,7 @@ const SampleGroup = (props: Props) => {
             <GridColumn medium={12}>
                <Breadcrumb
                   items={breadcrumbItems}
-                  screen="Sample Group"
+                  screen="Test Group"
                   right={
                      sampleGroupPermission.write && (
                         <Button
@@ -99,9 +99,9 @@ const SampleGroup = (props: Props) => {
                            type="submit"
                            style={{ height: 38, marginLeft: 10, marginTop: 9 }}
                            appearance="primary"
-                           onClick={() => props.history.push("/organizationsettings/samplegroup/add")}
+                           onClick={() => props.history.push("/organizationsettings/testgroup/add")}
                         >
-                           Add sample group
+                           Add test group
                         </Button>
                      )
                   }
@@ -130,4 +130,4 @@ const mapStateToProps = (state: AppState) => ({
    sampleGroupPermission: state.user.user.role.permission.samples_group,
 });
 
-export default connect(mapStateToProps)(SampleGroup);
+export default connect(mapStateToProps)(TestGroup);
