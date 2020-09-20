@@ -1,11 +1,11 @@
 // ====================================== Module imports ======================================
 import React from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
-import AppState from "../../redux/types";
 import { connect } from "react-redux";
 
 // ====================================== File imports ======================================
 import { Breadcrumb } from "../../components";
+import AppState from "../../redux/types";
 
 const breadcrumbItems = [
    { path: "/", name: "Dashboard" },

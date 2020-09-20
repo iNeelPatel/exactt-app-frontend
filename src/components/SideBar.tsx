@@ -187,6 +187,11 @@ const SideBar = (props: Props) => {
                               Test Group
                            </LinkItem>
                         )}
+                        {checkPermission(permission.samples_parameter) && (
+                           <LinkItem href="#/organizationsettings/parameter" cssFn={(currentStyles) => menuItemCss(currentStyles, "parameter")}>
+                              Parameters
+                           </LinkItem>
+                        )}
                      </Section>
                   )}
                </MenuGroup>

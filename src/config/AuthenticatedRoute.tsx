@@ -25,6 +25,7 @@ import Customer from "../pages/Customer";
 import AddCustomer from "../pages/Customer/AddCustomer";
 import SampleGroup from "../pages/SampleGroup";
 import AddSampleGroup from "../pages/SampleGroup/AddSampleGroup";
+import Parameter from "../pages/Parameter";
 
 interface Props extends HashRouterProps {
    status: number;
@@ -107,9 +108,7 @@ const AuthenticatedRoute = (props: Props) => {
                      {permission.customer.write && <Route exact path="/customer/add" component={AddCustomer} />}
                      {permission.customer.write && <Route exact path="/customer/edit/:customerId" component={AddCustomer} />}
                      {checkPermission(permission.role) && <Route exact path="/organizationsettings/role" component={Role} />}
-                     {checkPermission(permission.department) && (
-                        <Route exact path="/organizationsettings/department" component={Department} />
-                     )}
+                     {checkPermission(permission.department) && ( <Route exact path="/organizationsettings/department" component={Department} />)}
                      {checkPermission(permission.user) && <Route exact path="/organizationsettings/user" component={User} />}
                      {permission.user.write && <Route exact path="/organizationsettings/user/add" component={AddUser} />}
                      {permission.user.write && <Route exact path="/organizationsettings/user/edit/:userId" component={AddUser} />}
@@ -117,6 +116,7 @@ const AuthenticatedRoute = (props: Props) => {
                      {checkPermission(permission.samples_group) && <Route exact path="/organizationsettings/samplegroup" component={SampleGroup} />}
                      {permission.samples_group.write && <Route exact path="/organizationsettings/samplegroup/add" component={AddSampleGroup} />}
 
+                     {checkPermission(permission.samples_group) && <Route exact path="/organizationsettings/parameter" component={Parameter} />}
 
                      <Route component={PageNotFound} />
                   </Switch>
