@@ -115,6 +115,7 @@ const AuthenticatedRoute = (props: Props) => {
                      
                      {checkPermission(permission.samples_group) && <Route exact path="/organizationsettings/samplegroup" component={SampleGroup} />}
                      {permission.samples_group.write && <Route exact path="/organizationsettings/samplegroup/add" component={AddSampleGroup} />}
+                     {permission.samples_group.write && <Route exact path="/organizationsettings/samplegroup/edit/:groupId" component={AddSampleGroup} />}
 
                      {checkPermission(permission.samples_group) && <Route exact path="/organizationsettings/parameter" component={Parameter} />}
 

@@ -9,13 +9,15 @@ import { Breadcrumb } from "../../../components";
 import AddSampleGroupForm from "./AddSampleGroupForm";
 import { Props } from "./types";
 
-const breadcrumbItems = [
-   { path: "/", name: "Organization Settings" },
-   { path: "/organizationsettings/samplegroup", name: "Sample Group" },
-   { path: "/organizationsettings/samplegroup/add", name: "Add" },
-];
-
 const AddSampleGroup = (props: Props) => {
+   const { groupId } = props.match.params;
+
+   const breadcrumbItems = [
+      { path: "/", name: "Organization Settings" },
+      { path: "/organizationsettings/samplegroup", name: "Sample Group" },
+      { path: `/organizationsettings/samplegroup/${groupId ? `edit/${groupId}` : "add"}`, name: groupId ? "Edit" : "Add" },
+   ];
+
    const onBack = () => {
       props.history.goBack();
    };
@@ -28,7 +30,7 @@ const AddSampleGroup = (props: Props) => {
       <Page>
          <Grid spacing="compact" layout="fluid">
             <GridColumn medium={12}>
-               <Breadcrumb items={breadcrumbItems} screen="Add Sample Group" />
+               <Breadcrumb items={breadcrumbItems} screen={ groupId ? "Edit Sample Group" : "Add Sample Group"} />
             </GridColumn>
             <GridColumn medium={7}>
                <AddSampleGroupForm onBack={onBack} onSubmit={onSubmit} />

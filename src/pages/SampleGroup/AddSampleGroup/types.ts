@@ -1,6 +1,8 @@
 import { RouteComponentProps } from "react-router-dom";
 
-export interface Props extends RouteComponentProps {}
+export interface Props extends RouteComponentProps {
+   match: any;
+}
 
 export interface AddSampleGroupForm {
    onBack: () => void;
