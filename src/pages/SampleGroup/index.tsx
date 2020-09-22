@@ -12,41 +12,41 @@ import { Props } from "./types";
 
 const breadcrumbItems = [
    { path: "/", name: "Organization Settings" },
-   { path: "/organizationsettings/parameter", name: "Parameters" },
+   { path: "/organizationsettings/samplegroup", name: "Sample Groups" },
 ];
 
 const Parameter = (props: Props) => {
-   const { sampleParameterPermission } = props;
+   const { sampleGroupPermission } = props;
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
             <GridColumn medium={12}>
                <Breadcrumb
                   items={breadcrumbItems}
-                  screen="Parameters"
+                  screen="Sample Groups"
                   right={
-                     sampleParameterPermission.write && (
+                     sampleGroupPermission.write && (
                         <Button
                            iconBefore={<AddIcon label="Add icon" size="small" />}
                            type="submit"
                            style={{ height: 38, marginLeft: 10, marginTop: 9 }}
                            appearance="primary"
-                           onClick={() => props.history.push("/organizationsettings/parameter/add")}
+                           onClick={() => props.history.push("/organizationsettings/samplegroup/add")}
                         >
-                           Add parameter
+                           Add sample group
                         </Button>
                      )
                   }
                />
             </GridColumn>
-            <GridColumn medium={12}>Parameters</GridColumn>
+            <GridColumn medium={12}>Add sample group</GridColumn>
          </Grid>
       </Page>
    );
 };
 
 const mapStateToProps = (state: AppState) => ({
-   sampleParameterPermission: state.user.user.role.permission.samples_parameter,
+   sampleGroupPermission: state.user.user.role.permission.samples_method,
 });
 
 export default connect(mapStateToProps)(Parameter);

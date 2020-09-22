@@ -5,13 +5,13 @@ import AppState from "../../../redux/types";
 import { connect } from "react-redux";
 
 // ====================================== File imports ======================================
-import { AddParameterFormProps } from "./types";
+import { AddSampleGroupFormProps } from "./types";
 
-const AddSampleGroup = (props: AddParameterFormProps) => {
+const AddSampleGroup = (props: AddSampleGroupFormProps) => {
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
-            <GridColumn>Add Parameter from</GridColumn>
+            <GridColumn>Add sample group from</GridColumn>
          </Grid>
       </Page>
    );
