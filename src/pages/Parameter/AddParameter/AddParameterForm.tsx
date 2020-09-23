@@ -2,10 +2,11 @@
 import React from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import AppState from "../../../redux/types";
-import Form, { Field, ErrorMessage } from "@atlaskit/form";
+import Form, { Field } from "@atlaskit/form";
 import Button from "@atlaskit/button";
 import Textfield from "@atlaskit/textfield";
 import { connect } from "react-redux";
+import Select from "@atlaskit/select";
 
 // ====================================== File imports ======================================
 import { AddParameterFormProps } from "./types";
@@ -45,7 +46,9 @@ const AddSampleGroup = (props: AddParameterFormProps) => {
                            {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                         </Field>
                         <Field label="Department" isRequired name="department">
-                           {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                           {({ fieldProps }: any) => (
+                              <Select {...fieldProps} options={props.departmentList} placeholder="Select department" />
+                           )}
                         </Field>
 
                         <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}>

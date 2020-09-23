@@ -1,16 +1,39 @@
 // ====================================== Module imports ======================================
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import AppState from "../../../redux/types";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 // ====================================== File imports ======================================
-import { Breadcrumb } from "../../../components";
+import { Breadcrumb, ScreenLoader } from "../../../components";
 import AddParameterForm from "./AddParameterForm";
+import { getDepartments } from "../../../redux/actions/DepartmentActions";
+import { Departments } from "../../../redux/types/DepartmentTypes";
 import { Props } from "./types";
 
 const AddSampleGroup = (props: Props) => {
    const { parameterId } = props.match.params;
+   const { departments } = props;
+   const [departmentList, setDepartmentList] = useState([]);
+   const [loading, setLoading] = useState(true);
+
+   const focus = async () => {
+      await props.getDepartments();
+      setLoading(false);
+   };
+
+   useEffect(() => {
+      focus();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
+
+   useEffect(() => {
+      if (departments.length > 0) {
+         const list: any = departments.map((department: Departments) => ({ label: department.name, value: department.objectId }));
+         setDepartmentList(list);
+      }
+   }, [departments]);
 
    const breadcrumbItems = [
       { path: "/", name: "Organization Settings" },
@@ -32,9 +55,13 @@ const AddSampleGroup = (props: Props) => {
             <GridColumn medium={12}>
                <Breadcrumb items={breadcrumbItems} screen={parameterId ? "Edit Parameter" : "Add Parameter"} />
             </GridColumn>
-            <GridColumn medium={7}>
-               <AddParameterForm onBack={onBack} onSubmit={onSubmit} />
-            </GridColumn>
+            {loading ? (
+               <ScreenLoader />
+            ) : (
+               <GridColumn medium={7}>
+                  <AddParameterForm departmentList={departmentList} onBack={onBack} onSubmit={onSubmit} />
+               </GridColumn>
+            )}
          </Grid>
       </Page>
    );
@@ -42,6 +69,13 @@ const AddSampleGroup = (props: Props) => {
 
 const mapStateToProps = (state: AppState) => ({
    sampleGroupPermission: state.user.user.role.permission.samples_group,
+   departments: state.department.departments,
 });
 
-export default connect(mapStateToProps)(AddSampleGroup);
+function mapDispatchToProps(dispatch: any) {
+   return {
+      ...bindActionCreators({ getDepartments }, dispatch),
+   };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddSampleGroup);

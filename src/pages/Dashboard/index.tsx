@@ -17,7 +17,7 @@ const Dashboard = (props: any) => {
                <Breadcrumb items={breadcrumbItems} screen="Dashboard" />
             </GridColumn>
             <GridColumn medium={12}>
-               <img src={props.orgnization.logo.url()} />
+               <img src={props.orgnization.logo.url()} alt="client's logo" />
             </GridColumn>
          </Grid>
       </Page>
