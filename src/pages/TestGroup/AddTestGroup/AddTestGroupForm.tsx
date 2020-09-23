@@ -82,12 +82,13 @@ const AddTestGroupForm = (props: AddTestGroupFormProps) => {
                                     {({ fieldProps }: any) => (
                                        <Textfield
                                           {...fieldProps}
-                                          onKeyUp={() => {
+                                          onChange={(e: any) => {
                                              let updateFieldList: any = customeField.map((data, id) =>
-                                                id === index ? fieldProps.value : data
+                                                id === index ? e.target.value : data
                                              );
                                              setCustomeField(updateFieldList);
                                           }}
+                                          value={item}
                                        />
                                     )}
                                  </Field>
