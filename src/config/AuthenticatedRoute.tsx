@@ -29,6 +29,8 @@ import Parameter from "../pages/Parameter";
 import AddParameter from "../pages/Parameter/AddParameter";
 import SampleGroup from "../pages/SampleGroup";
 import AddSampleGroup from "../pages/SampleGroup/AddSampleGroup";
+import SampleDetails from "../pages/SampleDetails";
+import AddSampleDetails from "../pages/SampleDetails/AddSampleDetails";
 
 interface Props extends HashRouterProps {
    status: number;
@@ -127,6 +129,10 @@ const AuthenticatedRoute = (props: Props) => {
                      {checkPermission(permission.samples_method) && <Route exact path="/organizationsettings/samplegroup" component={SampleGroup} />}
                      {permission.samples_method.write && <Route exact path="/organizationsettings/samplegroup/add" component={AddSampleGroup} />}
                      {permission.samples_method.write && <Route exact path="/organizationsettings/samplegroup/edit/:sampleGroupId" component={AddSampleGroup} />}
+
+                     {checkPermission(permission.samples_method) && <Route exact path="/organizationsettings/sampledetail" component={SampleDetails} />}
+                     {permission.samples_method.write && <Route exact path="/organizationsettings/sampledetail/add" component={AddSampleDetails} />}
+                     {permission.samples_method.write && <Route exact path="/organizationsettings/sampledetail/edit/:sampleDetailId" component={AddSampleDetails} />}
 
                      <Route component={PageNotFound} />
                   </Switch>
