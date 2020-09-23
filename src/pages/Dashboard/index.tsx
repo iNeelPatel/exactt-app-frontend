@@ -7,18 +7,18 @@ import { connect } from "react-redux";
 import { Breadcrumb } from "../../components";
 import AppState from "../../redux/types";
 
-const breadcrumbItems = [
-   { path: "/", name: "Dashboard" },
-];
+const breadcrumbItems = [{ path: "/", name: "Dashboard" }];
 
-const Dashboard = () => {
+const Dashboard = (props: any) => {
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
             <GridColumn medium={12}>
                <Breadcrumb items={breadcrumbItems} screen="Dashboard" />
             </GridColumn>
-            <GridColumn medium={12}>Dashboard</GridColumn>
+            <GridColumn medium={12}>
+               <img src={props.orgnization.logo.url()} />
+            </GridColumn>
          </Grid>
       </Page>
    );
@@ -26,6 +26,7 @@ const Dashboard = () => {
 
 const mapStateToProps = (state: AppState) => ({
    sampleGroupPermission: state.user.user.role.permission.samples_group,
+   orgnization: state.orgnization.details,
 });
 
 export default connect(mapStateToProps)(Dashboard);

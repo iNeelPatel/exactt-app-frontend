@@ -130,9 +130,9 @@ const AuthenticatedRoute = (props: Props) => {
                      {permission.samples_method.write && <Route exact path="/organizationsettings/samplegroup/add" component={AddSampleGroup} />}
                      {permission.samples_method.write && <Route exact path="/organizationsettings/samplegroup/edit/:sampleGroupId" component={AddSampleGroup} />}
 
-                     {checkPermission(permission.samples_method) && <Route exact path="/organizationsettings/sampledetail" component={SampleDetails} />}
-                     {permission.samples_method.write && <Route exact path="/organizationsettings/sampledetail/add" component={AddSampleDetails} />}
-                     {permission.samples_method.write && <Route exact path="/organizationsettings/sampledetail/edit/:sampleDetailId" component={AddSampleDetails} />}
+                     {checkPermission(permission.samples_sample) && <Route exact path="/organizationsettings/sampledetail" component={SampleDetails} />}
+                     {permission.samples_sample.write && <Route exact path="/organizationsettings/sampledetail/add" component={AddSampleDetails} />}
+                     {permission.samples_sample.write && <Route exact path="/organizationsettings/sampledetail/edit/:sampleDetailId" component={AddSampleDetails} />}
 
                      <Route component={PageNotFound} />
                   </Switch>
