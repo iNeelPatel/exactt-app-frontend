@@ -5,9 +5,11 @@ import Form, { Field } from "@atlaskit/form";
 import Textfield from "@atlaskit/textfield";
 import Select from "@atlaskit/select";
 import Button from "@atlaskit/button";
+import Toggle from "@atlaskit/toggle";
 
 // ====================================== File imports ======================================
 import { AddSampleGroupFormProps } from "./types";
+import { Divider } from "../../../components";
 
 const AddSampleGroup = (props: AddSampleGroupFormProps) => {
    return (
@@ -48,10 +50,59 @@ const AddSampleGroup = (props: AddSampleGroupFormProps) => {
                                     { label: "Perth", value: "perth" },
                                     { label: "Sydney", value: "sydney" },
                                  ]}
-                                 isLoading={true}
+                                 isLoading={false}
                                  placeholder="Search parameter"
                               />
                            )}
+                        </Field>
+
+                        <Divider />
+
+                        <div style={{ display: "flex", justifyContent: "space-between", marginTop: 10, alignItems: "center" }}>
+                           <h4>1. Parameter Name</h4>
+                           <div style={{ display: "flex", alignItems: "center" }}>
+                              <span>NABL Type: </span>{" "}
+                              <span>
+                                 <Toggle id="toggle-large" size="large" />
+                              </span>{" "}
+                           </div>
+                        </div>
+
+                        <Grid>
+                           <GridColumn medium={4}>
+                              <Field label="Validation type" isRequired name="type">
+                                 {({ fieldProps }: any) => (
+                                    <Select
+                                       {...fieldProps}
+                                       options={[
+                                          { label: "Range", value: "range" },
+                                          { label: "Valid", value: "Valid" },
+                                          { label: "Options", value: "options" },
+                                          { label: "Complies", value: "complies" },
+                                       ]}
+                                       placeholder="Search validation type"
+                                    />
+                                 )}
+                              </Field>
+                           </GridColumn>
+                           <GridColumn medium={4}>
+                              <Field label="Minimum value" isRequired name="min">
+                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                              </Field>
+                           </GridColumn>
+                           <GridColumn medium={4}>
+                              <Field label="Maximum value" isRequired name="max">
+                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                              </Field>
+                           </GridColumn>
+                        </Grid>
+
+                        <Field label="Method" isRequired name="method">
+                           {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                        </Field>
+
+                        <Field label="Requirement" isRequired name="requirement">
+                           {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                         </Field>
 
                         <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}>
