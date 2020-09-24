@@ -1,11 +1,9 @@
 // ====================================== Module imports ======================================
 import React from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
-import AppState from "../../../redux/types";
 import Form, { Field } from "@atlaskit/form";
 import Button from "@atlaskit/button";
 import Textfield from "@atlaskit/textfield";
-import { connect } from "react-redux";
 import Select from "@atlaskit/select";
 
 // ====================================== File imports ======================================
@@ -68,8 +66,4 @@ const AddSampleGroup = (props: AddParameterFormProps) => {
    );
 };
 
-const mapStateToProps = (state: AppState) => ({
-   sampleGroupPermission: state.user.user.role.permission.samples_group,
-});
-
-export default connect(mapStateToProps)(AddSampleGroup);
+export default AddSampleGroup;
