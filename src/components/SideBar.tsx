@@ -193,8 +193,8 @@ const SideBar = (props: Props) => {
                            </LinkItem>
                         )}
                         {checkPermission(permission.samples_method) && (
-                           <LinkItem href="#/organizationsettings/samplegroup" cssFn={(currentStyles) => menuItemCss(currentStyles, "samplegroup")}>
-                              Sample Groups
+                           <LinkItem href="#/organizationsettings/testmethod" cssFn={(currentStyles) => menuItemCss(currentStyles, "testmethod")}>
+                              Test methods
                            </LinkItem>
                         )}
                         {checkPermission(permission.samples_sample) && (

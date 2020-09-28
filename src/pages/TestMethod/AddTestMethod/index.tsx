@@ -10,12 +10,12 @@ import AddSampleGroupForm from "./AddSampleGroupForm";
 import { Props } from "./types";
 
 const AddSampleGroup = (props: Props) => {
-   const { sampleGroupId } = props.match.params;
+   const { testMethodId } = props.match.params;
 
    const breadcrumbItems = [
       { path: "/", name: "Organization Settings" },
-      { path: "/organizationsettings/samplegroup", name: "Sample Groups" },
-      { path: `/organizationsettings/samplegroup/${sampleGroupId ? `edit/${sampleGroupId}` : "add"}`, name: sampleGroupId ? "Edit" : "Add" },
+      { path: "/organizationsettings/testmethod", name: "Test Method" },
+      { path: `/organizationsettings/testmethod/${testMethodId ? `edit/${testMethodId}` : "add"}`, name: testMethodId ? "Edit" : "Add" },
    ];
 
    const onBack = () => {
@@ -30,7 +30,7 @@ const AddSampleGroup = (props: Props) => {
       <Page>
          <Grid spacing="compact" layout="fluid">
             <GridColumn medium={12}>
-               <Breadcrumb items={breadcrumbItems} screen={sampleGroupId ? "Edit Sample Group" : "Add Sample Group"} />
+               <Breadcrumb items={breadcrumbItems} screen={testMethodId ? "Edit Test Method" : "Add Test Method"} />
             </GridColumn>
             <GridColumn medium={7}>
                <AddSampleGroupForm onBack={onBack} onSubmit={onSubmit} />

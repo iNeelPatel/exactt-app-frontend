@@ -12,41 +12,41 @@ import { Props } from "./types";
 
 const breadcrumbItems = [
    { path: "/", name: "Organization Settings" },
-   { path: "/organizationsettings/samplegroup", name: "Sample Groups" },
+   { path: "/organizationsettings/testmethod", name: "Test Method" },
 ];
 
-const Parameter = (props: Props) => {
-   const { sampleGroupPermission } = props;
+const TestMethod = (props: Props) => {
+   const { testMethodPermission } = props;
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
             <GridColumn medium={12}>
                <Breadcrumb
                   items={breadcrumbItems}
-                  screen="Sample Groups"
+                  screen="Test Methods"
                   right={
-                     sampleGroupPermission.write && (
+                     testMethodPermission.write && (
                         <Button
                            iconBefore={<AddIcon label="Add icon" size="small" />}
                            type="submit"
                            style={{ height: 38, marginLeft: 10, marginTop: 9 }}
                            appearance="primary"
-                           onClick={() => props.history.push("/organizationsettings/samplegroup/add")}
+                           onClick={() => props.history.push("/organizationsettings/testmethod/add")}
                         >
-                           Add sample group
+                           Add test method
                         </Button>
                      )
                   }
                />
             </GridColumn>
-            <GridColumn medium={12}>Add sample group</GridColumn>
+            <GridColumn medium={12}>Add test method</GridColumn>
          </Grid>
       </Page>
    );
 };
 
 const mapStateToProps = (state: AppState) => ({
-   sampleGroupPermission: state.user.user.role.permission.samples_method,
+   testMethodPermission: state.user.user.role.permission.samples_method,
 });
 
-export default connect(mapStateToProps)(Parameter);
+export default connect(mapStateToProps)(TestMethod);

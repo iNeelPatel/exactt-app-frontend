@@ -8,7 +8,7 @@ import Button from "@atlaskit/button";
 import Toggle from "@atlaskit/toggle";
 
 // ====================================== File imports ======================================
-import { AddSampleGroupFormProps } from "./types";
+import { AddTestMethodFormProps } from "./types";
 import { Divider } from "../../../components";
 
 const createOption = (label: string) => ({
@@ -16,7 +16,7 @@ const createOption = (label: string) => ({
    value: label.toLowerCase().replace(/\W/g, ""),
 });
 
-const AddSampleGroup = (props: AddSampleGroupFormProps) => {
+const AddTestMethod = (props: AddTestMethodFormProps) => {
    const [type, setType] = useState("");
    const [createOptions, setCreateOptions] = useState<any>([]);
    const [optionValue, setOptionValue] = useState<any>([]);
@@ -190,4 +190,4 @@ const AddSampleGroup = (props: AddSampleGroupFormProps) => {
    );
 };
 
-export default AddSampleGroup;
+export default AddTestMethod;

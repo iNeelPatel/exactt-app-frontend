@@ -27,8 +27,8 @@ import TestGroup from "../pages/TestGroup";
 import AddTestGroup from "../pages/TestGroup/AddTestGroup";
 import Parameter from "../pages/Parameter";
 import AddParameter from "../pages/Parameter/AddParameter";
-import SampleGroup from "../pages/SampleGroup";
-import AddSampleGroup from "../pages/SampleGroup/AddSampleGroup";
+import TestMethod from "../pages/TestMethod";
+import AddTestMethod from "../pages/TestMethod/AddTestMethod";
 import SampleDetails from "../pages/SampleDetails";
 import AddSampleDetails from "../pages/SampleDetails/AddSampleDetails";
 
@@ -126,9 +126,9 @@ const AuthenticatedRoute = (props: Props) => {
                      {permission.samples_group.write && <Route exact path="/organizationsettings/parameter/add" component={AddParameter} />}
                      {permission.samples_group.write && <Route exact path="/organizationsettings/parameter/edit/:parameterId" component={AddParameter} />}
 
-                     {checkPermission(permission.samples_method) && <Route exact path="/organizationsettings/samplegroup" component={SampleGroup} />}
-                     {permission.samples_method.write && <Route exact path="/organizationsettings/samplegroup/add" component={AddSampleGroup} />}
-                     {permission.samples_method.write && <Route exact path="/organizationsettings/samplegroup/edit/:sampleGroupId" component={AddSampleGroup} />}
+                     {checkPermission(permission.samples_method) && <Route exact path="/organizationsettings/testmethod" component={TestMethod} />}
+                     {permission.samples_method.write && <Route exact path="/organizationsettings/testmethod/add" component={AddTestMethod} />}
+                     {permission.samples_method.write && <Route exact path="/organizationsettings/testmethod/edit/:sampleGroupId" component={AddTestMethod} />}
 
                      {checkPermission(permission.samples_sample) && <Route exact path="/organizationsettings/sampledetail" component={SampleDetails} />}
                      {permission.samples_sample.write && <Route exact path="/organizationsettings/sampledetail/add" component={AddSampleDetails} />}
