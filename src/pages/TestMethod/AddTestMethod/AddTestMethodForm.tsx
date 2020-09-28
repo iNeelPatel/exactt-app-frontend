@@ -165,13 +165,18 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
                            )}
                         </Grid>
 
-                        <Field label="Method" isRequired name="method">
-                           {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                        </Field>
-
-                        <Field label="Requirement" isRequired name="requirement">
-                           {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                        </Field>
+                        <Grid>
+                           <GridColumn medium={5}>
+                              <Field label="Method" isRequired name="method">
+                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                              </Field>
+                           </GridColumn>
+                           <GridColumn medium={7}>
+                              <Field label="Requirement" isRequired name="requirement">
+                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                              </Field>
+                           </GridColumn>
+                        </Grid>
 
                         <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}>
                            <Button appearance="link" disabled={submitting} onClick={() => props.onBack()}>

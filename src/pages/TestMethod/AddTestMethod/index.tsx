@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 
 // ====================================== File imports ======================================
 import { Breadcrumb } from "../../../components";
-import AddSampleGroupForm from "./AddSampleGroupForm";
+import AddTestMethodForm from "./AddTestMethodForm";
 import { Props } from "./types";
 
 const AddSampleGroup = (props: Props) => {
@@ -32,8 +32,8 @@ const AddSampleGroup = (props: Props) => {
             <GridColumn medium={12}>
                <Breadcrumb items={breadcrumbItems} screen={testMethodId ? "Edit Test Method" : "Add Test Method"} />
             </GridColumn>
-            <GridColumn medium={7}>
-               <AddSampleGroupForm onBack={onBack} onSubmit={onSubmit} />
+            <GridColumn medium={8}>
+               <AddTestMethodForm onBack={onBack} onSubmit={onSubmit} />
             </GridColumn>
          </Grid>
       </Page>
