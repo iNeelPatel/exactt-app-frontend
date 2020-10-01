@@ -13,4 +13,5 @@ export interface AddCustomerProps {
    onSubmit: (arg0: any) => void;
    onBack: () => void;
    customer: Customer;
+   edit: boolean;
 }

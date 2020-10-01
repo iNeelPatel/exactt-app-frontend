@@ -38,7 +38,7 @@ const AddCustomer = (props: Props) => {
 
    const handleSubmit = async (customer: Customer) => {
       if (customerId) {
-         await props.updateCustomers({...customer, objectId: customerId});
+         await props.updateCustomers({ ...customer, objectId: customerId });
       } else {
          await props.createCustomers(customer);
       }
@@ -57,7 +57,7 @@ const AddCustomer = (props: Props) => {
                <Breadcrumb items={breadcrumbItems} screen={customerId ? "Edit customer" : "Add customer"} />
             </GridColumn>
             <GridColumn medium={7}>
-               <AddCustomerForm onSubmit={handleSubmit} onBack={onBack} customer={customer} />
+               <AddCustomerForm onSubmit={handleSubmit} onBack={onBack} customer={customer} edit={customerId ? true : false} />
             </GridColumn>
          </Grid>
       </Page>
