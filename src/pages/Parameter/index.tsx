@@ -25,13 +25,13 @@ const Parameter = (props: Props) => {
          {
             key: "name",
             content: "Name",
-            isSortable: false,
+            isSortable: true,
             shouldTruncate: true,
          },
          {
             key: "unit",
             content: "Result unit",
-            isSortable: true,
+            isSortable: false,
             shouldTruncate: false,
          },
          {
