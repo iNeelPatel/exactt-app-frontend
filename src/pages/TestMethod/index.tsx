@@ -4,9 +4,11 @@ import Page, { Grid, GridColumn } from "@atlaskit/page";
 import Button from "@atlaskit/button";
 import AddIcon from "@atlaskit/icon/glyph/add";
 import { connect } from "react-redux";
+import DynamicTable from "@atlaskit/dynamic-table";
+import EditIcon from "@atlaskit/icon/glyph/edit";
 
 // ====================================== File imports ======================================
-import { Breadcrumb } from "../../components";
+import { Breadcrumb, DeleteButton } from "../../components";
 import AppState from "../../redux/types";
 import { Props } from "./types";
 
@@ -17,6 +19,63 @@ const breadcrumbItems = [
 
 const TestMethod = (props: Props) => {
    const { testMethodPermission } = props;
+
+   const head: any = {
+      cells: [
+         {
+            key: "name",
+            content: "Name",
+            width: "30",
+            isSortable: true,
+            shouldTruncate: true,
+         },
+         {
+            key: "parameters",
+            content: "Parameters",
+            isSortable: false,
+            shouldTruncate: false,
+         },
+         {
+            key: "action",
+            content: "",
+            width: testMethodPermission.write ? 17 : 1,
+            isSortable: false,
+            shouldTruncate: false,
+         },
+      ],
+   };
+
+   const rows: any = [
+      {
+         key: `row`,
+         cells: [
+            {
+               key: `group_name`,
+               content: <div style={{ height: 34, display: "flex", alignItems: "center" }}>pH</div>,
+            },
+            {
+               key: `parameters`,
+               content: <div>pH, New, Test</div>,
+            },
+            {
+               key: `cell`,
+               content: testMethodPermission.write && (
+                  <div style={{ display: "flex" }}>
+                     <Button
+                        iconBefore={<EditIcon label="Edit icon" size="small" />}
+                        appearance="link"
+                        onClick={() => props.history.push(`/organizationsettings/testgroup/edit/rendomid`)}
+                     >
+                        Edit
+                     </Button>
+                     <DeleteButton onClick={() => props.history.push(`/organizationsettings/testgroup/`)} />
+                  </div>
+               ),
+            },
+         ],
+      },
+   ];
+
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
@@ -39,7 +98,20 @@ const TestMethod = (props: Props) => {
                   }
                />
             </GridColumn>
-            <GridColumn medium={12}>Add test method</GridColumn>
+            <GridColumn medium={12}>
+               <DynamicTable
+                  head={head}
+                  rows={rows}
+                  rowsPerPage={10}
+                  defaultPage={1}
+                  isFixedSize
+                  // isLoading={loading}
+                  defaultSortKey="name"
+                  defaultSortOrder="ASC"
+                  onSort={() => console.log("onSort")}
+                  onSetPage={() => console.log("onSetPage")}
+               />
+            </GridColumn>
          </Grid>
       </Page>
    );
