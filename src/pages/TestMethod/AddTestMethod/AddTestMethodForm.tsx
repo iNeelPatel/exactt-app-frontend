@@ -20,6 +20,7 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
    const [type, setType] = useState("");
    const [createOptions, setCreateOptions] = useState<any>([]);
    const [optionValue, setOptionValue] = useState<any>([]);
+   const [dropdownOpen, setDropdownOpen] = useState(false);
 
    const handleChange = (newValue: any) => {
       setOptionValue(newValue);
@@ -78,7 +79,10 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
                                     { label: "Sydney", value: "sydney" },
                                  ]}
                                  isLoading={false}
+                                 menuIsOpen={dropdownOpen}
+                                 onMenuOpen={() => setDropdownOpen(true)}
                                  placeholder="Search parameter"
+                                 onBlur={() => setDropdownOpen(false)}
                               />
                            )}
                         </Field>
