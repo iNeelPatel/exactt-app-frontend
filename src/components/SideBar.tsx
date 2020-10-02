@@ -33,7 +33,7 @@ const styles: {
       flexDirection: "row",
       flex: 1,
       height: "100%",
-      maxWidth: 320,
+      maxWidth: 290,
    },
    titleBar: {
       background: colors.N800A,

@@ -89,7 +89,7 @@ const AuthenticatedRoute = (props: Props) => {
          <HashRouter>
             <div className="mainBox" style={{ display: "flex", flexDirection: "row", flex: 1, height: "100%" }}>
                {status === 2 && (
-                  <div style={{ minWidth: 320, maxWidth: 320 }}>
+                  <div style={{ minWidth: 290, maxWidth: 290 }}>
                      <SideBar />
                   </div>
                )}
