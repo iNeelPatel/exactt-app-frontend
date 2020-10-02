@@ -10,7 +10,6 @@ import Button from "@atlaskit/button";
 
 // ====================================== File imports ======================================
 import { AddSampleDetailFormProps } from "./types";
-import { Divider } from "../../../components";
 
 const AddSampleGroup = (props: AddSampleDetailFormProps) => {
    return (
