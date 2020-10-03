@@ -31,6 +31,7 @@ import TestMethod from "../pages/TestMethod";
 import AddTestMethod from "../pages/TestMethod/AddTestMethod";
 import SampleDetails from "../pages/SampleDetails";
 import AddSampleDetails from "../pages/SampleDetails/AddSampleDetails";
+import CustomerDetails from "../pages/Customer/CustomerDetails";
 
 interface Props extends HashRouterProps {
    status: number;
@@ -110,6 +111,7 @@ const AuthenticatedRoute = (props: Props) => {
                   <Switch>
                      <Route exact path="/" component={status === 2 ? Dashboard : Organization} />
                      {checkPermission(permission.customer) && <Route exact path="/customer" component={Customer} />}
+                     {checkPermission(permission.customer) && <Route exact path="/customer/details/:customerId" component={CustomerDetails} />}
                      {permission.customer.write && <Route exact path="/customer/add" component={AddCustomer} />}
                      {permission.customer.write && <Route exact path="/customer/edit/:customerId" component={AddCustomer} />}
                      {checkPermission(permission.role) && <Route exact path="/organizationsettings/role" component={Role} />}

@@ -11,7 +11,7 @@ import EditIcon from "@atlaskit/icon/glyph/edit";
 // ====================================== File imports ======================================
 import { Props } from "./types";
 import { Breadcrumb, ScreenLoader, DeleteButton } from "../../components";
-import { getCustomers } from "../../redux/actions/CustomerActions";
+import { getCustomers, setDetailsCustomer } from "../../redux/actions/CustomerActions";
 import AppState from "../../redux/types";
 import { Customer } from "../../redux/types/CustomerTypes";
 
@@ -43,7 +43,17 @@ const CustomerScreen = (props: Props) => {
          cells: [
             {
                key: `cell${customer.objectId}${customer.name}`,
-               content: <div style={{ height: 34, display: "flex", alignItems: "center" }}>{customer.name}</div>,
+               content: (
+                  <Button
+                     appearance="link"
+                     onClick={async () => {
+                        await props.setDetailsCustomer(customer);
+                        props.history.push(`/customer/details/${customer.objectId}`);
+                     }}
+                  >
+                     {customer.name}
+                  </Button>
+               ),
             },
             {
                key: `cell${customer.objectId}${customer.contact.name}`,
@@ -178,7 +188,7 @@ const mapStateToProps = (state: AppState) => ({
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ getCustomers }, dispatch),
+      ...bindActionCreators({ getCustomers, setDetailsCustomer }, dispatch),
    };
 }
 

@@ -118,3 +118,13 @@ export function updateCustomers(data: any) {
       }
    };
 }
+
+export function setDetailsCustomer(data: any) {
+   return async (dispatch: DispatchType): Promise<any> => {
+      dispatch({
+         type: ActionsTypes.SET_DETAILS_CUSTOMER,
+         payload: data,
+      });
+      return data;
+   };
+}
