@@ -32,7 +32,7 @@ const AddTestGroup = (props: Props) => {
             <GridColumn medium={12}>
                <Breadcrumb items={breadcrumbItems} screen={ groupId ? "Edit Test Group" : "Add Test Group"} />
             </GridColumn>
-            <GridColumn medium={7}>
+            <GridColumn medium={8}>
                <AddTestGroupForm onBack={onBack} onSubmit={onSubmit} />
             </GridColumn>
          </Grid>

@@ -52,7 +52,7 @@ const CustomerDetails = (props: Props) => {
             <GridColumn medium={12}>
                <Breadcrumb items={breadcrumbItems} screen="Customer Details" />
             </GridColumn>
-            <GridColumn medium={7}>
+            <GridColumn medium={8}>
                <Details customer={customer} />
                <Divider />
                <Records records={records} />

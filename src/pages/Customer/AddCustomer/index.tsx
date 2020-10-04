@@ -56,7 +56,7 @@ const AddCustomer = (props: Props) => {
             <GridColumn medium={12}>
                <Breadcrumb items={breadcrumbItems} screen={customerId ? "Edit customer" : "Add customer"} />
             </GridColumn>
-            <GridColumn medium={7}>
+            <GridColumn medium={8}>
                <AddCustomerForm onSubmit={handleSubmit} onBack={onBack} customer={customer} edit={customerId ? true : false} />
             </GridColumn>
          </Grid>
