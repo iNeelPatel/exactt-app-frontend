@@ -3,16 +3,16 @@ import React from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 
 // ====================================== File imports ======================================
-import { AddSampleFormProps } from "./types";
+import { PreviewProps } from "./types";
 
-const AddSampleGroup = (props: AddSampleFormProps) => {
+const Preview = (props: PreviewProps) => {
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
-            <GridColumn>Add sample group from</GridColumn>
+            <GridColumn>Preview</GridColumn>
          </Grid>
       </Page>
    );
 };
 
-export default AddSampleGroup;
+export default Preview;

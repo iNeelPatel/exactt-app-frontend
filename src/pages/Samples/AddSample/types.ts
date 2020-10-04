@@ -4,7 +4,22 @@ export interface Props extends RouteComponentProps {
    match: any;
 }
 
-export interface AddSampleFormProps {
+export interface BasicDetailsFormProps {
+   onBack: () => void;
+   onSubmit: (arg0: any) => void;
+}
+
+export interface PreviewProps {
+   onBack: () => void;
+   onSubmit: (arg0: any) => void;
+}
+
+export interface SampleFormProps {
+   onBack: () => void;
+   onSubmit: (arg0: any) => void;
+}
+
+export interface TestDetailsFormProps {
    onBack: () => void;
    onSubmit: (arg0: any) => void;
 }
