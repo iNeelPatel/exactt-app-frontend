@@ -30,6 +30,12 @@ const records: any = [
       testMethod: "IOS 20563:2013 water test method",
       status: "in process",
    },
+   {
+      reportId: "HTL-PWD-200410001",
+      name: "Besleri Mineral Water",
+      testMethod: "IOS 20563:2013 water test method",
+      status: "canceled",
+   },
 ];
 
 const CustomerDetails = (props: Props) => {

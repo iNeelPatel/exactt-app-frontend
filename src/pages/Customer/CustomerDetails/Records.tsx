@@ -49,7 +49,15 @@ const Details = (props: RecordsProps) => {
                            </div>
                            <div style={{ textAlign: "right" }}>
                               <Lozenge
-                                 appearance={item.status === "complete" ? "success" : item.status === "panding" ? "moved" : "inprogress"}
+                                 appearance={
+                                    item.status === "complete"
+                                       ? "success"
+                                       : item.status === "panding"
+                                       ? "moved"
+                                       : item.status === "canceled"
+                                       ? "removed"
+                                       : "inprogress"
+                                 }
                               >
                                  {item.status}
                               </Lozenge>
