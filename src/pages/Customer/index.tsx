@@ -35,7 +35,7 @@ const CustomerScreen = (props: Props) => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
 
-   const { customerPermission } = props;
+   const { customerPermission, setDetailsCustomer } = props;
 
    useEffect(() => {
       let createRows: Array<object> = customers?.map((customer: Customer, id: number) => ({
@@ -47,7 +47,7 @@ const CustomerScreen = (props: Props) => {
                   <Button
                      appearance="link"
                      onClick={async () => {
-                        await props.setDetailsCustomer(customer);
+                        await setDetailsCustomer(customer);
                         props.history.push(`/customer/details/${customer.objectId}`);
                      }}
                   >
@@ -94,7 +94,7 @@ const CustomerScreen = (props: Props) => {
       }));
 
       setRows(createRows);
-   }, [customers, customerPermission.write, props.history]);
+   }, [customers, customerPermission.write, props.history, setDetailsCustomer]);
 
    const head: any = {
       cells: [

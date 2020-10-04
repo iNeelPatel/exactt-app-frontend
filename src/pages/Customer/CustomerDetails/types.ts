@@ -9,3 +9,7 @@ export interface Props extends RouteComponentProps {
 export interface DetailsProps {
    customer: Customer;
 }
+
+export interface RecordsProps {
+   records: any;
+}

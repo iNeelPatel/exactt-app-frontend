@@ -9,6 +9,28 @@ import { Props } from "./types";
 import AppState from "../../../redux/types";
 import { Customer } from "../../../redux/types/CustomerTypes";
 import Details from "./Details";
+import Records from "./Records";
+
+const records: any = [
+   {
+      reportId: "HTL/PWD/200410001",
+      name: "Besleri Mineral Water",
+      testMethod: "IOS 20563:2013 water test method",
+      status: "complete",
+   },
+   {
+      reportId: "HTL/PWD/200410001",
+      name: "Besleri Mineral Water",
+      testMethod: "IOS 20563:2013 water test method",
+      status: "panding",
+   },
+   {
+      reportId: "HTL/PWD/200410001",
+      name: "Besleri Mineral Water",
+      testMethod: "IOS 20563:2013 water test method",
+      status: "in process",
+   },
+];
 
 const CustomerDetails = (props: Props) => {
    const customer: Customer = props.customer;
@@ -27,6 +49,7 @@ const CustomerDetails = (props: Props) => {
             <GridColumn medium={7}>
                <Details customer={customer} />
                <Divider />
+               <Records records={records} />
             </GridColumn>
          </Grid>
       </Page>
