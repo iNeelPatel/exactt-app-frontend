@@ -37,24 +37,28 @@ const Details = (props: RecordsProps) => {
                   <Heading mixin={typography.h300} style={{ marginTop: 0 }}>
                      SAMPLE RECORDS
                   </Heading>
-                  {props.records.map((item: any) => (
-                     <div style={styles.card}>
-                        <div style={{ textAlign: "left", maxWidth: "70%" }}>
-                           <Heading mixin={typography.h300} style={{ marginTop: 0, fontSize: 14 }}>
-                              {item.reportId}
-                           </Heading>
-                           <div style={styles.text}>{item.name}</div>
-                           <div style={styles.text}>Test method : {item.testMethod}</div>
+                  {props.records.length > 0 ? (
+                     props.records.map((item: any) => (
+                        <div style={styles.card}>
+                           <div style={{ textAlign: "left", maxWidth: "70%" }}>
+                              <Heading mixin={typography.h300} style={{ marginTop: 0, fontSize: 14 }}>
+                                 {item.reportId}
+                              </Heading>
+                              <div style={styles.text}>{item.name}</div>
+                              <div style={styles.text}>Test method : {item.testMethod}</div>
+                           </div>
+                           <div style={{ textAlign: "right" }}>
+                              <Lozenge
+                                 appearance={item.status === "complete" ? "success" : item.status === "panding" ? "moved" : "inprogress"}
+                              >
+                                 {item.status}
+                              </Lozenge>
+                           </div>
                         </div>
-                        <div style={{ textAlign: "right" }}>
-                           <Lozenge
-                              appearance={item.status === "complete" ? "success" : item.status === "panding" ? "moved" : "inprogress"}
-                           >
-                              {item.status}
-                           </Lozenge>
-                        </div>
-                     </div>
-                  ))}
+                     ))
+                  ) : (
+                     <div style={{ textAlign: "center", color: colors.N100 }}>No records found</div>
+                  )}
                </div>
             </GridColumn>
          </Grid>

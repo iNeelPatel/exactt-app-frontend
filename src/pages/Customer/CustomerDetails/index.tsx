@@ -13,19 +13,19 @@ import Records from "./Records";
 
 const records: any = [
    {
-      reportId: "HTL/PWD/200410001",
+      reportId: "HTL-PWD-200410001",
       name: "Besleri Mineral Water",
       testMethod: "IOS 20563:2013 water test method",
       status: "complete",
    },
    {
-      reportId: "HTL/PWD/200410001",
+      reportId: "HTL-PWD-200410001",
       name: "Besleri Mineral Water",
       testMethod: "IOS 20563:2013 water test method",
       status: "panding",
    },
    {
-      reportId: "HTL/PWD/200410001",
+      reportId: "HTL-PWD-200410001",
       name: "Besleri Mineral Water",
       testMethod: "IOS 20563:2013 water test method",
       status: "in process",
