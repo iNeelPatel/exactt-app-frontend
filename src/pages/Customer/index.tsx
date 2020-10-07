@@ -7,11 +7,12 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import DynamicTable from "@atlaskit/dynamic-table";
 import EditIcon from "@atlaskit/icon/glyph/edit";
+import Modal, { ModalTransition } from '@atlaskit/modal-dialog';
 
 // ====================================== File imports ======================================
 import { Props } from "./types";
 import { Breadcrumb, ScreenLoader, DeleteButton } from "../../components";
-import { getCustomers } from "../../redux/actions/CustomerActions";
+import { getCustomers, deleteCustomer } from "../../redux/actions/CustomerActions";
 import AppState from "../../redux/types";
 import { Customer } from "../../redux/types/CustomerTypes";
 
@@ -21,9 +22,14 @@ const breadcrumbItems = [
 ];
 
 const CustomerScreen = (props: Props) => {
-   const { customers } = props;
+   const { customers, deleteCustomer } = props;
    const [loading, setLoading] = useState<boolean>(true);
    const [rows, setRows] = useState<any>([]);
+   const [customerId, setCustomer] = useState();
+
+   const [isOpen, setIsOpen] = useState(false);
+   const close = () => setIsOpen(false);
+   const open = () => setIsOpen(true);
 
    const focus = async () => {
       await props.getCustomers();
@@ -76,7 +82,7 @@ const CustomerScreen = (props: Props) => {
                      >
                         Edit
                      </Button>
-                     <DeleteButton onClick={() => props.history.push(`/customer/edit/${customer.objectId}`)} />
+                     <DeleteButton onClick={() => deleteCustomer(customer.objectId)} />
                   </div>
                ),
             },
@@ -167,6 +173,20 @@ const CustomerScreen = (props: Props) => {
                />
             </GridColumn>
          </Grid>
+            <ModalTransition>
+               {isOpen && (
+                  <Modal
+                     actions={[
+                        { text: 'Delete', onClick: open },
+                        { text: 'Cancle', onClick: close },
+                     ]}
+                     onClose={close}
+                     heading="Test drive your new search"
+                  >
+                     Are you sure you want to delete this Customer?
+                  </Modal>
+               )}
+            </ModalTransition>
       </Page>
    );
 };
@@ -178,7 +198,7 @@ const mapStateToProps = (state: AppState) => ({
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ getCustomers }, dispatch),
+      ...bindActionCreators({ getCustomers, deleteCustomer }, dispatch),
    };
 }
 

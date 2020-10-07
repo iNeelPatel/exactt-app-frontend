@@ -23,6 +23,7 @@ interface ActionsTypes {
    GET_CUSTOMER: string;
    CREATE_CUSTOMER: string;
    UPDATE_CUSTOMER: string;
+   DELETE_CUSTOMER: string;
 }
 
 const Actions: ActionsTypes = {
@@ -63,6 +64,7 @@ const Actions: ActionsTypes = {
    GET_CUSTOMER: "GET_CUSTOMER",
    CREATE_CUSTOMER: "CREATE_CUSTOMER",
    UPDATE_CUSTOMER: "UPDATE_CUSTOMER",
+   DELETE_CUSTOMER: "DELETE_CUSTOMER",
 };
 
 export default Actions;

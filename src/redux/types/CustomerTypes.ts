@@ -22,6 +22,7 @@ export interface Customer {
       ifsc: string;
    };
    gst: string;
+   delete?: boolean;
 }
 
 export interface CustomerState {

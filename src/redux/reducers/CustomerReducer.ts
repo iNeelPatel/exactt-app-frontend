@@ -32,6 +32,11 @@ export default (state: CustomerState = initialState, action: ActionInterface): C
             ...state,
             customer: action.payload,
          };
+      case ActionTypes.DELETE_CUSTOMER:
+         return {
+            ...state,
+            customers: state.customers.filter(item => item.objectId !== action.payload.objectId),
+         };
 
       default:
          return state;
