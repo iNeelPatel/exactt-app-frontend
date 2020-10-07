@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import { ProgressTracker, Stages } from "@atlaskit/progress-tracker";
 // import Button from "@atlaskit/button";
+import { colors } from "@atlaskit/theme";
 
 // ====================================== File imports ======================================
 import { Breadcrumb, Divider, Box } from "../../../components";
@@ -12,9 +13,19 @@ import BasicDetailsForm from "./BasicDetailsForm";
 import TestDetailsForm from "./TestDetailsForm";
 import Preview from "./Preview";
 
+const style = {
+   mainCard: {
+      background: colors.N30,
+      borderRadius: 4,
+      padding: 5,
+      marginLeft: 10,
+   },
+   card: { margin: 5, background: colors.N0, padding: 5, borderRadius: 3 },
+};
+
 const AddSampleGroup = (props: Props) => {
    const { sampleId } = props.match.params;
-   const [step, setStep] = useState(0);
+   const [step, setStep] = useState(1);
    const [basicDetails, setBasicDetails] = useState({});
 
    console.log("basicDetails => ", basicDetails);
@@ -129,10 +140,18 @@ const AddSampleGroup = (props: Props) => {
             </GridColumn>
 
             <GridColumn medium={4}>
-               <div style={{ paddingLeft: 20, paddingTop: 8 }}>
-                  <Box elevation="e200" style={{ textAlign: "left" }}>
-                     a
-                  </Box>
+               <div style={{ marginTop: 30 }}>
+                  <div style={style.mainCard}>
+                     <div style={style.card}>
+                        <div>a</div>
+                        <div>a</div>
+                        <div>a</div>
+                        <div>a</div>
+                        <div>a</div>
+                        <div>a</div>
+                        <div>a</div>
+                     </div>
+                  </div>
                </div>
             </GridColumn>
          </Grid>
