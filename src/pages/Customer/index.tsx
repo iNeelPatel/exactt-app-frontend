@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import DynamicTable from "@atlaskit/dynamic-table";
 import EditIcon from "@atlaskit/icon/glyph/edit";
-import Modal, { ModalTransition } from '@atlaskit/modal-dialog';
+import Modal, { ModalTransition } from "@atlaskit/modal-dialog";
 
 // ====================================== File imports ======================================
 import { Props } from "./types";
@@ -23,13 +23,18 @@ const breadcrumbItems = [
 
 const CustomerScreen = (props: Props) => {
    const { customers, deleteCustomer } = props;
+   const [deleteCustomerData, setDeleteCustomerData] = useState<Customer | undefined>(undefined);
    const [loading, setLoading] = useState<boolean>(true);
    const [rows, setRows] = useState<any>([]);
-   const [customerId, setCustomer] = useState();
+   const [isDeleting, setisDeleting] = useState(false);
 
-   const [isOpen, setIsOpen] = useState(false);
-   const close = () => setIsOpen(false);
-   const open = () => setIsOpen(true);
+   const close = () => setDeleteCustomerData(undefined);
+   const handleDelete = async () => {
+      setisDeleting(true);
+      await deleteCustomer(deleteCustomerData?.objectId);
+      setDeleteCustomerData(undefined);
+      setisDeleting(false);
+   };
 
    const focus = async () => {
       await props.getCustomers();
@@ -82,7 +87,7 @@ const CustomerScreen = (props: Props) => {
                      >
                         Edit
                      </Button>
-                     <DeleteButton onClick={() => deleteCustomer(customer.objectId)} />
+                     <DeleteButton onClick={() => setDeleteCustomerData(customer)} />
                   </div>
                ),
             },
@@ -173,20 +178,20 @@ const CustomerScreen = (props: Props) => {
                />
             </GridColumn>
          </Grid>
-            <ModalTransition>
-               {isOpen && (
-                  <Modal
-                     actions={[
-                        { text: 'Delete', onClick: open },
-                        { text: 'Cancle', onClick: close },
-                     ]}
-                     onClose={close}
-                     heading="Test drive your new search"
-                  >
-                     Are you sure you want to delete this Customer?
-                  </Modal>
-               )}
-            </ModalTransition>
+         <ModalTransition>
+            {deleteCustomerData && (
+               <Modal
+                  actions={[
+                     { text: "Delete", onClick: handleDelete, isLoading: isDeleting, appearance: "danger" },
+                     { text: "Cancle", onClick: close },
+                  ]}
+                  onClose={close}
+                  heading="Delete"
+               >
+                  Are you sure you want to delete <strong>{deleteCustomerData.name}</strong> ?
+               </Modal>
+            )}
+         </ModalTransition>
       </Page>
    );
 };
