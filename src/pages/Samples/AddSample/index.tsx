@@ -6,7 +6,7 @@ import { ProgressTracker, Stages } from "@atlaskit/progress-tracker";
 import { colors } from "@atlaskit/theme";
 
 // ====================================== File imports ======================================
-import { Breadcrumb, Divider, Box } from "../../../components";
+import { Breadcrumb, Divider } from "../../../components";
 import { Props } from "./types";
 import SampleForm from "./SampleForm";
 import BasicDetailsForm from "./BasicDetailsForm";
