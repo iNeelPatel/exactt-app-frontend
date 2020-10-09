@@ -2,11 +2,10 @@
 import React, { useState } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import { ProgressTracker, Stages } from "@atlaskit/progress-tracker";
-// import Button from "@atlaskit/button";
-import { colors } from "@atlaskit/theme";
+import { colors, typography } from "@atlaskit/theme";
 
 // ====================================== File imports ======================================
-import { Breadcrumb, Divider } from "../../../components";
+import { Breadcrumb, Divider, Heading } from "../../../components";
 import { Props } from "./types";
 import SampleForm from "./SampleForm";
 import BasicDetailsForm from "./BasicDetailsForm";
@@ -20,12 +19,28 @@ const style = {
       padding: 5,
       marginLeft: 10,
    },
-   card: { margin: 5, background: colors.N0, padding: 5, borderRadius: 3 },
+   card: {
+      margin: 5,
+      background: colors.N0,
+      padding: 5,
+      borderRadius: 3,
+   },
+   heading: {
+      marginTop: 1,
+   },
+   title: {
+      fontWeight: "bold",
+   },
+   subHeading:{
+      marginTop: 1,
+      width: 65,
+      minWidth: 65
+   }
 };
 
 const AddSampleGroup = (props: Props) => {
    const { sampleId } = props.match.params;
-   const [step, setStep] = useState(1);
+   const [step, setStep] = useState(2);
    const [basicDetails, setBasicDetails] = useState({});
 
    console.log("basicDetails => ", basicDetails);
@@ -143,13 +158,32 @@ const AddSampleGroup = (props: Props) => {
                <div style={{ marginTop: 30 }}>
                   <div style={style.mainCard}>
                      <div style={style.card}>
-                        <div>a</div>
-                        <div>a</div>
-                        <div>a</div>
-                        <div>a</div>
-                        <div>a</div>
-                        <div>a</div>
-                        <div>a</div>
+                        <div>
+                           <Heading mixin={typography.h200} style={style.heading}>
+                              Customer
+                           </Heading>
+                           <Heading mixin={typography.h500} style={style.heading}>
+                              SenseLab Inc.
+                           </Heading>
+                        </div>
+                        <div style={{ display: "flex" }}>
+                           <Heading mixin={typography.h400} style={style.subHeading}>
+                              Phone
+                           </Heading>
+                           <span style={{ color: colors.N300 }}> +91 9876387463</span>
+                        </div>
+                        <div style={{ display: "flex" }}>
+                           <Heading mixin={typography.h400} style={style.subHeading}>
+                              Email
+                           </Heading>
+                           <span style={{ color: colors.N300 }}> neelpatel@senselab.io</span>
+                        </div>
+                        <div style={{ display: "flex" }}>
+                           <Heading mixin={typography.h400} style={style.subHeading}>
+                              Address
+                           </Heading>
+                           <span style={{ color: colors.N300 }}>E/1 Vasudev Bunglows, B/H Annpurna Hotel, Jashodanagar, Ahmedabad</span>
+                        </div>
                      </div>
                   </div>
                </div>
