@@ -10,7 +10,6 @@ import { Props } from "./types";
 import SampleForm from "./SampleForm";
 import BasicDetailsForm from "./BasicDetailsForm";
 import TestDetailsForm from "./TestDetailsForm";
-import Preview from "./Preview";
 
 const style = {
    mainCard: {
@@ -40,10 +39,15 @@ const style = {
 
 const AddSampleGroup = (props: Props) => {
    const { sampleId } = props.match.params;
-   const [step, setStep] = useState(2);
+
+   const [step, setStep] = useState(0);
    const [basicDetails, setBasicDetails] = useState({});
+   const [sampleDetails, setSampleDetails] = useState({});
+   const [testingDetails, setTestingDetails] = useState({});
 
    console.log("basicDetails => ", basicDetails);
+   console.log("sampleDetails => ", sampleDetails);
+   console.log("testingDetails => ", testingDetails);
 
    const breadcrumbItems = [
       { path: "/", name: "Dashboard" },
@@ -84,14 +88,6 @@ const AddSampleGroup = (props: Props) => {
          noLink: false,
          onClick: () => setStep(2),
       },
-      {
-         id: "3",
-         label: "Preview",
-         percentageComplete: 0,
-         status: "unvisited",
-         noLink: false,
-         onClick: () => setStep(3),
-      },
    ];
 
    const stepItems: Stages = items.map((item) => {
@@ -111,6 +107,8 @@ const AddSampleGroup = (props: Props) => {
          return item;
       }
    });
+
+   console.log(step);
 
    return (
       <Page>
@@ -141,13 +139,21 @@ const AddSampleGroup = (props: Props) => {
                   />
                </div>
                <div style={{ display: step === 1 ? "block" : "none" }}>
-                  <SampleForm onBack={() => setStep(0)} onSubmit={onSubmit} />
+                  <SampleForm
+                     onBack={() => setStep(0)}
+                     onSubmit={(data) => {
+                        setSampleDetails(data);
+                        setStep(step + 1);
+                     }}
+                  />
                </div>
                <div style={{ display: step === 2 ? "block" : "none" }}>
-                  <TestDetailsForm onBack={() => setStep(1)} onSubmit={onSubmit} />
-               </div>
-               <div style={{ display: step === 3 ? "block" : "none" }}>
-                  <Preview onBack={() => setStep(2)} onSubmit={onSubmit} />
+                  <TestDetailsForm
+                     onBack={() => setStep(1)}
+                     onSubmit={(data) => {
+                        setTestingDetails(data);
+                     }}
+                  />
                </div>
             </GridColumn>
 

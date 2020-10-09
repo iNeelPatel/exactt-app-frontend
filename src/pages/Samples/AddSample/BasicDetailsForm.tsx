@@ -16,8 +16,7 @@ const BasicDetailsForm = (props: BasicDetailsFormProps) => {
             <GridColumn>
                <Form
                   onSubmit={async (data: any) => {
-                     console.log(data);
-                     // props.onSubmit(data);
+                     props.onSubmit(data);
                   }}
                >
                   {({ formProps, submitting }: any) => (
