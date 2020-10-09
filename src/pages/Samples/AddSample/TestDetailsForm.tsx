@@ -110,6 +110,9 @@ const TestDetailsForm = (props: TestDetailsFormProps) => {
                         </Field>
 
                         <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20, marginBottom: 100 }}>
+                           <Button appearance="link" onClick={() => props.onBack()}>
+                              Back
+                           </Button>
                            <Button type="submit" appearance="primary" isLoading={submitting}>
                               Next
                            </Button>

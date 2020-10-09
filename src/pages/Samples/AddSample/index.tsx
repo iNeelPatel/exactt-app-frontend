@@ -131,9 +131,6 @@ const AddSampleGroup = (props: Props) => {
             <Divider />
 
             <GridColumn medium={8}>
-               {/* <Button appearance="default" onClick={() => setStep(step + 1)}>
-                  Next
-               </Button> */}
                <div style={{ display: step === 0 ? "block" : "none" }}>
                   <BasicDetailsForm
                      onBack={onBack}
@@ -144,13 +141,13 @@ const AddSampleGroup = (props: Props) => {
                   />
                </div>
                <div style={{ display: step === 1 ? "block" : "none" }}>
-                  <SampleForm onBack={onBack} onSubmit={onSubmit} />
+                  <SampleForm onBack={() => setStep(0)} onSubmit={onSubmit} />
                </div>
                <div style={{ display: step === 2 ? "block" : "none" }}>
-                  <TestDetailsForm onBack={onBack} onSubmit={onSubmit} />
+                  <TestDetailsForm onBack={() => setStep(1)} onSubmit={onSubmit} />
                </div>
                <div style={{ display: step === 3 ? "block" : "none" }}>
-                  <Preview onBack={onBack} onSubmit={onSubmit} />
+                  <Preview onBack={() => setStep(2)} onSubmit={onSubmit} />
                </div>
             </GridColumn>
 
