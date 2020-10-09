@@ -31,11 +31,11 @@ const style = {
    title: {
       fontWeight: "bold",
    },
-   subHeading:{
+   subHeading: {
       marginTop: 1,
-      width: 65,
-      minWidth: 65
-   }
+      width: 80,
+      minWidth: 80,
+   },
 };
 
 const AddSampleGroup = (props: Props) => {
@@ -166,6 +166,7 @@ const AddSampleGroup = (props: Props) => {
                               SenseLab Inc.
                            </Heading>
                         </div>
+                        <Divider />
                         <div style={{ display: "flex" }}>
                            <Heading mixin={typography.h400} style={style.subHeading}>
                               Phone
@@ -183,6 +184,69 @@ const AddSampleGroup = (props: Props) => {
                               Address
                            </Heading>
                            <span style={{ color: colors.N300 }}>E/1 Vasudev Bunglows, B/H Annpurna Hotel, Jashodanagar, Ahmedabad</span>
+                        </div>
+                     </div>
+                     <div style={style.card}>
+                        <div>
+                           <Heading mixin={typography.h200} style={style.heading}>
+                              Sample details
+                           </Heading>
+                           <Heading mixin={typography.h400} style={style.heading}>
+                              Sample Name
+                           </Heading>
+                           <Heading mixin={typography.h200} style={style.heading}>
+                              Genric name
+                           </Heading>
+                        </div>
+                        <Divider />
+                        <div style={{ display: "flex" }}>
+                           <Heading mixin={typography.h400} style={style.subHeading}>
+                              Due date
+                           </Heading>
+                           <span style={{ color: colors.N300 }}>09/10/2020</span>
+                        </div>
+                        <div style={{ display: "flex" }}>
+                           <Heading mixin={typography.h400} style={style.subHeading}>
+                              Brand
+                           </Heading>
+                           <span style={{ color: colors.N300 }}>xyz company</span>
+                        </div>
+                        <div style={{ display: "flex" }}>
+                           <Heading mixin={typography.h400} style={style.subHeading}>
+                              Mfg. by
+                           </Heading>
+                           <span style={{ color: colors.N300 }}>xyz company</span>
+                        </div>
+                        <div style={{ display: "flex" }}>
+                           <Heading mixin={typography.h400} style={style.subHeading}>
+                              Mfg. date
+                           </Heading>
+                           <span style={{ color: colors.N300 }}>23/1/2019</span>
+                        </div>
+                        <div style={{ display: "flex" }}>
+                           <Heading mixin={typography.h400} style={style.subHeading}>
+                              Exp. date
+                           </Heading>
+                           <span style={{ color: colors.N300 }}>23/1/2021</span>
+                        </div>
+                        <div style={{ display: "flex" }}>
+                           <Heading mixin={typography.h400} style={style.subHeading}>
+                              Batch/Lot
+                           </Heading>
+                           <span style={{ color: colors.N300 }}>212-3A-21032</span>
+                        </div>
+                     </div>
+                     <div style={style.card}>
+                        <div>
+                           <Heading mixin={typography.h200} style={style.heading}>
+                              Testing Details
+                           </Heading>
+                           <Heading mixin={typography.h400} style={style.heading}>
+                              Group name
+                           </Heading>
+                           <Heading mixin={typography.h200} style={style.heading}>
+                              pH, color, etc.
+                           </Heading>
                         </div>
                      </div>
                   </div>
