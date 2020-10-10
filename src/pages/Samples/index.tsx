@@ -15,7 +15,7 @@ const breadcrumbItems = [
    { path: "/sample", name: "Samples" },
 ];
 
-const Parameter = (props: Props) => {
+const Sample = (props: Props) => {
    const { samplePermission } = props;
    return (
       <Page>
@@ -49,4 +49,4 @@ const mapStateToProps = (state: AppState) => ({
    samplePermission: state.user.user.role.permission.samples_id,
 });
 
-export default connect(mapStateToProps)(Parameter);
+export default connect(mapStateToProps)(Sample);

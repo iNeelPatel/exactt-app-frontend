@@ -59,9 +59,9 @@ const AddSampleGroup = (props: Props) => {
       props.history.goBack();
    };
 
-   const onSubmit = (data: any) => {
-      console.log(data);
-   };
+   // const onSubmit = (data: any) => {
+   //    console.log(data);
+   // };
 
    const items: Stages = [
       {

@@ -114,7 +114,7 @@ const TestDetailsForm = (props: TestDetailsFormProps) => {
                               Back
                            </Button>
                            <Button type="submit" appearance="primary" isLoading={submitting}>
-                              Next
+                              Submit
                            </Button>
                         </div>
                      </form>
