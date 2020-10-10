@@ -140,7 +140,7 @@ const AuthenticatedRoute = (props: Props) => {
                      {permission.samples_sample.write && <Route exact path="/organizationsettings/sampledetail/edit/:sampleDetailId" component={AddSampleDetails} />}
 
                      {checkPermission(permission.samples_id) && <Route exact path="/sample" component={Sample} />}
-                     {checkPermission(permission.samples_id) && <Route exact path="/sample/:sampleId" component={SampleInfoDetails} />}
+                     {checkPermission(permission.samples_id) && <Route exact path="/sample/id/:sampleId" component={SampleInfoDetails} />}
                      {permission.samples_id.write && <Route exact path="/sample/add" component={AddSample} />}
                      {permission.samples_id.write && <Route exact path="/sample/edit/:sampleId" component={AddSample} />}
 
