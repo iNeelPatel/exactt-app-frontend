@@ -11,3 +11,7 @@ export interface Props extends RouteComponentProps {
 export interface CustomerDetailsProps {
    customer: any;
 }
+
+export interface SampleDetailsProps {
+   sampleDetails: any;
+}

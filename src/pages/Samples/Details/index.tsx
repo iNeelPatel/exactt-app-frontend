@@ -12,6 +12,7 @@ import { Breadcrumb, Heading, Divider } from "../../../components";
 import AppState from "../../../redux/types";
 import { Props } from "./types";
 import CustomerDetails from "./CustomerDetails";
+import SampleDetailsComponent from "./SampleDetails";
 
 const SampleDetails = (props: Props) => {
    const { samplePermission } = props;
@@ -97,7 +98,9 @@ const SampleDetails = (props: Props) => {
                      </Heading>
                   </div>
                   <div>
-                     <Lozenge appearance="success">Complete</Lozenge>
+                     <Lozenge isBold appearance="success">
+                        Complete
+                     </Lozenge>
                   </div>
                </div>
 
@@ -108,6 +111,15 @@ const SampleDetails = (props: Props) => {
                      Customer
                   </Heading>
                   <CustomerDetails customer={{}} />
+               </div>
+
+               <Divider />
+
+               <div>
+                  <Heading mixin={typography.h200} style={{ marginTop: 1 }}>
+                     Sample details
+                  </Heading>
+                  <SampleDetailsComponent sampleDetails={{}} />
                </div>
 
                <Divider />
