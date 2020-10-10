@@ -13,6 +13,7 @@ import AppState from "../../../redux/types";
 import { Props } from "./types";
 import CustomerDetails from "./CustomerDetails";
 import SampleDetailsComponent from "./SampleDetails";
+import TestDetails from "./TestDetails";
 
 const SampleDetails = (props: Props) => {
    const { samplePermission } = props;
@@ -107,7 +108,7 @@ const SampleDetails = (props: Props) => {
                <Divider />
 
                <div>
-                  <Heading mixin={typography.h200} style={{ marginTop: 1 }}>
+                  <Heading mixin={typography.h200} style={{ marginTop: 1, textTransform: "uppercase" }}>
                      Customer
                   </Heading>
                   <CustomerDetails customer={{}} />
@@ -116,10 +117,19 @@ const SampleDetails = (props: Props) => {
                <Divider />
 
                <div>
-                  <Heading mixin={typography.h200} style={{ marginTop: 1 }}>
+                  <Heading mixin={typography.h200} style={{ marginTop: 1, marginBottom: 8, textTransform: "uppercase" }}>
                      Sample details
                   </Heading>
                   <SampleDetailsComponent sampleDetails={{}} />
+               </div>
+
+               <Divider />
+
+               <div>
+                  <Heading mixin={typography.h200} style={{ marginTop: 1, marginBottom: 8, textTransform: "uppercase" }}>
+                     Test details
+                  </Heading>
+                  <TestDetails sampleDetails={{}} />
                </div>
 
                <Divider />

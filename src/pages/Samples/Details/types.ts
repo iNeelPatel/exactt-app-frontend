@@ -15,3 +15,7 @@ export interface CustomerDetailsProps {
 export interface SampleDetailsProps {
    sampleDetails: any;
 }
+
+export interface TestDetailsProps {
+   sampleDetails: any;
+}
