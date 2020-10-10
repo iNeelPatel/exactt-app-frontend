@@ -26,7 +26,7 @@ body {
    margin: 0px;
 }
 
-.exactt-btn{
+.exactt-btn {
    padding-left: 8;
    padding-right: 8;
    height: 32;
@@ -36,6 +36,10 @@ body {
    cursor: pointer;
 }
 
-.exactt-btn:hover{
+.exactt-btn:hover {
    text-decoration: underline !important;
+}
+
+.label {
+   font-weight: 500;
 }

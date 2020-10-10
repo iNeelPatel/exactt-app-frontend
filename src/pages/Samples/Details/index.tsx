@@ -3,12 +3,15 @@ import React from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import Button from "@atlaskit/button";
 import EditIcon from "@atlaskit/icon/glyph/edit";
+import { typography } from "@atlaskit/theme";
 import { connect } from "react-redux";
+import Lozenge from "@atlaskit/lozenge";
 
 // ====================================== File imports ======================================
-import { Breadcrumb } from "../../../components";
+import { Breadcrumb, Heading, Divider } from "../../../components";
 import AppState from "../../../redux/types";
 import { Props } from "./types";
+import CustomerDetails from "./CustomerDetails";
 
 const SampleDetails = (props: Props) => {
    const { samplePermission } = props;
@@ -83,7 +86,32 @@ const SampleDetails = (props: Props) => {
                   }
                />
             </GridColumn>
-            <GridColumn medium={12}>sample Details</GridColumn>
+            <GridColumn medium={12}>
+               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div style={{ paddingRight: 50 }}>
+                     <Heading mixin={typography.h300} style={{ marginTop: 1 }}>
+                        Sample name
+                     </Heading>
+                     <Heading mixin={typography.h200} style={{ marginTop: 1 }}>
+                        Genric name
+                     </Heading>
+                  </div>
+                  <div>
+                     <Lozenge appearance="success">Complete</Lozenge>
+                  </div>
+               </div>
+
+               <Divider />
+
+               <div>
+                  <Heading mixin={typography.h200} style={{ marginTop: 1 }}>
+                     Customer
+                  </Heading>
+                  <CustomerDetails customer={{}} />
+               </div>
+
+               <Divider />
+            </GridColumn>
          </Grid>
       </Page>
    );

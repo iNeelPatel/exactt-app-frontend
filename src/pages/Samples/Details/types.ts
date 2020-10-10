@@ -7,3 +7,7 @@ export interface Props extends RouteComponentProps {
    };
    match: any;
 }
+
+export interface CustomerDetailsProps {
+   customer: any;
+}
