@@ -3,6 +3,7 @@ import React from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import Button from "@atlaskit/button";
 import EditIcon from "@atlaskit/icon/glyph/edit";
+import FileIcon from "@atlaskit/icon/glyph/file";
 import { typography } from "@atlaskit/theme";
 import { connect } from "react-redux";
 import Lozenge from "@atlaskit/lozenge";
@@ -14,6 +15,7 @@ import { Props } from "./types";
 import CustomerDetails from "./CustomerDetails";
 import SampleDetailsComponent from "./SampleDetails";
 import TestDetails from "./TestDetails";
+import ParametersDetails from "./ParametersDetails";
 
 const SampleDetails = (props: Props) => {
    const { samplePermission } = props;
@@ -65,6 +67,7 @@ const SampleDetails = (props: Props) => {
                         )}
                         {samplePermission.write && (
                            <Button
+                              iconBefore={<FileIcon label="File icon" size="small" />}
                               type="submit"
                               style={{ height: 38, marginLeft: 10, marginTop: 9 }}
                               appearance="link"
@@ -130,6 +133,15 @@ const SampleDetails = (props: Props) => {
                      Test details
                   </Heading>
                   <TestDetails sampleDetails={{}} />
+               </div>
+
+               <Divider />
+
+               <div>
+                  <Heading mixin={typography.h200} style={{ marginTop: 1, marginBottom: 8, textTransform: "uppercase" }}>
+                     Parameters
+                  </Heading>
+                  <ParametersDetails parameters={{}} />
                </div>
 
                <Divider />

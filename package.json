@@ -9,6 +9,7 @@
       "@atlaskit/checkbox": "^11.0.4",
       "@atlaskit/css-reset": "^6.0.0",
       "@atlaskit/datetime-picker": "^10.0.5",
+      "@atlaskit/dropdown-menu": "^10.1.0",
       "@atlaskit/dynamic-table": "^14.1.1",
       "@atlaskit/form": "^8.1.0",
       "@atlaskit/icon": "^21.0.2",

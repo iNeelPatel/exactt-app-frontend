@@ -19,3 +19,7 @@ export interface SampleDetailsProps {
 export interface TestDetailsProps {
    sampleDetails: any;
 }
+
+export interface ParameterDetailsProps {
+   parameters: any;
+}
