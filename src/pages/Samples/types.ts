@@ -6,3 +6,13 @@ export interface Props extends RouteComponentProps {
       write: boolean;
    };
 }
+
+export interface SampleListProps {
+   navigationHistory: any;
+   samples: Array<Object>;
+}
+
+export interface SampleCardProps {
+   sample: Object;
+   onClick: () => any;
+}

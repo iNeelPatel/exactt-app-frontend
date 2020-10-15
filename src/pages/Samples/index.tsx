@@ -3,12 +3,15 @@ import React from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import Button from "@atlaskit/button";
 import AddIcon from "@atlaskit/icon/glyph/add";
+import SearchIcon from "@atlaskit/icon/glyph/search";
 import { connect } from "react-redux";
+import TextField from "@atlaskit/textfield";
 
 // ====================================== File imports ======================================
 import { Breadcrumb } from "../../components";
 import AppState from "../../redux/types";
 import { Props } from "./types";
+import SampleList from "./SampleList";
 
 const breadcrumbItems = [
    { path: "/", name: "Dashboard" },
@@ -23,23 +26,35 @@ const Sample = (props: Props) => {
             <GridColumn medium={12}>
                <Breadcrumb
                   items={breadcrumbItems}
-                  screen="Sample Groups"
+                  screen="Samples"
                   right={
-                     samplePermission.write && (
+                     <div style={{ display: "flex" }}>
+                        <TextField placeholder="Search by sample ID" isCompact={true} />
                         <Button
-                           iconBefore={<AddIcon label="Add icon" size="small" />}
-                           type="submit"
-                           style={{ height: 38, marginLeft: 10, marginTop: 9 }}
-                           appearance="primary"
-                           onClick={() => props.history.push("/sample/add")}
+                           iconBefore={<SearchIcon label="Search icon" size="small" />}
+                           style={{ height: 38, marginLeft: 7 }}
+                           onClick={() => {}}
                         >
-                           Add sample
+                           Search
                         </Button>
-                     )
+                        {samplePermission.write && (
+                           <Button
+                              iconBefore={<AddIcon label="Add icon" size="small" />}
+                              type="submit"
+                              style={{ height: 38, marginLeft: 7 }}
+                              appearance="primary"
+                              onClick={() => props.history.push("/sample/add")}
+                           >
+                              Add sample
+                           </Button>
+                        )}
+                     </div>
                   }
                />
             </GridColumn>
-            <GridColumn medium={12}>Add sample</GridColumn>
+            <GridColumn medium={12}>
+               <SampleList samples={[]} navigationHistory={props.history} />
+            </GridColumn>
          </Grid>
       </Page>
    );
