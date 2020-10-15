@@ -5,6 +5,7 @@ export interface Props extends RouteComponentProps {
       read: boolean;
       write: boolean;
    };
+   organization: any;
    match: any;
 }
 

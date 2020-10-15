@@ -7,6 +7,7 @@ import FileIcon from "@atlaskit/icon/glyph/file";
 import { typography } from "@atlaskit/theme";
 import { connect } from "react-redux";
 import Lozenge from "@atlaskit/lozenge";
+import ReactToPrint, { PrintContextConsumer } from "react-to-print";
 
 // ====================================== File imports ======================================
 import { Breadcrumb, Heading, Divider } from "../../../components";
@@ -17,6 +18,19 @@ import SampleDetailsComponent from "./SampleDetails";
 import TestDetails from "./TestDetails";
 import ParametersDetails from "./ParametersDetails";
 
+class ComponentToPrint extends React.Component {
+   render() {
+      return (
+         <div style={{ width: "297mm", height: "420mm", margin: "10mm" }}>
+            <h1>Hello</h1>
+            <h1>Hello</h1>
+         </div>
+      );
+   }
+}
+
+let componentRef: any;
+
 const SampleDetails = (props: Props) => {
    const { samplePermission } = props;
    const { sampleId } = props.match.params;
@@ -26,6 +40,7 @@ const SampleDetails = (props: Props) => {
       { path: "/sample", name: "Sample" },
       { path: `/${sampleId}`, name: `${sampleId}` },
    ];
+
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
@@ -92,6 +107,14 @@ const SampleDetails = (props: Props) => {
                />
             </GridColumn>
             <GridColumn medium={12}>
+               <ReactToPrint content={() => componentRef}>
+                  <PrintContextConsumer>{({ handlePrint }) => <button onClick={handlePrint}>Print this out!</button>}</PrintContextConsumer>
+               </ReactToPrint>
+
+               <div style={{ display: "none" }}>
+                  <ComponentToPrint ref={(el) => (componentRef = el)} />
+               </div>
+
                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div style={{ paddingRight: 50 }}>
                      <Heading mixin={typography.h300} style={{ marginTop: 1 }}>
@@ -153,6 +176,7 @@ const SampleDetails = (props: Props) => {
 
 const mapStateToProps = (state: AppState) => ({
    samplePermission: state.user.user.role.permission.samples_id,
+   organization: state.orgnization.details,
 });
 
 export default connect(mapStateToProps)(SampleDetails);
