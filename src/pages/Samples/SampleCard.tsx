@@ -49,11 +49,11 @@ const SampleCard = (props: SampleCardProps) => {
          </div>
          <div style={{ display: "flex" }}>
             <div style={styles.item}>
-               <div style={styles.label}>Due date</div>
+               <div style={styles.label}>Due date :</div>
                <div style={styles.text}>24/10/2020</div>
             </div>
             <div style={styles.item}>
-               <div style={styles.label}>Parameters</div>
+               <div style={styles.label}>Parameters :</div>
                <div style={styles.text}>
                   <div style={styles.parameterTag}>
                      <Lozenge appearance="success">pH</Lozenge>
