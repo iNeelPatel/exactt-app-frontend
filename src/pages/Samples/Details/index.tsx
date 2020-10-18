@@ -30,7 +30,7 @@ const SampleDetails = (props: Props) => {
    const breadcrumbItems = [
       { path: "/", name: "Dashboard" },
       { path: "/sample", name: "Sample" },
-      { path: `/${sampleId}`, name: `${sampleId}` },
+      { path: `/sample/id/${sampleId}`, name: `${sampleId}` },
    ];
 
    return (
@@ -84,7 +84,7 @@ const SampleDetails = (props: Props) => {
                               type="submit"
                               style={{ height: 38, marginLeft: 10, marginTop: 9 }}
                               appearance="link"
-                              onClick={() => props.history.push("/sample/add")}
+                              onClick={() => props.history.push(`/sample/id/${sampleId}/result`)}
                            >
                               Result
                            </Button>
@@ -105,6 +105,7 @@ const SampleDetails = (props: Props) => {
                />
             </GridColumn>
             <GridColumn medium={12}>
+               
                <div style={{ display: "none" }}>
                   <JobAllotmentPrint details="This is test" ref={(el) => (componentRef = el)} />
                </div>

@@ -35,6 +35,7 @@ import CustomerDetails from "../pages/Customer/CustomerDetails";
 import Sample from "../pages/Samples";
 import AddSample from "../pages/Samples/AddSample";
 import SampleInfoDetails from "../pages/Samples/Details";
+import SampleResult from "../pages/Result";
 
 interface Props extends HashRouterProps {
    status: number;
@@ -143,6 +144,8 @@ const AuthenticatedRoute = (props: Props) => {
                      {checkPermission(permission.samples_id) && <Route exact path="/sample/id/:sampleId" component={SampleInfoDetails} />}
                      {permission.samples_id.write && <Route exact path="/sample/add" component={AddSample} />}
                      {permission.samples_id.write && <Route exact path="/sample/edit/:sampleId" component={AddSample} />}
+
+                     {checkPermission(permission.samples_id_result) && <Route exact path="/sample/id/:sampleId/result" component={SampleResult} />}
 
                      <Route component={PageNotFound} />
                   </Switch>
