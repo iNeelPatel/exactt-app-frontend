@@ -5,6 +5,7 @@ import Form, { Field, ErrorMessage } from "@atlaskit/form";
 import Button from "@atlaskit/button";
 import TextField from "@atlaskit/textfield";
 import Select from "@atlaskit/select";
+import { Checkbox } from "@atlaskit/checkbox";
 
 // ====================================== File imports ======================================
 import { TestDetailsFormProps } from "./types";
@@ -100,14 +101,46 @@ const TestDetailsForm = (props: TestDetailsFormProps) => {
                                     onMenuOpen={() => setDropdownOpen(true)}
                                     onBlur={() => setDropdownOpen(false)}
                                  />
+                                 <Checkbox
+                                    value="Add all parameters"
+                                    label="Add all parameters"
+                                    onChange={() => {}}
+                                    name="all-parameters"
+                                 />
                                  {error === "PARAMETERS_REQUIRED" && <ErrorMessage>Test group is required.</ErrorMessage>}
                               </Fragment>
                            )}
                         </Field>
 
-                        <Field label="Instructions" name="instructions">
-                           {({ fieldProps }: any) => <TextField {...fieldProps} />}
-                        </Field>
+                        <Grid>
+                           <GridColumn medium={6}>
+                              <Field label="Instructions" name="instructions">
+                                 {({ fieldProps }: any) => <TextField {...fieldProps} />}
+                              </Field>
+                           </GridColumn>
+                           <GridColumn medium={6}>
+                              <Field label="HOD" name="hod">
+                                 {({ fieldProps, error }: any) => (
+                                    <Fragment>
+                                       <Select
+                                          isMulti
+                                          {...fieldProps}
+                                          validationState={error === "HOD_REQUIRED" && "error"}
+                                          options={[
+                                             { label: "Range", value: "range" },
+                                             { label: "Valid", value: "valid" },
+                                             { label: "Options", value: "options" },
+                                             { label: "Complies", value: "complies" },
+                                          ]}
+                                          placeholder="Select test group"
+                                          menuIsOpen={dropdownOpen}
+                                       />
+                                       {error === "PARAMETERS_REQUIRED" && <ErrorMessage>HOD is required.</ErrorMessage>}
+                                    </Fragment>
+                                 )}
+                              </Field>
+                           </GridColumn>
+                        </Grid>
 
                         <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20, marginBottom: 100 }}>
                            <Button appearance="link" onClick={() => props.onBack()}>

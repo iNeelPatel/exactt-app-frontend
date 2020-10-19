@@ -11,3 +11,10 @@ export interface Props extends RouteComponentProps {
 export interface SampleDetailsProps {
    sampleDetails: any;
 }
+
+export interface ReportDetailsProps {}
+
+export interface ReportDetailProps {
+   onSubmit: (arg0: object) => any;
+   details: any;
+}

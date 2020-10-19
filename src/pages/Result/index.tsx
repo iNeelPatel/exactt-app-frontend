@@ -2,6 +2,7 @@
 import React from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import { connect } from "react-redux";
+import ReportDetails from "./ReportDetail";
 
 // ====================================== File imports ======================================
 import { Breadcrumb } from "../../components";
@@ -26,6 +27,7 @@ const SampleResult = (props: Props) => {
             </GridColumn>
             <GridColumn medium={12}>
                <SampleDetails sampleDetails={{}} />
+               <ReportDetails details={{}} onSubmit={() => {}} />
             </GridColumn>
          </Grid>
       </Page>
