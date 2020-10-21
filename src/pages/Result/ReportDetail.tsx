@@ -6,16 +6,22 @@ import TextField from "@atlaskit/textfield";
 import Button from "@atlaskit/button";
 import { DatePicker } from "@atlaskit/datetime-picker";
 import { Checkbox } from "@atlaskit/checkbox";
-import { typography } from "@atlaskit/theme";
+import { typography, colors } from "@atlaskit/theme";
 
 // ====================================== File imports ======================================
 import { Divider, Heading } from "../../components";
 import { ReportDetailProps } from "./types";
 
+// borderBottomWidth: 1,
+//                                           borderBottomColor: colors.N40,
+//                                           borderBottomStyle: "solid",
+//                                           paddingBottom: 10,
+//                                           marginBottom: 5,
+
 const TestDetailsForm = (props: ReportDetailProps) => {
    return (
       <Page>
-         <Grid spacing="compact" layout="fluid">
+         <Grid spacing="cosy" layout="fluid">
             <GridColumn medium={12}>
                <Form
                   onSubmit={async (data: any) => {
@@ -24,7 +30,7 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                >
                   {({ formProps, submitting }: any) => (
                      <form {...formProps} noValidate={true}>
-                        <Grid spacing="compact" layout="fluid">
+                        <Grid spacing="cosy" layout="fluid">
                            <GridColumn medium={3}>
                               <Field label="Analysis date" isRequired name="analysisDate">
                                  {({ fieldProps }: any) => <DatePicker {...fieldProps} dateFormat="DD/MM/YYYY" placeholder="select date" />}
@@ -57,30 +63,226 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                            </GridColumn>
                         </Grid>
                         <Divider />
-                        <Grid>
+                        <Grid spacing="cosy" layout="fluid">
                            <GridColumn medium={12}>
-                              <div style={{ display: "flex", padding: 10 }}>
-                                 <Heading mixin={typography.h200} style={{ margin: 0, flex: 0.2 }}>
-                                    Parameter
-                                 </Heading>
-                                 <Heading mixin={typography.h200} style={{ margin: 0, flex: 0.15 }}>
-                                    Division
-                                 </Heading>
-                                 <Heading mixin={typography.h200} style={{ margin: 0, flex: 0.2 }}>
-                                    HOD Name
-                                 </Heading>
-                                 <Heading mixin={typography.h200} style={{ margin: 0, flex: 0.15 }}>
-                                    Chemist
-                                 </Heading>
-                                 <Heading mixin={typography.h200} style={{ margin: 0, flex: 0.2 }}>
-                                    Result
-                                 </Heading>
-                                 <Heading mixin={typography.h200} style={{ margin: 0, flex: 0.1 }}>
-                                    Unit
-                                 </Heading>
-                                 <Heading mixin={typography.h200} style={{ margin: 0, flex: 0.2 }}>
-                                    Requirement
-                                 </Heading>
+                              <div className="scroll-view" style={{ overflow: "scroll", overflowX: "scroll" }}>
+                                 <div style={{ display: "flex" }}>
+                                    <Heading
+                                       mixin={typography.h200}
+                                       style={{
+                                          margin: 0,
+                                          minWidth: 25,
+                                          borderBottomWidth: 1,
+                                          borderBottomColor: colors.N40,
+                                          borderBottomStyle: "solid",
+                                          paddingBottom: 10,
+                                          marginBottom: 5,
+                                       }}
+                                    >
+                                       No.
+                                    </Heading>
+                                    <Heading
+                                       mixin={typography.h200}
+                                       style={{
+                                          margin: 0,
+                                          minWidth: 150,
+                                          borderBottomWidth: 1,
+                                          borderBottomColor: colors.N40,
+                                          borderBottomStyle: "solid",
+                                          paddingBottom: 10,
+                                          marginBottom: 5,
+                                       }}
+                                    >
+                                       Parameter
+                                    </Heading>
+                                    <Heading
+                                       mixin={typography.h200}
+                                       style={{
+                                          margin: 0,
+                                          paddingLeft: 4,
+                                          minWidth: 80,
+                                          borderBottomWidth: 1,
+                                          borderBottomColor: colors.N40,
+                                          borderBottomStyle: "solid",
+                                          paddingBottom: 10,
+                                          marginBottom: 5,
+                                       }}
+                                    >
+                                       Division
+                                    </Heading>
+                                    <Heading
+                                       mixin={typography.h200}
+                                       style={{
+                                          margin: 0,
+                                          paddingLeft: 4,
+                                          minWidth: 120,
+                                          borderBottomWidth: 1,
+                                          borderBottomColor: colors.N40,
+                                          borderBottomStyle: "solid",
+                                          paddingBottom: 10,
+                                          marginBottom: 5,
+                                       }}
+                                    >
+                                       HOD Name
+                                    </Heading>
+                                    <Heading
+                                       mixin={typography.h200}
+                                       style={{
+                                          margin: 0,
+                                          paddingLeft: 4,
+                                          minWidth: 120,
+                                          borderBottomWidth: 1,
+                                          borderBottomColor: colors.N40,
+                                          borderBottomStyle: "solid",
+                                          paddingBottom: 10,
+                                          marginBottom: 5,
+                                       }}
+                                    >
+                                       Chemist
+                                    </Heading>
+                                    <Heading
+                                       mixin={typography.h200}
+                                       style={{
+                                          margin: 0,
+                                          paddingLeft: 4,
+                                          minWidth: 170,
+                                          borderBottomWidth: 1,
+                                          borderBottomColor: colors.N40,
+                                          borderBottomStyle: "solid",
+                                          paddingBottom: 10,
+                                          marginBottom: 5,
+                                       }}
+                                    >
+                                       Result
+                                    </Heading>
+                                    <Heading
+                                       mixin={typography.h200}
+                                       style={{
+                                          margin: 0,
+                                          paddingLeft: 4,
+                                          minWidth: 60,
+                                          borderBottomWidth: 1,
+                                          borderBottomColor: colors.N40,
+                                          borderBottomStyle: "solid",
+                                          paddingBottom: 10,
+                                          marginBottom: 5,
+                                       }}
+                                    >
+                                       Unit
+                                    </Heading>
+                                    <Heading
+                                       mixin={typography.h200}
+                                       style={{
+                                          margin: 0,
+                                          paddingLeft: 4,
+                                          minWidth: 170,
+                                          borderBottomWidth: 1,
+                                          borderBottomColor: colors.N40,
+                                          borderBottomStyle: "solid",
+                                          paddingBottom: 10,
+                                          marginBottom: 5,
+                                       }}
+                                    >
+                                       Requirement
+                                    </Heading>
+                                    <Heading
+                                       mixin={typography.h200}
+                                       style={{
+                                          margin: 0,
+                                          paddingLeft: 4,
+                                          minWidth: 50,
+                                          borderBottomWidth: 1,
+                                          borderBottomColor: colors.N40,
+                                          borderBottomStyle: "solid",
+                                          paddingBottom: 10,
+                                          marginBottom: 5,
+                                       }}
+                                    >
+                                       NABL
+                                    </Heading>
+                                    <Heading
+                                       mixin={typography.h200}
+                                       style={{
+                                          margin: 0,
+                                          paddingLeft: 4,
+                                          minWidth: 60,
+                                          borderBottomWidth: 1,
+                                          borderBottomColor: colors.N40,
+                                          borderBottomStyle: "solid",
+                                          paddingBottom: 10,
+                                          marginBottom: 5,
+                                       }}
+                                    >
+                                       Nagative
+                                    </Heading>
+                                 </div>
+
+                                 <div style={{ display: "flex", alignItems: "center", marginBottom: 5 }}>
+                                    <div style={{ margin: 0, minWidth: 25 }}>1.</div>
+                                    <div style={{ margin: 0, minWidth: 150 }}>pH</div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 80 }}>Chemical</div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 120 }}>Neel Patel</div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 120 }}>Aman Patel</div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 170 }}>
+                                       <TextField isCompact style={{ maxWidth: 130 }} />
+                                    </div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 60 }}>
+                                       <TextField isCompact style={{ maxWidth: 40 }} value="pH" />
+                                    </div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 170 }}>
+                                       <TextField isCompact style={{ maxWidth: 140 }} />
+                                    </div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 50 }}>
+                                       <Checkbox value="Generate URL number" label="" onChange={() => {}} name="all-parameters" />
+                                    </div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 60 }}>
+                                       <Checkbox value="Generate URL number" label="" onChange={() => {}} name="all-parameters" />
+                                    </div>
+                                 </div>
+                                 <div style={{ display: "flex", alignItems: "center", marginBottom: 5 }}>
+                                    <div style={{ margin: 0, minWidth: 25 }}>2.</div>
+                                    <div style={{ margin: 0, minWidth: 150 }}>pH</div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 80 }}>Chemical</div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 120 }}>Neel Patel</div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 120 }}>Aman Patel</div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 170 }}>
+                                       <TextField isCompact style={{ maxWidth: 130 }} />
+                                    </div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 60 }}>
+                                       <TextField isCompact style={{ maxWidth: 40 }} value="pH" />
+                                    </div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 170 }}>
+                                       <TextField isCompact style={{ maxWidth: 140 }} />
+                                    </div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 50 }}>
+                                       <Checkbox value="Generate URL number" label="" onChange={() => {}} name="all-parameters" />
+                                    </div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 60 }}>
+                                       <Checkbox value="Generate URL number" label="" onChange={() => {}} name="all-parameters" />
+                                    </div>
+                                 </div>
+                                 <div style={{ display: "flex", alignItems: "center", marginBottom: 5 }}>
+                                    <div style={{ margin: 0, minWidth: 25 }}>3.</div>
+                                    <div style={{ margin: 0, minWidth: 150 }}>pH</div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 80 }}>Chemical</div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 120 }}>Neel Patel</div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 120 }}>Aman Patel</div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 170 }}>
+                                       <TextField isCompact style={{ maxWidth: 130 }} />
+                                    </div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 60 }}>
+                                       <TextField isCompact style={{ maxWidth: 40 }} value="pH" />
+                                    </div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 170 }}>
+                                       <TextField isCompact style={{ maxWidth: 140 }} />
+                                    </div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 50 }}>
+                                       <Checkbox value="Generate URL number" label="" onChange={() => {}} name="all-parameters" />
+                                    </div>
+                                    <div style={{ margin: 0, paddingLeft: 4, minWidth: 60 }}>
+                                       <Checkbox value="Generate URL number" label="" onChange={() => {}} name="all-parameters" />
+                                    </div>
+                                 </div>
                               </div>
                            </GridColumn>
                         </Grid>
