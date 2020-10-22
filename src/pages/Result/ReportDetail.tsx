@@ -12,12 +12,6 @@ import { typography, colors } from "@atlaskit/theme";
 import { Divider, Heading } from "../../components";
 import { ReportDetailProps } from "./types";
 
-// borderBottomWidth: 1,
-//                                           borderBottomColor: colors.N40,
-//                                           borderBottomStyle: "solid",
-//                                           paddingBottom: 10,
-//                                           marginBottom: 5,
-
 const TestDetailsForm = (props: ReportDetailProps) => {
    return (
       <Page>
@@ -286,6 +280,24 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                               </div>
                            </GridColumn>
                         </Grid>
+
+                        <Grid spacing="cosy" layout="fluid">
+                           <GridColumn medium={12}>Document picker here</GridColumn>
+                        </Grid>
+
+                        <Grid spacing="cosy" layout="fluid">
+                           <GridColumn medium={8}>
+                              <Field label="Remarks" name="remarks">
+                                 {({ fieldProps }: any) => <TextField {...fieldProps} />}
+                              </Field>
+                           </GridColumn>
+                           <GridColumn medium={4}>
+                              <Field label="Authorized Signature" name="remarks">
+                                 {({ fieldProps }: any) => <TextField {...fieldProps} />}
+                              </Field>
+                           </GridColumn>
+                        </Grid>
+
                         <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20, marginBottom: 100 }}>
                            <Button appearance="link" onClick={() => {}}>
                               Back
