@@ -3,12 +3,12 @@ import { ActionInterface } from "../types/ActionDispatch";
 import ActionTypes from "../actions";
 
 const initialState: TestGroupState = {
-   testGroups: undefined,
+   testGroups: [],
 };
 
 export default (state: TestGroupState = initialState, action: ActionInterface): TestGroupState => {
    switch (action.type) {
-      case ActionTypes.GET_STATUS:
+      case ActionTypes.GET_TEST_GROUPS:
          return {
             ...state,
             testGroups: action.payload,

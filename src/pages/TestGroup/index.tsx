@@ -1,24 +1,32 @@
 // ====================================== Module imports ======================================
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import Button from "@atlaskit/button";
 import AddIcon from "@atlaskit/icon/glyph/add";
 import { connect } from "react-redux";
 import DynamicTable from "@atlaskit/dynamic-table";
 import EditIcon from "@atlaskit/icon/glyph/edit";
+import { bindActionCreators } from "redux";
 
 // ====================================== File imports ======================================
 import { Breadcrumb, DeleteButton } from "../../components";
 import { Props } from "./types";
 import AppState from "../../redux/types";
+import { getTestGroups } from "../../redux/actions/TestGroupsActions";
+import { TestGroup } from "../../redux/types/TestGroups";
 
 const breadcrumbItems = [
    { path: "/", name: "Organization Settings" },
    { path: "/organizationsettings/testGroup", name: "Test Group" },
 ];
 
-const TestGroup = (props: Props) => {
+const TestGroupPage = (props: Props) => {
+   const [loading, setLoading] = useState(true);
    const { sampleGroupPermission } = props;
+   const [rows, setRows] = useState<any>([]);
+
+   const { getTestGroups, testGroups } = props;
+
    const head: any = {
       cells: [
          {
@@ -50,22 +58,22 @@ const TestGroup = (props: Props) => {
       ],
    };
 
-   const rows: any = [
-      {
+   useEffect(() => {
+      const createRows: any = testGroups?.map((testGroup: TestGroup) => ({
          key: `row`,
          cells: [
             {
-               key: `cellnt.nameas`,
-               content: <div>KSZ</div>,
+               key: `cell-code-${testGroup.objectId}`,
+               content: <div>{testGroup.code}</div>,
             },
             {
-               key: `cellme`,
-               content: <div style={{ height: 34, display: "flex", alignItems: "center" }}>Kasez</div>,
+               key: `cell-name-${testGroup.objectId}`,
+               content: <div style={{ height: 34, display: "flex", alignItems: "center" }}>{testGroup.name}</div>,
             },
 
             {
-               key: `cellle.name`,
-               content: <div>New, Lic No.</div>,
+               key: `cell-custome-fields-${testGroup.objectId}`,
+               content: <div>{testGroup?.custom_field?.length > 0 ? testGroup.custom_field?.toString() : "-"}</div>,
             },
             {
                key: `cell`,
@@ -74,7 +82,7 @@ const TestGroup = (props: Props) => {
                      <Button
                         iconBefore={<EditIcon label="Edit icon" size="small" />}
                         appearance="link"
-                        onClick={() => props.history.push(`/organizationsettings/testgroup/edit/rendomid`)}
+                        onClick={() => props.history.push(`/organizationsettings/testgroup/edit/${testGroup.objectId}`)}
                      >
                         Edit
                      </Button>
@@ -83,8 +91,21 @@ const TestGroup = (props: Props) => {
                ),
             },
          ],
-      },
-   ];
+      }));
+
+      setRows(createRows);
+   }, [testGroups, props.history, sampleGroupPermission]);
+
+   const focus = async () => {
+      await getTestGroups();
+      setLoading(false);
+   };
+
+   useEffect(() => {
+      focus();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
+
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
@@ -114,7 +135,7 @@ const TestGroup = (props: Props) => {
                   rowsPerPage={10}
                   defaultPage={1}
                   isFixedSize
-                  // isLoading={loading}
+                  isLoading={loading}
                   defaultSortKey="name"
                   defaultSortOrder="ASC"
                   onSort={() => console.log("onSort")}
@@ -128,6 +149,13 @@ const TestGroup = (props: Props) => {
 
 const mapStateToProps = (state: AppState) => ({
    sampleGroupPermission: state.user.user.role.permission.samples_group,
+   testGroups: state.testGroup.testGroups,
 });
 
-export default connect(mapStateToProps)(TestGroup);
+function mapDispatchToProps(dispatch: any) {
+   return {
+      ...bindActionCreators({ getTestGroups }, dispatch),
+   };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TestGroupPage);

@@ -38,7 +38,7 @@ const CustomerScreen = (props: Props) => {
    const { customerPermission, setDetailsCustomer } = props;
 
    useEffect(() => {
-      let createRows: Array<object> = customers?.map((customer: Customer, id: number) => ({
+      let createRows: Array<object> = customers?.map((customer: Customer) => ({
          key: `row${customer.objectId}`,
          cells: [
             {

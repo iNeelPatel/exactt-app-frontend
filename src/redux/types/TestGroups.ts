@@ -1,5 +1,5 @@
 export interface TestGroupState {
-   testGroups: TestGroup[] | undefined;
+   testGroups: TestGroup[] | [];
 }
 
 export interface TestGroup {

@@ -17,7 +17,7 @@ const persistedReducer = persistReducer(persistConfig, reducer);
 const middleware: any = [thunk];
 
 if (process.env.NODE_ENV !== "production") {
-   middleware.push(createLogger());
+   middleware.push(createLogger({ collapsed: true }));
 }
 
 let Store = createStore(persistedReducer, composeWithDevTools(applyMiddleware(...middleware)));
