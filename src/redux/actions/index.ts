@@ -24,6 +24,7 @@ interface ActionsTypes {
    CREATE_CUSTOMER: string;
    UPDATE_CUSTOMER: string;
    SET_DETAILS_CUSTOMER: string;
+   GET_TEST_GROUPS: string;
 }
 
 const Actions: ActionsTypes = {
@@ -65,6 +66,9 @@ const Actions: ActionsTypes = {
    CREATE_CUSTOMER: "CREATE_CUSTOMER",
    UPDATE_CUSTOMER: "UPDATE_CUSTOMER",
    SET_DETAILS_CUSTOMER: "SET_DETAILS_CUSTOMER",
+
+   //Test Groups Actions
+   GET_TEST_GROUPS: "GET_TEST_GROUPS",
 };
 
 export default Actions;

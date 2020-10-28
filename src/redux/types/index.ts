@@ -5,6 +5,7 @@ import { RoleState } from "./RoleTypes";
 import { AlertBoxState } from "./AlertBoxTypes";
 import { DepartmentState } from "./DepartmentTypes";
 import { CustomerState } from "./CustomerTypes";
+import { TestGroupState } from "./TestGroups";
 
 export default interface AppState {
    user: UserState;
@@ -14,4 +15,5 @@ export default interface AppState {
    alertBox: AlertBoxState;
    department: DepartmentState;
    customer: CustomerState;
+   testGroup: TestGroupState;
 }
