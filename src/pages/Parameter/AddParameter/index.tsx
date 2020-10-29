@@ -58,7 +58,7 @@ const AddSampleGroup = (props: Props) => {
             {loading ? (
                <ScreenLoader />
             ) : (
-               <GridColumn medium={7}>
+               <GridColumn medium={8}>
                   <AddParameterForm departmentList={departmentList} onBack={onBack} onSubmit={onSubmit} />
                </GridColumn>
             )}

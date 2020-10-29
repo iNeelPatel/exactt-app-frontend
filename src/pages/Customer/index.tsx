@@ -12,7 +12,7 @@ import Modal, { ModalTransition } from "@atlaskit/modal-dialog";
 // ====================================== File imports ======================================
 import { Props } from "./types";
 import { Breadcrumb, ScreenLoader, DeleteButton } from "../../components";
-import { getCustomers, deleteCustomer } from "../../redux/actions/CustomerActions";
+import { getCustomers, deleteCustomer, setDetailsCustomer } from "../../redux/actions/CustomerActions";
 import AppState from "../../redux/types";
 import { Customer } from "../../redux/types/CustomerTypes";
 
@@ -46,15 +46,25 @@ const CustomerScreen = (props: Props) => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
 
-   const { customerPermission } = props;
+   const { customerPermission, setDetailsCustomer } = props;
 
    useEffect(() => {
-      let createRows: Array<object> = customers?.map((customer: Customer, id: number) => ({
+      let createRows: Array<object> = customers?.map((customer: Customer) => ({
          key: `row${customer.objectId}`,
          cells: [
             {
                key: `cell${customer.objectId}${customer.name}`,
-               content: <div style={{ height: 34, display: "flex", alignItems: "center" }}>{customer.name}</div>,
+               content: (
+                  <Button
+                     appearance="link"
+                     onClick={async () => {
+                        await setDetailsCustomer(customer);
+                        props.history.push(`/customer/details/${customer.objectId}`);
+                     }}
+                  >
+                     {customer.name}
+                  </Button>
+               ),
             },
             {
                key: `cell${customer.objectId}${customer.contact.name}`,
@@ -95,7 +105,7 @@ const CustomerScreen = (props: Props) => {
       }));
 
       setRows(createRows);
-   }, [customers, customerPermission.write, props.history]);
+   }, [customers, customerPermission.write, props.history, setDetailsCustomer]);
 
    const head: any = {
       cells: [
@@ -203,7 +213,7 @@ const mapStateToProps = (state: AppState) => ({
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ getCustomers, deleteCustomer }, dispatch),
+      ...bindActionCreators({ getCustomers, deleteCustomer, setDetailsCustomer }, dispatch),
    };
 }
 

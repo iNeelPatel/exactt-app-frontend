@@ -38,6 +38,12 @@ export default (state: CustomerState = initialState, action: ActionInterface): C
             customers: state.customers.filter(item => item.objectId !== action.payload.objectId),
          };
 
+      case ActionTypes.SET_DETAILS_CUSTOMER:
+         return {
+            ...state,
+            customer: action.payload,
+         };
+
       default:
          return state;
    }

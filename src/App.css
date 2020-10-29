@@ -26,7 +26,7 @@ body {
    margin: 0px;
 }
 
-.exactt-btn{
+.exactt-btn {
    padding-left: 8;
    padding-right: 8;
    height: 32;
@@ -36,6 +36,22 @@ body {
    cursor: pointer;
 }
 
-.exactt-btn:hover{
+.exactt-btn:hover {
    text-decoration: underline !important;
+}
+
+.label {
+   font-weight: 500;
+}
+
+.scroll-view::-webkit-scrollbar {
+   -webkit-appearance: none;
+   width: 0px;
+   height: 5px;
+}
+
+.scroll-view::-webkit-scrollbar-thumb {
+   border-radius: 2px;
+   background-color: rgba(0, 0, 0, 0.2);
+   -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }

@@ -11,7 +11,8 @@ import Textfield from "@atlaskit/textfield";
 import { AddTestGroupFormProps } from "./types";
 
 const AddTestGroupForm = (props: AddTestGroupFormProps) => {
-   const [customeField, setCustomeField] = useState([""]);
+   const { editData, edit } = props;
+   const [customeField, setCustomeField] = useState(edit && editData ? editData.custom_field : [""]);
 
    return (
       <Page>
@@ -29,7 +30,7 @@ const AddTestGroupForm = (props: AddTestGroupFormProps) => {
                      customeFieldData = customeFieldData.filter((item) => item !== undefined);
 
                      try {
-                        await props.onSubmit({ ...data, customeFields: customeFieldData });
+                        await props.onSubmit({ ...data, custom_field: customeFieldData });
                         props.onBack();
                      } catch (err) {
                         console.log(err);
@@ -40,7 +41,7 @@ const AddTestGroupForm = (props: AddTestGroupFormProps) => {
                      <form {...formProps}>
                         <Grid>
                            <GridColumn medium={7}>
-                              <Field label="Name" isRequired name="name">
+                              <Field label="Name" isRequired name="name" defaultValue={edit && editData ? editData.name : ""}>
                                  {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                               </Field>
                            </GridColumn>
@@ -60,6 +61,7 @@ const AddTestGroupForm = (props: AddTestGroupFormProps) => {
                                        return "NOT_BLOCK_LETTERS";
                                     }
                                  }}
+                                 defaultValue={edit && editData ? editData.code : ""}
                               >
                                  {({ fieldProps, error }: any) => (
                                     <React.Fragment>
@@ -120,7 +122,8 @@ const AddTestGroupForm = (props: AddTestGroupFormProps) => {
                               Back
                            </Button>
                            <Button type="submit" appearance="primary" isLoading={submitting}>
-                              Add test group
+                              {edit ? "Edit test group" : "Add test group "}
+                              
                            </Button>
                         </div>
                      </form>

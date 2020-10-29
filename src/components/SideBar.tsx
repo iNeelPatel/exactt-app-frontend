@@ -97,11 +97,7 @@ const SideBar = (props: Props) => {
    }
 
    const checkPermission = (permission: Permission): boolean => {
-      if (permission.read || permission.write) {
-         return true;
-      } else {
-         return false;
-      }
+      return permission.read || permission.write;
    };
 
    return (
@@ -164,6 +160,11 @@ const SideBar = (props: Props) => {
                            Customer
                         </LinkItem>
                      )}
+                     {checkPermission(permission.samples_id) && (
+                        <LinkItem href="#/sample" cssFn={(currentStyles) => menuItemCss(currentStyles, "sample")}>
+                           Sample
+                        </LinkItem>
+                     )}
                   </Section>
                   {organizationsettingsAccess && (
                      <Section title="Organization Settings">
@@ -178,27 +179,42 @@ const SideBar = (props: Props) => {
                            </LinkItem>
                         )}
                         {checkPermission(permission.department) && (
-                           <LinkItem href="#/organizationsettings/department" cssFn={(currentStyles) => menuItemCss(currentStyles, "department")}>
+                           <LinkItem
+                              href="#/organizationsettings/department"
+                              cssFn={(currentStyles) => menuItemCss(currentStyles, "department")}
+                           >
                               Department
                            </LinkItem>
                         )}
                         {checkPermission(permission.samples_group) && (
-                           <LinkItem href="#/organizationsettings/testgroup" cssFn={(currentStyles) => menuItemCss(currentStyles, "testgroup")}>
+                           <LinkItem
+                              href="#/organizationsettings/testgroup"
+                              cssFn={(currentStyles) => menuItemCss(currentStyles, "testgroup")}
+                           >
                               Test Group
                            </LinkItem>
                         )}
                         {checkPermission(permission.samples_parameter) && (
-                           <LinkItem href="#/organizationsettings/parameter" cssFn={(currentStyles) => menuItemCss(currentStyles, "parameter")}>
+                           <LinkItem
+                              href="#/organizationsettings/parameter"
+                              cssFn={(currentStyles) => menuItemCss(currentStyles, "parameter")}
+                           >
                               Parameters
                            </LinkItem>
                         )}
                         {checkPermission(permission.samples_method) && (
-                           <LinkItem href="#/organizationsettings/testmethod" cssFn={(currentStyles) => menuItemCss(currentStyles, "testmethod")}>
+                           <LinkItem
+                              href="#/organizationsettings/testmethod"
+                              cssFn={(currentStyles) => menuItemCss(currentStyles, "testmethod")}
+                           >
                               Test methods
                            </LinkItem>
                         )}
                         {checkPermission(permission.samples_sample) && (
-                           <LinkItem href="#/organizationsettings/sampledetail" cssFn={(currentStyles) => menuItemCss(currentStyles, "sampledetail")}>
+                           <LinkItem
+                              href="#/organizationsettings/sampledetail"
+                              cssFn={(currentStyles) => menuItemCss(currentStyles, "sampledetail")}
+                           >
                               Sample Details
                            </LinkItem>
                         )}

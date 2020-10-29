@@ -32,7 +32,7 @@ const AddSampleDetail = (props: Props) => {
             <GridColumn medium={12}>
                <Breadcrumb items={breadcrumbItems} screen={sampleDetailId ? "Edit Sample Detail" : "Add Sample Detail"} />
             </GridColumn>
-            <GridColumn medium={7}>
+            <GridColumn medium={8}>
                <AddSampleDetailForm onBack={onBack} onSubmit={onSubmit} />
             </GridColumn>
          </Grid>

@@ -11,12 +11,15 @@ interface Items {
 interface Props {
    items: Array<Items>;
    screen: string;
+   marginBottom?: number;
    right?: any;
 }
 
 const Breadcrumb = (props: Props) => {
    return (
-      <div style={{ display: "flex", flex: 0, justifyContent: "space-between", marginBottom: 30 }}>
+      <div
+         style={{ display: "flex", flex: 0, justifyContent: "space-between", marginBottom: props.marginBottom ? props.marginBottom : 30 }}
+      >
          <div>
             <Breadcrumbs>
                {props.items.map((item: Items, idx: number) => (

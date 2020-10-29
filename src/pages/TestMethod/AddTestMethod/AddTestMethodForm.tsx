@@ -56,7 +56,7 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
                      }
                   }}
                >
-                  {({ formProps, submitting, getValues }: any) => (
+                  {({ formProps, submitting }: any) => (
                      <form {...formProps}>
                         <Field label="Name" isRequired name="name">
                            {({ fieldProps }: any) => <Textfield {...fieldProps} />}

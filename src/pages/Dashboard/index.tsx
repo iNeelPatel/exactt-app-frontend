@@ -10,6 +10,7 @@ import AppState from "../../redux/types";
 const breadcrumbItems = [{ path: "/", name: "Dashboard" }];
 
 const Dashboard = (props: any) => {
+   console.log(props.orgnization.details);
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
