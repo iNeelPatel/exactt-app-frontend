@@ -71,7 +71,7 @@ export function updateTestGroup(request: TestGroup) {
             type: ActionsTypes.UPDATE_TEST_GROUP,
             payload: res,
          });
-         AlertBox(dispatch, "confirmation", "Test group created successfully.");
+         AlertBox(dispatch, "confirmation", "Test group update successfully.");
          return res;
       } catch (error) {
          AlertBox(dispatch, "error", error);
