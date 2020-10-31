@@ -15,6 +15,18 @@ export default (state: ParameterState = initialState, action: ActionInterface): 
             parameters: action.payload,
          };
 
+      case ActionTypes.CREATE_PARAMETER:
+         return {
+            ...state,
+            parameter: action.payload,
+         };
+
+      case ActionTypes.GET_PARAMETER:
+         return {
+            ...state,
+            parameter: action.payload,
+         };
+
       default:
          return state;
    }

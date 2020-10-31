@@ -29,6 +29,8 @@ interface ActionsTypes {
    GET_TEST_GROUP: string;
    UPDATE_TEST_GROUP: string;
    GET_PARAMETERS: string;
+   CREATE_PARAMETER: string;
+   GET_PARAMETER: string;
 }
 
 const Actions: ActionsTypes = {
@@ -79,6 +81,8 @@ const Actions: ActionsTypes = {
 
    //Parameter Actions
    GET_PARAMETERS: "GET_PARAMETERS",
+   GET_PARAMETER: "GET_PARAMETER",
+   CREATE_PARAMETER: "CREATE_PARAMETER",
 };
 
 export default Actions;

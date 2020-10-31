@@ -10,16 +10,15 @@ import Select from "@atlaskit/select";
 import { AddParameterFormProps } from "./types";
 
 const AddSampleGroup = (props: AddParameterFormProps) => {
+   const { edit, editData } = props;
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
             <GridColumn medium={12}>
                <Form
                   onSubmit={async (data: any) => {
-                     console.log(data);
-
                      try {
-                        await props.onSubmit(data);
+                        await props.onSubmit({ ...data, department: data.department.value });
                         props.onBack();
                      } catch (err) {
                         console.log(err);
@@ -30,20 +29,29 @@ const AddSampleGroup = (props: AddParameterFormProps) => {
                      <form {...formProps}>
                         <Grid>
                            <GridColumn medium={8}>
-                              <Field label="Name" isRequired name="name">
+                              <Field label="Name" isRequired name="name" defaultValue={edit && editData && editData.name}>
                                  {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                               </Field>
                            </GridColumn>
                            <GridColumn medium={4}>
-                              <Field label="Unit" isRequired name="unit">
+                              <Field label="Unit" isRequired name="unit" defaultValue={edit && editData && editData.unit}>
                                  {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                               </Field>
                            </GridColumn>
                         </Grid>
-                        <Field label="Method" isRequired name="method">
+                        <Field label="Method" isRequired name="method" defaultValue={edit && editData && editData.method}>
                            {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                         </Field>
-                        <Field label="Department" isRequired name="department">
+                        <Field
+                           label="Department"
+                           isRequired
+                           name="department"
+                           defaultValue={
+                              edit &&
+                              editData &&
+                              props.departmentList.find((department) => department.value === editData.department.objectId)
+                           }
+                        >
                            {({ fieldProps }: any) => (
                               <Select {...fieldProps} options={props.departmentList} placeholder="Select department" />
                            )}
@@ -54,7 +62,7 @@ const AddSampleGroup = (props: AddParameterFormProps) => {
                               Back
                            </Button>
                            <Button type="submit" appearance="primary" isLoading={submitting}>
-                              Add parameter
+                              {edit ? "Edit parameter" : "Add parameter"}
                            </Button>
                         </div>
                      </form>

@@ -10,6 +10,7 @@ import { Breadcrumb, ScreenLoader } from "../../../components";
 import AddParameterForm from "./AddParameterForm";
 import { getDepartments } from "../../../redux/actions/DepartmentActions";
 import { Departments } from "../../../redux/types/DepartmentTypes";
+import { getParameter, createParameter, updateParameter } from "../../../redux/actions/ParameterActions";
 import { Props } from "./types";
 
 const AddSampleGroup = (props: Props) => {
@@ -20,6 +21,9 @@ const AddSampleGroup = (props: Props) => {
 
    const focus = async () => {
       await props.getDepartments();
+      if (parameterId) {
+         await props.getParameter(parameterId);
+      }
       setLoading(false);
    };
 
@@ -45,8 +49,12 @@ const AddSampleGroup = (props: Props) => {
       props.history.goBack();
    };
 
-   const onSubmit = (data: any) => {
-      console.log(data);
+   const onSubmit = async (data: any) => {
+      if (parameterId) {
+         await props.updateParameter({ ...data, objectId: parameterId });
+      } else {
+         await props.createParameter(data);
+      }
    };
 
    return (
@@ -59,7 +67,13 @@ const AddSampleGroup = (props: Props) => {
                <ScreenLoader />
             ) : (
                <GridColumn medium={8}>
-                  <AddParameterForm departmentList={departmentList} onBack={onBack} onSubmit={onSubmit} />
+                  <AddParameterForm
+                     departmentList={departmentList}
+                     onBack={onBack}
+                     onSubmit={onSubmit}
+                     edit={parameterId ? true : false}
+                     editData={props.parameter}
+                  />
                </GridColumn>
             )}
          </Grid>
@@ -70,11 +84,12 @@ const AddSampleGroup = (props: Props) => {
 const mapStateToProps = (state: AppState) => ({
    sampleGroupPermission: state.user.user.role.permission.samples_group,
    departments: state.department.departments,
+   parameter: state.parameter.parameter,
 });
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ getDepartments }, dispatch),
+      ...bindActionCreators({ getDepartments, getParameter, createParameter, updateParameter }, dispatch),
    };
 }
 

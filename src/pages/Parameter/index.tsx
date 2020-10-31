@@ -7,13 +7,13 @@ import { connect } from "react-redux";
 import DynamicTable from "@atlaskit/dynamic-table";
 import EditIcon from "@atlaskit/icon/glyph/edit";
 import { bindActionCreators } from "redux";
-import { getParameters } from "../../redux/actions/ParameterActions";
 
 // ====================================== File imports ======================================
 import { Breadcrumb, DeleteButton } from "../../components";
 import AppState from "../../redux/types";
 import { Props } from "./types";
 import { Parameter } from "../../redux/types/Parameter";
+import { getParameters } from "../../redux/actions/ParameterActions";
 
 const breadcrumbItems = [
    { path: "/", name: "Organization Settings" },
@@ -88,11 +88,11 @@ const ParameterPage = (props: Props) => {
                      <Button
                         iconBefore={<EditIcon label="Edit icon" size="small" />}
                         appearance="link"
-                        onClick={() => props.history.push(`/organizationsettings/testgroup/edit/rendomid`)}
+                        onClick={() => props.history.push(`/organizationsettings/parameter/edit/${parameter.objectId}`)}
                      >
                         Edit
                      </Button>
-                     <DeleteButton onClick={() => props.history.push(`/organizationsettings/testgroup/`)} />
+                     <DeleteButton onClick={() => props.history.push(`/organizationsettings/parameter`)} />
                   </div>
                ),
             },
