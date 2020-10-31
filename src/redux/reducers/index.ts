@@ -7,6 +7,7 @@ import AlertBoxReducer from "./AlertBoxReducer";
 import DepartmentReducer from "./DepartmentReducer";
 import CustomerReducer from "./CustomerReducer";
 import TestGroupsReducer from "./TestGroupsReducer";
+import ParameterReducer from "./ParameterReducer";
 import AppState from "../types";
 
 const rootReducer = combineReducers<AppState>({
@@ -18,6 +19,7 @@ const rootReducer = combineReducers<AppState>({
    department: DepartmentReducer,
    customer: CustomerReducer,
    testGroup: TestGroupsReducer,
+   parameter: ParameterReducer,
 });
 
 export default rootReducer;

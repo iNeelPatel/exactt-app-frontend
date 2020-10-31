@@ -1,24 +1,29 @@
 // ====================================== Module imports ======================================
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import Button from "@atlaskit/button";
 import AddIcon from "@atlaskit/icon/glyph/add";
 import { connect } from "react-redux";
 import DynamicTable from "@atlaskit/dynamic-table";
 import EditIcon from "@atlaskit/icon/glyph/edit";
+import { bindActionCreators } from "redux";
+import { getParameters } from "../../redux/actions/ParameterActions";
 
 // ====================================== File imports ======================================
 import { Breadcrumb, DeleteButton } from "../../components";
 import AppState from "../../redux/types";
 import { Props } from "./types";
+import { Parameter } from "../../redux/types/Parameter";
 
 const breadcrumbItems = [
    { path: "/", name: "Organization Settings" },
    { path: "/organizationsettings/parameter", name: "Parameters" },
 ];
 
-const Parameter = (props: Props) => {
-   const { sampleParameterPermission } = props;
+const ParameterPage = (props: Props) => {
+   const { sampleParameterPermission, getParameters, parameters } = props;
+   const [loading, setLoading] = useState(true);
+   const [rows, setRows] = useState([]);
 
    const head: any = {
       cells: [
@@ -56,25 +61,25 @@ const Parameter = (props: Props) => {
       ],
    };
 
-   const rows: any = [
-      {
+   useEffect(() => {
+      const createRows: any = parameters?.map((parameter: Parameter) => ({
          key: `row`,
          cells: [
             {
-               key: `parameter_name`,
-               content: <div style={{ height: 34, display: "flex", alignItems: "center" }}>pH</div>,
+               key: `cell-parameter-name-${parameter.objectId}`,
+               content: <div style={{ height: 34, display: "flex", alignItems: "center" }}>{parameter.name}</div>,
             },
             {
-               key: `parameter_unit`,
-               content: <div>pH</div>,
+               key: `cell-parameter-unit-${parameter.objectId}`,
+               content: <div>{parameter.unit}</div>,
             },
             {
-               key: `cellle.method`,
-               content: <div>as per IS:9012</div>,
+               key: `cell-parameter-method-${parameter.objectId}`,
+               content: <div>{parameter.method}</div>,
             },
             {
                key: `cellle.department`,
-               content: <div>Microbiology</div>,
+               content: <div>{parameter.department.name}</div>,
             },
             {
                key: `cell`,
@@ -92,8 +97,20 @@ const Parameter = (props: Props) => {
                ),
             },
          ],
-      },
-   ];
+      }));
+
+      setRows(createRows);
+   }, [parameters, props.history, sampleParameterPermission]);
+
+   const focus = async () => {
+      await getParameters();
+      setLoading(false);
+   };
+
+   useEffect(() => {
+      focus();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
 
    return (
       <Page>
@@ -124,7 +141,7 @@ const Parameter = (props: Props) => {
                   rowsPerPage={10}
                   defaultPage={1}
                   isFixedSize
-                  // isLoading={loading}
+                  isLoading={loading}
                   defaultSortKey="name"
                   defaultSortOrder="ASC"
                   onSort={() => console.log("onSort")}
@@ -138,6 +155,13 @@ const Parameter = (props: Props) => {
 
 const mapStateToProps = (state: AppState) => ({
    sampleParameterPermission: state.user.user.role.permission.samples_parameter,
+   parameters: state.parameter.parameters,
 });
 
-export default connect(mapStateToProps)(Parameter);
+function mapDispatchToProps(dispatch: any) {
+   return {
+      ...bindActionCreators({ getParameters }, dispatch),
+   };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ParameterPage);

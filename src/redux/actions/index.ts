@@ -28,6 +28,7 @@ interface ActionsTypes {
    CREATE_TEST_GROUPS: string;
    GET_TEST_GROUP: string;
    UPDATE_TEST_GROUP: string;
+   GET_PARAMETERS: string;
 }
 
 const Actions: ActionsTypes = {
@@ -75,6 +76,9 @@ const Actions: ActionsTypes = {
    CREATE_TEST_GROUPS: "CREATE_TEST_GROUPS",
    GET_TEST_GROUP: "GET_TEST_GROUP",
    UPDATE_TEST_GROUP: "UPDATE_TEST_GROUP",
+
+   //Parameter Actions
+   GET_PARAMETERS: "GET_PARAMETERS",
 };
 
 export default Actions;
