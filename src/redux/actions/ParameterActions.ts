@@ -1,5 +1,5 @@
 import { DispatchType } from "../types/ActionDispatch";
-import { Parameter } from "../types/Parameter";
+import { Parameter } from "../types/ParameterTypes";
 import AlertBox from "./Alert";
 import ActionsTypes from ".";
 
@@ -78,7 +78,7 @@ export function updateParameter(request: Parameter) {
          };
          let res = await Parse.Cloud.run("updateParameter", fromData);
          dispatch({
-            type: ActionsTypes.CREATE_PARAMETER,
+            type: ActionsTypes.UPDATE_PARAMETER,
             payload: res,
          });
          AlertBox(dispatch, "confirmation", "Parameter updated successfully.");

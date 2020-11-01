@@ -31,6 +31,8 @@ interface ActionsTypes {
    GET_PARAMETERS: string;
    CREATE_PARAMETER: string;
    GET_PARAMETER: string;
+   UPDATE_PARAMETER: string;
+   GET_SAMPLE_GROUP: string;
 }
 
 const Actions: ActionsTypes = {
@@ -83,6 +85,10 @@ const Actions: ActionsTypes = {
    GET_PARAMETERS: "GET_PARAMETERS",
    GET_PARAMETER: "GET_PARAMETER",
    CREATE_PARAMETER: "CREATE_PARAMETER",
+   UPDATE_PARAMETER: "UPDATE_PARAMETER",
+
+   //Sample Group Actions
+   GET_SAMPLE_GROUP: "GET_SAMPLE_GROUP",
 };
 
 export default Actions;

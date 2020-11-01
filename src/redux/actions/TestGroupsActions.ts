@@ -1,5 +1,5 @@
 import { DispatchType } from "../types/ActionDispatch";
-import { TestGroup } from "../types/TestGroups";
+import { TestGroup } from "../types/TestGroupsTypes";
 import AlertBox from "./Alert";
 import ActionsTypes from ".";
 

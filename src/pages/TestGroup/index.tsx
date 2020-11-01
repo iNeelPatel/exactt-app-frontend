@@ -13,7 +13,7 @@ import { Breadcrumb, DeleteButton } from "../../components";
 import { Props } from "./types";
 import AppState from "../../redux/types";
 import { getTestGroups } from "../../redux/actions/TestGroupsActions";
-import { TestGroup } from "../../redux/types/TestGroups";
+import { TestGroup } from "../../redux/types/TestGroupsTypes";
 
 const breadcrumbItems = [
    { path: "/", name: "Organization Settings" },

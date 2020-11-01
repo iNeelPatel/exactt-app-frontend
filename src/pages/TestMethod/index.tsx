@@ -1,16 +1,20 @@
 // ====================================== Module imports ======================================
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import Button from "@atlaskit/button";
 import AddIcon from "@atlaskit/icon/glyph/add";
 import { connect } from "react-redux";
 import DynamicTable from "@atlaskit/dynamic-table";
 import EditIcon from "@atlaskit/icon/glyph/edit";
+import { bindActionCreators } from "redux";
+import Lozenge from "@atlaskit/lozenge";
 
 // ====================================== File imports ======================================
 import { Breadcrumb, DeleteButton } from "../../components";
 import AppState from "../../redux/types";
 import { Props } from "./types";
+import { getSampleGroup } from "../../redux/actions/SampleGroupsActions";
+import { SampleGroup } from "../../redux/types/SampleGroupTypes";
 
 const breadcrumbItems = [
    { path: "/", name: "Organization Settings" },
@@ -18,14 +22,16 @@ const breadcrumbItems = [
 ];
 
 const TestMethod = (props: Props) => {
-   const { testMethodPermission } = props;
+   const { testMethodPermission, getSampleGroup, sampleGroups } = props;
+   const [loading, setLoading] = useState(true);
+   const [rows, setRows] = useState([]);
 
    const head: any = {
       cells: [
          {
             key: "name",
             content: "Name",
-            width: "30",
+            width: "20",
             isSortable: true,
             shouldTruncate: true,
          },
@@ -33,7 +39,7 @@ const TestMethod = (props: Props) => {
             key: "parameters",
             content: "Parameters",
             isSortable: false,
-            shouldTruncate: false,
+            shouldTruncate: true,
          },
          {
             key: "action",
@@ -45,17 +51,22 @@ const TestMethod = (props: Props) => {
       ],
    };
 
-   const rows: any = [
-      {
+   useEffect(() => {
+      const createRows: any = sampleGroups?.map((testMethod: SampleGroup) => ({
          key: `row`,
          cells: [
             {
-               key: `group_name`,
+               key: `group-name-${testMethod.name}`,
                content: <div style={{ height: 34, display: "flex", alignItems: "center" }}>pH</div>,
             },
+            // <div>pH, New, Test</div>
             {
                key: `parameters`,
-               content: <div>pH, New, Test</div>,
+               content: testMethod.parameters?.map((parameter) => (
+                  <span style={{ marginRight: 3 }}>
+                     <Lozenge appearance="default">{parameter.parameter.name}</Lozenge>
+                  </span>
+               )),
             },
             {
                key: `cell`,
@@ -73,8 +84,20 @@ const TestMethod = (props: Props) => {
                ),
             },
          ],
-      },
-   ];
+      }));
+
+      setRows(createRows);
+   }, [sampleGroups, props.history, testMethodPermission]);
+
+   const focus = async () => {
+      await getSampleGroup();
+      setLoading(false);
+   };
+
+   useEffect(() => {
+      focus();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
 
    return (
       <Page>
@@ -105,7 +128,7 @@ const TestMethod = (props: Props) => {
                   rowsPerPage={10}
                   defaultPage={1}
                   isFixedSize
-                  // isLoading={loading}
+                  isLoading={loading}
                   defaultSortKey="name"
                   defaultSortOrder="ASC"
                   onSort={() => console.log("onSort")}
@@ -119,6 +142,13 @@ const TestMethod = (props: Props) => {
 
 const mapStateToProps = (state: AppState) => ({
    testMethodPermission: state.user.user.role.permission.samples_method,
+   sampleGroups: state.sampleGroup.sampleGroups,
 });
 
-export default connect(mapStateToProps)(TestMethod);
+function mapDispatchToProps(dispatch: any) {
+   return {
+      ...bindActionCreators({ getSampleGroup }, dispatch),
+   };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TestMethod);

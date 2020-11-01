@@ -12,7 +12,7 @@ import { bindActionCreators } from "redux";
 import { Breadcrumb, DeleteButton } from "../../components";
 import AppState from "../../redux/types";
 import { Props } from "./types";
-import { Parameter } from "../../redux/types/Parameter";
+import { Parameter } from "../../redux/types/ParameterTypes";
 import { getParameters } from "../../redux/actions/ParameterActions";
 
 const breadcrumbItems = [

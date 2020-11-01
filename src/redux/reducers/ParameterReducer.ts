@@ -1,4 +1,4 @@
-import { ParameterState } from "../types/Parameter";
+import { ParameterState } from "../types/ParameterTypes";
 import { ActionInterface } from "../types/ActionDispatch";
 import ActionTypes from "../actions";
 
@@ -16,6 +16,12 @@ export default (state: ParameterState = initialState, action: ActionInterface): 
          };
 
       case ActionTypes.CREATE_PARAMETER:
+         return {
+            ...state,
+            parameter: action.payload,
+         };
+
+      case ActionTypes.UPDATE_PARAMETER:
          return {
             ...state,
             parameter: action.payload,

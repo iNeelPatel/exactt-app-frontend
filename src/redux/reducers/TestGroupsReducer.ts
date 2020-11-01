@@ -1,4 +1,4 @@
-import { TestGroupState } from "../types/TestGroups";
+import { TestGroupState } from "../types/TestGroupsTypes";
 import { ActionInterface } from "../types/ActionDispatch";
 import ActionTypes from "../actions";
 

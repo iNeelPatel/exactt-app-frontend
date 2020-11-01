@@ -10,7 +10,7 @@ import { Breadcrumb, ScreenLoader } from "../../../components";
 import AddTestGroupForm from "./AddTestGroupForm";
 import { Props } from "./types";
 import { createTestGroup, getTestGroup, updateTestGroup } from "../../../redux/actions/TestGroupsActions";
-import { TestGroup } from "../../../redux/types/TestGroups";
+import { TestGroup } from "../../../redux/types/TestGroupsTypes";
 
 const AddTestGroup = (props: Props) => {
    const { groupId } = props.match.params;

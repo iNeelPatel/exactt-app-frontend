@@ -1,5 +1,5 @@
 import { RouteComponentProps } from "react-router-dom";
-import { TestGroup } from "../../../redux/types/TestGroups";
+import { TestGroup } from "../../../redux/types/TestGroupsTypes";
 
 export interface Props extends RouteComponentProps {
    match: any;

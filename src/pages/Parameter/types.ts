@@ -1,5 +1,5 @@
 import { RouteComponentProps } from "react-router-dom";
-import { Parameter } from "../../redux/types/Parameter";
+import { Parameter } from "../../redux/types/ParameterTypes";
 
 export interface Props extends RouteComponentProps {
    sampleParameterPermission: {

@@ -1,6 +1,6 @@
 import { RouteComponentProps } from "react-router-dom";
 import { DepartmentState } from "../../../redux/types/DepartmentTypes";
-import { Parameter } from "../../../redux/types/Parameter";
+import { Parameter } from "../../../redux/types/ParameterTypes";
 
 export interface Props extends RouteComponentProps, DepartmentState {
    match: any;
