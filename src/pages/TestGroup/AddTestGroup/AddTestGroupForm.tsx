@@ -55,9 +55,9 @@ const AddTestGroupForm = (props: AddTestGroupFormProps) => {
                                        return;
                                     }
 
-                                    var gst_format = /[A-Z]{3}/;
+                                    var code_format = /[A-Z]{3}/;
 
-                                    if (!value.match(gst_format)) {
+                                    if (!value.match(code_format)) {
                                        return "NOT_BLOCK_LETTERS";
                                     }
                                  }}
@@ -123,7 +123,6 @@ const AddTestGroupForm = (props: AddTestGroupFormProps) => {
                            </Button>
                            <Button type="submit" appearance="primary" isLoading={submitting}>
                               {edit ? "Edit test group" : "Add test group "}
-                              
                            </Button>
                         </div>
                      </form>

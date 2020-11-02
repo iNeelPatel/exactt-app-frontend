@@ -59,7 +59,6 @@ const TestMethod = (props: Props) => {
                key: `group-name-${testMethod.name}`,
                content: <div style={{ height: 34, display: "flex", alignItems: "center" }}>pH</div>,
             },
-            // <div>pH, New, Test</div>
             {
                key: `parameters`,
                content: testMethod.parameters?.map((parameter) => (

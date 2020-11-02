@@ -89,3 +89,22 @@ export function updateParameter(request: Parameter) {
       }
    };
 }
+
+export function searchParameters(keyword: string) {
+   return async (dispatch: DispatchType): Promise<Parameter[]> => {
+      try {
+         let res = await Parse.Cloud.run("searchParameters", { keyword });
+         let parameters = res.map((pamameter: any) => ({
+            ...pamameter,
+            department: pamameter.department.toJSON(),
+         }));
+         dispatch({
+            type: ActionsTypes.SEARCH_PARAMETERS,
+            payload: parameters,
+         });
+         return res;
+      } catch (error) {
+         return error;
+      }
+   };
+}

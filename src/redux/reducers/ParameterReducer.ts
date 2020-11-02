@@ -5,6 +5,7 @@ import ActionTypes from "../actions";
 const initialState: ParameterState = {
    parameters: [],
    parameter: undefined,
+   searchedParameters: [],
 };
 
 export default (state: ParameterState = initialState, action: ActionInterface): ParameterState => {
@@ -31,6 +32,12 @@ export default (state: ParameterState = initialState, action: ActionInterface): 
          return {
             ...state,
             parameter: action.payload,
+         };
+
+      case ActionTypes.SEARCH_PARAMETERS:
+         return {
+            ...state,
+            searchedParameters: action.payload,
          };
 
       default:

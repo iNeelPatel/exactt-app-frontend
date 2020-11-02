@@ -5,11 +5,12 @@ import Form, { Field } from "@atlaskit/form";
 import Textfield from "@atlaskit/textfield";
 import Select, { CreatableSelect } from "@atlaskit/select";
 import Button from "@atlaskit/button";
-import Toggle from "@atlaskit/toggle";
+import { Checkbox } from "@atlaskit/checkbox";
 
 // ====================================== File imports ======================================
 import { AddTestMethodFormProps } from "./types";
 import { Divider } from "../../../components";
+import { Parameter } from "../../../redux/types/ParameterTypes";
 
 const createOption = (label: string) => ({
    label,
@@ -17,15 +18,33 @@ const createOption = (label: string) => ({
 });
 
 const AddTestMethod = (props: AddTestMethodFormProps) => {
-   const [type, setType] = useState("");
+   const { searchedParameters, onSearchParameter } = props;
    const [createOptions, setCreateOptions] = useState<any>([]);
    const [optionValue, setOptionValue] = useState<any>([]);
    const [dropdownOpen, setDropdownOpen] = useState(false);
+   const [searchKeyword, setSearchKeyword] = useState("");
+   const [parameterOptions, setParameterOptions] = useState<any>([]);
+   const [selectedParameters, setSelectedParameters] = useState<any>([]);
 
    const handleChange = (newValue: any) => {
       setOptionValue(newValue);
       setCreateOptions(newValue);
    };
+
+   useEffect(() => {
+      onSearchParameter(searchKeyword);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [searchKeyword]);
+
+   useEffect(() => {
+      let parametersOption: any = searchedParameters.map((parameter: Parameter) => ({
+         ...parameter,
+         nabl: false,
+         label: parameter.name,
+         value: parameter.objectId,
+      }));
+      setParameterOptions(parametersOption);
+   }, [searchedParameters]);
 
    const handleCreate = (inputValue: any) => {
       const newOption = createOption(inputValue);
@@ -39,6 +58,8 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
    useEffect(() => {
       setOptionValue(createOptions);
    }, [createOptions]);
+
+   console.log(selectedParameters);
 
    return (
       <Page>
@@ -68,17 +89,10 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
                                  isSearchable
                                  isMulti
                                  {...fieldProps}
-                                 options={[
-                                    { label: "Adelaide", value: "adelaide" },
-                                    { label: "Brisbane", value: "brisbane" },
-                                    { label: "Canberra", value: "canberra" },
-                                    { label: "Darwin", value: "darwin" },
-                                    { label: "Hobart", value: "hobart" },
-                                    { label: "Melbourne", value: "melbourne" },
-                                    { label: "Perth", value: "perth" },
-                                    { label: "Sydney", value: "sydney" },
-                                 ]}
+                                 options={parameterOptions}
+                                 onInputChange={(keyword) => setSearchKeyword(keyword)}
                                  isLoading={false}
+                                 onChange={(options) => setSelectedParameters(options)}
                                  menuIsOpen={dropdownOpen}
                                  onMenuOpen={() => setDropdownOpen(true)}
                                  placeholder="Search parameter"
@@ -89,98 +103,140 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
 
                         <Divider />
 
-                        <div style={{ display: "flex", justifyContent: "space-between", marginTop: 10, alignItems: "center" }}>
-                           <h4>1. Parameter Name</h4>
-                           <div style={{ display: "flex", alignItems: "center" }}>
-                              <span>NABL Type: </span>
-                              <span>
-                                 <Toggle id="toggle-large" size="large" />
-                              </span>
-                           </div>
-                        </div>
+                        {selectedParameters.map((item: any, idx: number) => (
+                           <React.Fragment>
+                              <div style={{ display: "flex", justifyContent: "space-between", marginTop: 10, alignItems: "center" }}>
+                                 <h4>{`${idx + 1}. ${item.name}`}</h4>
+                                 <div style={{ display: "flex", alignItems: "center" }}>
+                                    <span>
+                                       <Checkbox
+                                          label="NABL Type"
+                                          onChange={() => {
+                                             let updateSelectedParameters = selectedParameters.map((parameter: any) =>
+                                                parameter.objectId === item.objectId ? { ...parameter, nabl: !item.nabl } : parameter
+                                             );
+                                             setSelectedParameters(updateSelectedParameters);
+                                          }}
+                                          name={`nabl-type-${item.objectId}`}
+                                          isChecked={item.nabl}
+                                       />
+                                    </span>
+                                 </div>
+                              </div>
 
-                        <Grid>
-                           <GridColumn medium={type ? (type === "complies" ? 12 : 4) : 12}>
-                              <Field label="Validation type" isRequired name="type">
-                                 {({ fieldProps }: any) => (
-                                    <Select
-                                       {...fieldProps}
-                                       options={[
-                                          { label: "Range", value: "range" },
-                                          { label: "Valid", value: "valid" },
-                                          { label: "Options", value: "options" },
-                                          { label: "Complies", value: "complies" },
-                                       ]}
-                                       onChange={(value: { label: string; value: string }) => {
-                                          setType(value.value);
-                                       }}
-                                       placeholder="Search validation type"
-                                    />
-                                 )}
-                              </Field>
-                           </GridColumn>
-                           {type === "range" && (
-                              <Fragment>
-                                 <GridColumn medium={4}>
-                                    <Field label="Minimum value" isRequired name="min">
-                                       {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                                    </Field>
-                                 </GridColumn>
-                                 <GridColumn medium={4}>
-                                    <Field label="Maximum value" isRequired name="max">
-                                       {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                                    </Field>
-                                 </GridColumn>
-                              </Fragment>
-                           )}
-                           {type === "valid" && (
-                              <Fragment>
-                                 <GridColumn medium={4}>
-                                    <Field label="Valid result" isRequired name="validResult">
-                                       {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                                    </Field>
-                                 </GridColumn>
-                                 <GridColumn medium={4}>
-                                    <Field label="Invalid result" isRequired name="invalidResult">
-                                       {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                                    </Field>
-                                 </GridColumn>
-                              </Fragment>
-                           )}
-                           {type === "options" && (
-                              <Fragment>
-                                 <GridColumn medium={8}>
-                                    <Field label="Valid result" isRequired name="validResult" defaultValue={optionValue}>
+                              <Grid>
+                                 <GridColumn medium={item.type ? (item.type === "complies" ? 12 : 4) : 12}>
+                                    <Field label="Validation type" isRequired name={`type${idx}`}>
                                        {({ fieldProps }: any) => (
-                                          <CreatableSelect
-                                             isMulti
-                                             isClearable={false}
-                                             value={optionValue}
+                                          <Select
                                              {...fieldProps}
-                                             options={createOptions}
-                                             onChange={handleChange}
-                                             onCreateOption={handleCreate}
+                                             options={[
+                                                { label: "Range", value: "range" },
+                                                { label: "Valid", value: "valid" },
+                                                { label: "Options", value: "options" },
+                                                { label: "Complies", value: "complies" },
+                                             ]}
+                                             onChange={(value: { label: string; value: string }) => {
+                                                let updateSelectedParameters = selectedParameters.map((parameter: any) =>
+                                                   parameter.objectId === item.objectId ? { ...parameter, type: value.value } : parameter
+                                                );
+                                                setSelectedParameters(updateSelectedParameters);
+                                             }}
                                              placeholder="Search validation type"
                                           />
                                        )}
                                     </Field>
                                  </GridColumn>
-                              </Fragment>
-                           )}
-                        </Grid>
+                                 {item.type === "range" && (
+                                    <Fragment>
+                                       <GridColumn medium={4}>
+                                          <Field label="Minimum value" isRequired name="min">
+                                             {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                                          </Field>
+                                       </GridColumn>
+                                       <GridColumn medium={4}>
+                                          <Field label="Maximum value" isRequired name="max">
+                                             {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                                          </Field>
+                                       </GridColumn>
+                                    </Fragment>
+                                 )}
+                                 {item.type === "valid" && (
+                                    <Fragment>
+                                       <GridColumn medium={4}>
+                                          <Field label="Valid result" isRequired name="validResult">
+                                             {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                                          </Field>
+                                       </GridColumn>
+                                       <GridColumn medium={4}>
+                                          <Field label="Invalid result" isRequired name="invalidResult">
+                                             {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                                          </Field>
+                                       </GridColumn>
+                                    </Fragment>
+                                 )}
+                                 {item.type === "options" && (
+                                    <Fragment>
+                                       <GridColumn medium={8}>
+                                          <Field label="Valid result" isRequired name="validResult" defaultValue={optionValue}>
+                                             {({ fieldProps }: any) => (
+                                                <CreatableSelect
+                                                   isMulti
+                                                   isClearable={false}
+                                                   value={optionValue}
+                                                   {...fieldProps}
+                                                   options={createOptions}
+                                                   onChange={handleChange}
+                                                   onCreateOption={handleCreate}
+                                                   placeholder="Search validation type"
+                                                />
+                                             )}
+                                          </Field>
+                                       </GridColumn>
+                                    </Fragment>
+                                 )}
+                              </Grid>
 
-                        <Grid>
-                           <GridColumn medium={5}>
-                              <Field label="Method" isRequired name="method">
-                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                              </Field>
-                           </GridColumn>
-                           <GridColumn medium={7}>
-                              <Field label="Requirement" isRequired name="requirement">
-                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                              </Field>
-                           </GridColumn>
-                        </Grid>
+                              <Grid>
+                                 <GridColumn medium={5}>
+                                    <Field label="Method" isRequired name="method" defaultValue={item.method}>
+                                       {({ fieldProps }: any) => (
+                                          <Textfield
+                                             {...fieldProps}
+                                             onChange={(e: any) => {
+                                                let updateSelectedParameters = selectedParameters.map((parameter: any) =>
+                                                   parameter.objectId === item.objectId
+                                                      ? { ...parameter, method: e.target.value }
+                                                      : parameter
+                                                );
+                                                setSelectedParameters(updateSelectedParameters);
+                                             }}
+                                             value={item.method}
+                                          />
+                                       )}
+                                    </Field>
+                                 </GridColumn>
+                                 <GridColumn medium={7}>
+                                    <Field label="Requirement" isRequired name="requirement">
+                                       {({ fieldProps }: any) => (
+                                          <Textfield
+                                             {...fieldProps}
+                                             onChange={(e: any) => {
+                                                let updateSelectedParameters = selectedParameters.map((parameter: any) =>
+                                                   parameter.objectId === item.objectId
+                                                      ? { ...parameter, requirement: e.target.value }
+                                                      : parameter
+                                                );
+                                                setSelectedParameters(updateSelectedParameters);
+                                             }}
+                                             value={item.requirement}
+                                          />
+                                       )}
+                                    </Field>
+                                 </GridColumn>
+                              </Grid>
+                           </React.Fragment>
+                        ))}
 
                         <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 20 }}>
                            <Button appearance="link" disabled={submitting} onClick={() => props.onBack()}>
