@@ -10,6 +10,7 @@ import { Breadcrumb } from "../../../components";
 import AddTestMethodForm from "./AddTestMethodForm";
 import { Props } from "./types";
 import { searchParameters } from "../../../redux/actions/ParameterActions";
+import { createSampleGroup } from "../../../redux/actions/SampleGroupsActions";
 
 const AddSampleGroup = (props: Props) => {
    const { testMethodId } = props.match.params;
@@ -28,8 +29,8 @@ const AddSampleGroup = (props: Props) => {
       await props.searchParameters(keyword);
    };
 
-   const onSubmit = (data: any) => {
-      console.log(data);
+   const onSubmit = async (data: any) => {
+      await props.createSampleGroup(data);
    };
 
    return (
@@ -58,7 +59,7 @@ const mapStateToProps = (state: AppState) => ({
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ searchParameters }, dispatch),
+      ...bindActionCreators({ searchParameters, createSampleGroup }, dispatch),
    };
 }
 

@@ -57,7 +57,7 @@ const TestMethod = (props: Props) => {
          cells: [
             {
                key: `group-name-${testMethod.name}`,
-               content: <div style={{ height: 34, display: "flex", alignItems: "center" }}>pH</div>,
+               content: <div style={{ height: 34, display: "flex", alignItems: "center" }}>{testMethod.name}</div>,
             },
             {
                key: `parameters`,

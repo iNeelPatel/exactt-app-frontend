@@ -9,10 +9,16 @@ const initialState: SampleGroupState = {
 
 export default (state: SampleGroupState = initialState, action: ActionInterface): SampleGroupState => {
    switch (action.type) {
-      case ActionTypes.GET_SAMPLE_GROUP:
+      case ActionTypes.GET_SAMPLE_GROUPS:
          return {
             ...state,
             sampleGroups: action.payload,
+         };
+
+      case ActionTypes.CREATE_SAMPLE_GROUP:
+         return {
+            ...state,
+            sampleGroup: action.payload,
          };
 
       default:

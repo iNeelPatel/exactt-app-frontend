@@ -3,7 +3,7 @@ import React, { useState, Fragment, useEffect } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import Form, { Field, HelperMessage } from "@atlaskit/form";
 import Textfield from "@atlaskit/textfield";
-import Select, { CreatableSelect } from "@atlaskit/select";
+import Select from "@atlaskit/select";
 import Button from "@atlaskit/button";
 import { Checkbox } from "@atlaskit/checkbox";
 
@@ -19,17 +19,10 @@ const createOption = (label: string) => ({
 
 const AddTestMethod = (props: AddTestMethodFormProps) => {
    const { searchedParameters, onSearchParameter } = props;
-   const [createOptions, setCreateOptions] = useState<any>([]);
-   const [optionValue, setOptionValue] = useState<any>([]);
    const [dropdownOpen, setDropdownOpen] = useState(false);
    const [searchKeyword, setSearchKeyword] = useState("");
    const [parameterOptions, setParameterOptions] = useState<any>([]);
    const [selectedParameters, setSelectedParameters] = useState<any>([]);
-
-   const handleChange = (newValue: any) => {
-      setOptionValue(newValue);
-      setCreateOptions(newValue);
-   };
 
    useEffect(() => {
       onSearchParameter(searchKeyword);
@@ -46,31 +39,26 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
       setParameterOptions(parametersOption);
    }, [searchedParameters]);
 
-   const handleCreate = (inputValue: any) => {
-      const newOption = createOption(inputValue);
-      if (createOptions) {
-         setCreateOptions([...createOptions, newOption]);
-      } else {
-         setCreateOptions([newOption]);
-      }
-   };
-
-   useEffect(() => {
-      setOptionValue(createOptions);
-   }, [createOptions]);
-
-   console.log(selectedParameters);
-
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
             <GridColumn medium={12}>
                <Form
                   onSubmit={async (data: any) => {
-                     console.log(data);
+                     let formData = {
+                        name: data.name,
+                        parameters: selectedParameters.map((parameter: any) => ({
+                           parameter: parameter.objectId,
+                           condition_type: parameter.type,
+                           validation: parameter.validation,
+                           method: parameter.method,
+                           nabl: parameter.nabl,
+                           requirement: parameter.requirement,
+                        })),
+                     };
 
                      try {
-                        await props.onSubmit(data);
+                        await props.onSubmit(formData);
                         props.onBack();
                      } catch (err) {
                         console.log(err);
