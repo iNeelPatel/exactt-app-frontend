@@ -1,7 +1,7 @@
 // ====================================== Module imports ======================================
 import React, { useState, Fragment, useEffect } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
-import Form, { Field } from "@atlaskit/form";
+import Form, { Field, HelperMessage } from "@atlaskit/form";
 import Textfield from "@atlaskit/textfield";
 import Select, { CreatableSelect } from "@atlaskit/select";
 import Button from "@atlaskit/button";
@@ -101,10 +101,9 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
                            )}
                         </Field>
 
-                        <Divider />
-
                         {selectedParameters.map((item: any, idx: number) => (
                            <React.Fragment>
+                              <Divider />
                               <div style={{ display: "flex", justifyContent: "space-between", marginTop: 10, alignItems: "center" }}>
                                  <h4>{`${idx + 1}. ${item.name}`}</h4>
                                  <div style={{ display: "flex", alignItems: "center" }}>
@@ -137,8 +136,20 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
                                                 { label: "Complies", value: "complies" },
                                              ]}
                                              onChange={(value: { label: string; value: string }) => {
+                                                let validation: any;
+                                                if (value.value === "range") {
+                                                   validation = { min: undefined, max: undefined };
+                                                } else if (value.value === "valid") {
+                                                   validation = { validResult: undefined, invalidResult: undefined };
+                                                } else if (value.value === "options") {
+                                                   validation = { validOptions: undefined, invalidOptions: undefined };
+                                                } else if (value.value === "complies") {
+                                                   validation = {};
+                                                }
                                                 let updateSelectedParameters = selectedParameters.map((parameter: any) =>
-                                                   parameter.objectId === item.objectId ? { ...parameter, type: value.value } : parameter
+                                                   parameter.objectId === item.objectId
+                                                      ? { ...parameter, type: value.value, validation }
+                                                      : parameter
                                                 );
                                                 setSelectedParameters(updateSelectedParameters);
                                              }}
@@ -150,13 +161,43 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
                                  {item.type === "range" && (
                                     <Fragment>
                                        <GridColumn medium={4}>
-                                          <Field label="Minimum value" isRequired name="min">
-                                             {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                                          <Field label="Minimum value" isRequired name={`min${idx}`}>
+                                             {({ fieldProps }: any) => (
+                                                <Fragment>
+                                                   <Textfield
+                                                      type="number"
+                                                      {...fieldProps}
+                                                      onChange={(e: any) => {
+                                                         let updateSelectedParameters = selectedParameters.map((parameter: any) =>
+                                                            parameter.objectId === item.objectId
+                                                               ? { ...parameter, validation: { ...item.validation, min: e.target.value } }
+                                                               : parameter
+                                                         );
+                                                         setSelectedParameters(updateSelectedParameters);
+                                                      }}
+                                                      value={item.validation.min}
+                                                   />
+                                                </Fragment>
+                                             )}
                                           </Field>
                                        </GridColumn>
                                        <GridColumn medium={4}>
-                                          <Field label="Maximum value" isRequired name="max">
-                                             {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                                          <Field label="Maximum value" isRequired name={`max${idx}`}>
+                                             {({ fieldProps }: any) => (
+                                                <Textfield
+                                                   type="number"
+                                                   {...fieldProps}
+                                                   onChange={(e: any) => {
+                                                      let updateSelectedParameters = selectedParameters.map((parameter: any) =>
+                                                         parameter.objectId === item.objectId
+                                                            ? { ...parameter, validation: { ...item.validation, max: e.target.value } }
+                                                            : parameter
+                                                      );
+                                                      setSelectedParameters(updateSelectedParameters);
+                                                   }}
+                                                   value={item.validation.max}
+                                                />
+                                             )}
                                           </Field>
                                        </GridColumn>
                                     </Fragment>
@@ -164,35 +205,99 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
                                  {item.type === "valid" && (
                                     <Fragment>
                                        <GridColumn medium={4}>
-                                          <Field label="Valid result" isRequired name="validResult">
-                                             {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                                          <Field label="Valid result" isRequired name={`validResult${idx}`}>
+                                             {({ fieldProps }: any) => (
+                                                <Textfield
+                                                   {...fieldProps}
+                                                   onChange={(e: any) => {
+                                                      let updateSelectedParameters = selectedParameters.map((parameter: any) =>
+                                                         parameter.objectId === item.objectId
+                                                            ? {
+                                                                 ...parameter,
+                                                                 validation: { ...item.validation, validResult: e.target.value },
+                                                              }
+                                                            : parameter
+                                                      );
+                                                      setSelectedParameters(updateSelectedParameters);
+                                                   }}
+                                                   value={item.validation.validResult}
+                                                />
+                                             )}
                                           </Field>
                                        </GridColumn>
                                        <GridColumn medium={4}>
-                                          <Field label="Invalid result" isRequired name="invalidResult">
-                                             {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                                          <Field label="Invalid result" isRequired name={`invalidResult${idx}`}>
+                                             {({ fieldProps }: any) => (
+                                                <Textfield
+                                                   {...fieldProps}
+                                                   onChange={(e: any) => {
+                                                      let updateSelectedParameters = selectedParameters.map((parameter: any) =>
+                                                         parameter.objectId === item.objectId
+                                                            ? {
+                                                                 ...parameter,
+                                                                 validation: { ...item.validation, invalidResult: e.target.value },
+                                                              }
+                                                            : parameter
+                                                      );
+                                                      setSelectedParameters(updateSelectedParameters);
+                                                   }}
+                                                   value={item.validation.invalidResult}
+                                                />
+                                             )}
                                           </Field>
                                        </GridColumn>
                                     </Fragment>
                                  )}
                                  {item.type === "options" && (
                                     <Fragment>
-                                       <GridColumn medium={8}>
-                                          <Field label="Valid result" isRequired name="validResult" defaultValue={optionValue}>
-                                             {({ fieldProps }: any) => (
-                                                <CreatableSelect
-                                                   isMulti
-                                                   isClearable={false}
-                                                   value={optionValue}
-                                                   {...fieldProps}
-                                                   options={createOptions}
-                                                   onChange={handleChange}
-                                                   onCreateOption={handleCreate}
-                                                   placeholder="Search validation type"
-                                                />
-                                             )}
-                                          </Field>
-                                       </GridColumn>
+                                       <Fragment>
+                                          <GridColumn medium={4}>
+                                             <Field label="Valid options" isRequired name={`validOption${idx}`}>
+                                                {({ fieldProps }: any) => (
+                                                   <Textfield
+                                                      {...fieldProps}
+                                                      onChange={(e: any) => {
+                                                         let updateSelectedParameters = selectedParameters.map((parameter: any) =>
+                                                            parameter.objectId === item.objectId
+                                                               ? {
+                                                                    ...parameter,
+                                                                    validation: { ...item.validation, validOptions: e.target.value },
+                                                                 }
+                                                               : parameter
+                                                         );
+                                                         setSelectedParameters(updateSelectedParameters);
+                                                      }}
+                                                      value={item.validation.validOptions}
+                                                   />
+                                                )}
+                                             </Field>
+                                          </GridColumn>
+                                          <GridColumn medium={4}>
+                                             <Field label="Invalid options" isRequired name={`invalidOption${idx}`}>
+                                                {({ fieldProps }: any) => (
+                                                   <Textfield
+                                                      {...fieldProps}
+                                                      onChange={(e: any) => {
+                                                         let updateSelectedParameters = selectedParameters.map((parameter: any) =>
+                                                            parameter.objectId === item.objectId
+                                                               ? {
+                                                                    ...parameter,
+                                                                    validation: { ...item.validation, invalidOptions: e.target.value },
+                                                                 }
+                                                               : parameter
+                                                         );
+                                                         setSelectedParameters(updateSelectedParameters);
+                                                      }}
+                                                      value={item.validation.invalidOptions}
+                                                   />
+                                                )}
+                                             </Field>
+                                          </GridColumn>
+                                          <GridColumn medium={4} />
+                                          <GridColumn medium={4}>
+                                             <HelperMessage>Separate your options by comma (,)</HelperMessage>
+                                          </GridColumn>
+                                       </Fragment>
                                     </Fragment>
                                  )}
                               </Grid>
