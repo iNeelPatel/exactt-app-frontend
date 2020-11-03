@@ -2,23 +2,29 @@ interface ActionsTypes {
    ALERT_SHOW: string;
    ALERT_HIDE: string;
    GET_ROLE_ACCESS: string;
+   //ROLE
    UPDATE_ROLE: string;
    CREATE_ROLE: string;
    GET_STATUS: string;
+   //ORGANIZATION
    SET_ORGANIZATION: string;
    GET_ORGANIZATION: string;
    LOGIN: string;
    SIGNUP: string;
    LOGOUT: string;
+   //DEPARTMENT
    GET_DEPARTMENTS: string;
    CREATE_DEPARTMENT: string;
    UPDATE_DEPARTMENT: string;
+   //USER
    CREATE_USER: string;
    GET_ACCESS_ROLES_LIST: string;
    GET_PROFILE: string;
    GET_USER: string;
    GET_USERS: string;
    UPDATE_USER: string;
+   DELETE_USERS: string;
+   //CUSTOMER
    GET_CUSTOMERS: string;
    GET_CUSTOMER: string;
    CREATE_CUSTOMER: string;
@@ -46,6 +52,7 @@ const Actions: ActionsTypes = {
    GET_USER: "GET_USER",
    GET_USERS: "GET_USERS",
    UPDATE_USER: "UPDATE_USER",
+   DELETE_USERS: "DELETE_USERS",
 
    //Department Actions
    GET_DEPARTMENTS: "GET_DEPARTMENTS",
