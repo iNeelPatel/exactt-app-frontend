@@ -47,13 +47,13 @@ const Connection = () => {
                >
                   {({ formProps, submitting }: any) => (
                      <form {...formProps}>
-                        <Field label="Organization Id" isRequired name="organizationId">
+                        <Field label="Organization Id" isRequired name="organizationId" defaultValue="exactt-backend">
                            {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                         </Field>
-                        <Field label="Serial key" isRequired name="key">
+                        <Field label="Serial key" isRequired name="key" defaultValue="vMvvybc1z4*Q$!J*k4P4NNx">
                            {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                         </Field>
-                        <Field label="URL" isRequired name="url">
+                        <Field label="URL" isRequired name="url" defaultValue="https://exactt-dev.herokuapp.com/api">
                            {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                         </Field>
                         <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 10 }}>

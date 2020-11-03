@@ -74,7 +74,7 @@ const AddUser = (props: Props) => {
             {loading ? (
                <ScreenLoader />
             ) : (
-               <GridColumn medium={7}>
+               <GridColumn medium={8}>
                   <AddUserForm
                      onBack={handleBack}
                      onSubmit={handleSubmit}
