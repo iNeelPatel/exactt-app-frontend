@@ -12,11 +12,6 @@ import { AddTestMethodFormProps } from "./types";
 import { Divider } from "../../../components";
 import { Parameter } from "../../../redux/types/ParameterTypes";
 
-const createOption = (label: string) => ({
-   label,
-   value: label.toLowerCase().replace(/\W/g, ""),
-});
-
 const AddTestMethod = (props: AddTestMethodFormProps) => {
    const { searchedParameters, onSearchParameter } = props;
    const [dropdownOpen, setDropdownOpen] = useState(false);

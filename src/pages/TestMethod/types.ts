@@ -7,5 +7,5 @@ export interface Props extends RouteComponentProps {
       write: boolean;
    };
    sampleGroups: SampleGroup[] | undefined;
-   getSampleGroup: () => any;
+   getSampleGroups: () => any;
 }

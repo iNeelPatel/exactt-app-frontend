@@ -5,7 +5,7 @@ import ActionsTypes from ".";
 
 import Parse from "parse";
 
-export function getSampleGroup() {
+export function getSampleGroups() {
    return async (dispatch: DispatchType): Promise<SampleGroup[]> => {
       try {
          let res = await Parse.Cloud.run("getSampleGroups");
@@ -41,6 +41,24 @@ export function createSampleGroup(data: any) {
             payload: res,
          });
          AlertBox(dispatch, "confirmation", "Test method created successfully.");
+         return res;
+      } catch (error) {
+         AlertBox(dispatch, "error", "error");
+         return error;
+      }
+   };
+}
+
+export function getSampleGroup(objectId: string) {
+   return async (dispatch: DispatchType): Promise<SampleGroup[]> => {
+      try {
+         let res = await Parse.Cloud.run("getSampleGroup", { objectId });
+         let parameters = res.parameters.map((parameter: any) => ({ ...parameter, parameter: parameter.parameter.toJSON() }));
+         let updateRes = { ...res, parameters };
+         dispatch({
+            type: ActionsTypes.GET_SAMPLE_GROUP,
+            payload: updateRes,
+         });
          return res;
       } catch (error) {
          AlertBox(dispatch, "error", "error");

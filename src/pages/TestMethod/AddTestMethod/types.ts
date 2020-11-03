@@ -6,6 +6,7 @@ export interface Props extends RouteComponentProps {
    searchedParameters: Parameter[] | [];
    searchParameters: (keywrod: string) => any;
    createSampleGroup: (data: any) => any;
+   getSampleGroup: (objectId: any) => any;
 }
 
 export interface AddTestMethodFormProps {

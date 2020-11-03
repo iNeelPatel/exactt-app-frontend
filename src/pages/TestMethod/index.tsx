@@ -13,7 +13,7 @@ import Lozenge from "@atlaskit/lozenge";
 import { Breadcrumb, DeleteButton } from "../../components";
 import AppState from "../../redux/types";
 import { Props } from "./types";
-import { getSampleGroup } from "../../redux/actions/SampleGroupsActions";
+import { getSampleGroups } from "../../redux/actions/SampleGroupsActions";
 import { SampleGroup } from "../../redux/types/SampleGroupTypes";
 
 const breadcrumbItems = [
@@ -22,7 +22,7 @@ const breadcrumbItems = [
 ];
 
 const TestMethod = (props: Props) => {
-   const { testMethodPermission, getSampleGroup, sampleGroups } = props;
+   const { testMethodPermission, getSampleGroups, sampleGroups } = props;
    const [loading, setLoading] = useState(true);
    const [rows, setRows] = useState([]);
 
@@ -74,11 +74,11 @@ const TestMethod = (props: Props) => {
                      <Button
                         iconBefore={<EditIcon label="Edit icon" size="small" />}
                         appearance="link"
-                        onClick={() => props.history.push(`/organizationsettings/testgroup/edit/rendomid`)}
+                        onClick={() => props.history.push(`/organizationsettings/testmethod/edit/${testMethod.objectId}`)}
                      >
                         Edit
                      </Button>
-                     <DeleteButton onClick={() => props.history.push(`/organizationsettings/testgroup/`)} />
+                     <DeleteButton onClick={() => props.history.push(`/organizationsettings/testmethod/`)} />
                   </div>
                ),
             },
@@ -89,7 +89,7 @@ const TestMethod = (props: Props) => {
    }, [sampleGroups, props.history, testMethodPermission]);
 
    const focus = async () => {
-      await getSampleGroup();
+      await getSampleGroups();
       setLoading(false);
    };
 
@@ -146,7 +146,7 @@ const mapStateToProps = (state: AppState) => ({
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ getSampleGroup }, dispatch),
+      ...bindActionCreators({ getSampleGroups }, dispatch),
    };
 }
 

@@ -35,6 +35,7 @@ interface ActionsTypes {
    GET_SAMPLE_GROUPS: string;
    SEARCH_PARAMETERS: string;
    CREATE_SAMPLE_GROUP: string;
+   GET_SAMPLE_GROUP: string;
 }
 
 const Actions: ActionsTypes = {
@@ -93,6 +94,7 @@ const Actions: ActionsTypes = {
    //Sample Group Actions
    GET_SAMPLE_GROUPS: "GET_SAMPLE_GROUPS",
    CREATE_SAMPLE_GROUP: "CREATE_SAMPLE_GROUP",
+   GET_SAMPLE_GROUP: "GET_SAMPLE_GROUP",
 };
 
 export default Actions;
