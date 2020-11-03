@@ -12,7 +12,7 @@ import Modal, { ModalTransition } from "@atlaskit/modal-dialog";
 // ====================================== File imports ======================================
 import { Props } from "./types";
 import { Breadcrumb, ScreenLoader, DeleteButton } from "../../components";
-import { getCustomers, setDetailsCustomer, deleteCustomer } from "../../redux/actions/CustomerActions";
+import { getCustomers, deleteCustomer, setDetailsCustomer } from "../../redux/actions/CustomerActions";
 import AppState from "../../redux/types";
 import { Customer } from "../../redux/types/CustomerTypes";
 
@@ -213,7 +213,7 @@ const mapStateToProps = (state: AppState) => ({
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ getCustomers, setDetailsCustomer, deleteCustomer }, dispatch),
+      ...bindActionCreators({ getCustomers, deleteCustomer, setDetailsCustomer }, dispatch),
    };
 }
 
