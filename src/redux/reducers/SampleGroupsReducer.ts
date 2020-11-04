@@ -27,6 +27,12 @@ export default (state: SampleGroupState = initialState, action: ActionInterface)
             sampleGroup: action.payload,
          };
 
+      case ActionTypes.UPDATE_SAMPLE_GROUP:
+         return {
+            ...state,
+            sampleGroup: action.payload,
+         };
+
       default:
          return state;
    }
