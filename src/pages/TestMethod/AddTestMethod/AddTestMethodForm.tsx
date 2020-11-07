@@ -18,7 +18,6 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
    const [searchKeyword, setSearchKeyword] = useState("");
    const [parameterOptions, setParameterOptions] = useState<any>([]);
    const [selectedParameters, setSelectedParameters] = useState<any>([]);
-   const [editParameters, setEditParameters] = useState<OptionType>();
 
    useEffect(() => {
       onSearchParameter(searchKeyword);
@@ -30,14 +29,9 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
          const parameters = editData.parameters.map((parameter: any) => ({
             ...parameter,
             ...parameter.parameter,
-            label: parameter.parameter,
+            label: parameter.parameter.name,
             value: parameter.objectId,
          }));
-         let editDefaultParameters: any = editData.parameters.map((parameter: any) => ({
-            label: parameter.parameter.name,
-            value: parameter.parameter.objectId,
-         }));
-         setEditParameters(editDefaultParameters);
          setSelectedParameters(parameters);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -81,7 +75,7 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
                >
                   {({ formProps, submitting }: any) => (
                      <form {...formProps}>
-                        <Field label="Name" isRequired name="name" defaultValue={edit && editData && editData.name}>
+                        <Field label="Name" isRequired name="name" defaultValue={edit && editData ? editData.name : ""}>
                            {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                         </Field>
 
@@ -95,14 +89,14 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
                                  onInputChange={(keyword) => setSearchKeyword(keyword)}
                                  isLoading={false}
                                  onChange={(options: OptionType) => {
+                                    console.log(options);
                                     setSelectedParameters(options);
-                                    setEditParameters(options);
                                  }}
                                  menuIsOpen={dropdownOpen}
                                  onMenuOpen={() => setDropdownOpen(true)}
                                  placeholder="Search parameter"
                                  onBlur={() => setDropdownOpen(false)}
-                                 value={editParameters}
+                                 value={selectedParameters}
                               />
                            )}
                         </Field>
@@ -131,12 +125,7 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
 
                               <Grid>
                                  <GridColumn medium={item.condition_type ? (item.condition_type === "complies" ? 12 : 4) : 12}>
-                                    <Field
-                                       label="Validation type"
-                                       isRequired
-                                       name={`type${idx}`}
-                                       defaultValue={edit && editData ? { value: item.condition_type, label: item.condition_type } : null}
-                                    >
+                                    <Field label="Validation type" isRequired name={`type${idx}`}>
                                        {({ fieldProps }: any) => (
                                           <Select
                                              {...fieldProps}
@@ -165,6 +154,7 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
                                                 setSelectedParameters(updateSelectedParameters);
                                              }}
                                              placeholder="Search validation type"
+                                             value={{ value: item.condition_type, label: item.condition_type }}
                                           />
                                        )}
                                     </Field>
