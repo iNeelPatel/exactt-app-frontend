@@ -1,24 +1,40 @@
 // ====================================== Module imports ======================================
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import Button from "@atlaskit/button";
 import AddIcon from "@atlaskit/icon/glyph/add";
 import { connect } from "react-redux";
 import DynamicTable from "@atlaskit/dynamic-table";
 import EditIcon from "@atlaskit/icon/glyph/edit";
+import { bindActionCreators } from "redux";
+import Lozenge from "@atlaskit/lozenge";
 
 // ====================================== File imports ======================================
 import { Breadcrumb, DeleteButton } from "../../components";
 import AppState from "../../redux/types";
 import { Props } from "./types";
+import { getSamplesDetails } from "../../redux/actions/SamplesDetailsActions";
+import { SampleDetails } from "../../redux/types/SampleDetailsTypes";
 
 const breadcrumbItems = [
    { path: "/", name: "Organization Settings" },
    { path: "/organizationsettings/sampledetail", name: "Sample Details" },
 ];
 
-const SampleDetail = (props: Props) => {
-   const { sampleDetailPermission } = props;
+const SampleDetailScreen = (props: Props) => {
+   const { sampleDetailPermission, getSamplesDetails, samplesDetails } = props;
+   const [loading, setLoading] = useState(true);
+   const [rows, setRows] = useState<any>([]);
+
+   const focus = async () => {
+      await getSamplesDetails();
+      setLoading(false);
+   };
+
+   useEffect(() => {
+      focus();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
 
    const head: any = {
       cells: [
@@ -51,21 +67,27 @@ const SampleDetail = (props: Props) => {
       ],
    };
 
-   const rows: any = [
-      {
+
+   useEffect(() => {
+      const createRows: any = samplesDetails?.map((sampleDetail: SampleDetails) => ({
          key: `row`,
          cells: [
             {
-               key: `group_name`,
-               content: <div style={{ height: 34, display: "flex", alignItems: "center" }}>pH</div>,
+               key: `cell-name-${sampleDetail.objectId}`,
+               content: <div>{sampleDetail.name}</div>,
             },
             {
-               key: `genericName`,
-               content: <div>pH</div>,
+               key: `cell-genericName-${sampleDetail.objectId}`,
+               content: <div style={{ height: 34, display: "flex", alignItems: "center" }}>{sampleDetail.genericName}</div>,
             },
+
             {
-               key: `test_method`,
-               content: <div>pH, New, Test</div>,
+               key: `parameters`,
+               content: sampleDetail.sampleGroups?.map((sampleGroup: any) => (
+                  <span style={{ marginRight: 3 }}>
+                     <Lozenge appearance="default">{sampleGroup.name}</Lozenge>
+                  </span>
+               )),
             },
             {
                key: `cell`,
@@ -74,17 +96,19 @@ const SampleDetail = (props: Props) => {
                      <Button
                         iconBefore={<EditIcon label="Edit icon" size="small" />}
                         appearance="link"
-                        onClick={() => props.history.push(`/organizationsettings/testgroup/edit/rendomid`)}
+                        onClick={() => props.history.push(`/organizationsettings/sampledetail/edit/${sampleDetail.objectId}`)}
                      >
                         Edit
                      </Button>
-                     <DeleteButton onClick={() => props.history.push(`/organizationsettings/testgroup/`)} />
+                     <DeleteButton onClick={() => props.history.push(`/organizationsettings/sampledetail/`)} />
                   </div>
                ),
             },
          ],
-      },
-   ];
+      }));
+
+      setRows(createRows);
+   }, [samplesDetails, props.history, sampleDetailPermission]);
 
    return (
       <Page>
@@ -115,7 +139,7 @@ const SampleDetail = (props: Props) => {
                   rowsPerPage={10}
                   defaultPage={1}
                   isFixedSize
-                  // isLoading={loading}
+                  isLoading={loading}
                   defaultSortKey="name"
                   defaultSortOrder="ASC"
                   onSort={() => console.log("onSort")}
@@ -129,6 +153,13 @@ const SampleDetail = (props: Props) => {
 
 const mapStateToProps = (state: AppState) => ({
    sampleDetailPermission: state.user.user.role.permission.samples_sample,
+   samplesDetails: state.samplesDetails.samplesDetails,
 });
 
-export default connect(mapStateToProps)(SampleDetail);
+function mapDispatchToProps(dispatch: any) {
+   return {
+      ...bindActionCreators({ getSamplesDetails }, dispatch),
+   };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SampleDetailScreen);

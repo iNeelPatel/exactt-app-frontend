@@ -1,5 +1,5 @@
 // ====================================== Module imports ======================================
-import React from "react";
+import React, { useState } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import AppState from "../../../redux/types";
 import { connect } from "react-redux";
@@ -12,10 +12,11 @@ import Button from "@atlaskit/button";
 import { AddSampleDetailFormProps } from "./types";
 
 const AddSampleGroup = (props: AddSampleDetailFormProps) => {
+   const [dropdownOpen, setDropdownOpen] = useState(false);
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
-         <GridColumn medium={12}>
+            <GridColumn medium={12}>
                <Form
                   onSubmit={async (data: any) => {
                      console.log(data);
@@ -31,17 +32,17 @@ const AddSampleGroup = (props: AddSampleDetailFormProps) => {
                   {({ formProps, submitting }: any) => (
                      <form {...formProps}>
                         <Grid>
-                        <GridColumn medium={6}>
-                        <Field label="Name" isRequired name="name">
-                           {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                        </Field>
-                        </GridColumn>
+                           <GridColumn medium={6}>
+                              <Field label="Name" isRequired name="name">
+                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                              </Field>
+                           </GridColumn>
 
-                        <GridColumn medium={6}>
-                        <Field label="Generic Name" isRequired name="genericName">
-                           {({ fieldProps }: any) => <Textfield {...fieldProps} />}
-                        </Field>
-                        </GridColumn>
+                           <GridColumn medium={6}>
+                              <Field label="Generic Name" isRequired name="genericName">
+                                 {({ fieldProps }: any) => <Textfield {...fieldProps} />}
+                              </Field>
+                           </GridColumn>
                         </Grid>
 
                         <Field label="Sample Group" isRequired name="sampleGroup">
@@ -62,6 +63,9 @@ const AddSampleGroup = (props: AddSampleDetailFormProps) => {
                                  ]}
                                  isLoading={false}
                                  placeholder="Search Sample Group"
+                                 menuIsOpen={dropdownOpen}
+                                 onMenuOpen={() => setDropdownOpen(true)}
+                                 onBlur={() => setDropdownOpen(false)}
                               />
                            )}
                         </Field>

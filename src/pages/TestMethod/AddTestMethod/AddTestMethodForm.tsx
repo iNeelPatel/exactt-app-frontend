@@ -3,7 +3,7 @@ import React, { useState, Fragment, useEffect } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import Form, { Field, HelperMessage } from "@atlaskit/form";
 import Textfield from "@atlaskit/textfield";
-import Select from "@atlaskit/select";
+import Select, { OptionType } from "@atlaskit/select";
 import Button from "@atlaskit/button";
 import { Checkbox } from "@atlaskit/checkbox";
 
@@ -13,7 +13,7 @@ import { Divider } from "../../../components";
 import { Parameter } from "../../../redux/types/ParameterTypes";
 
 const AddTestMethod = (props: AddTestMethodFormProps) => {
-   const { searchedParameters, onSearchParameter } = props;
+   const { searchedParameters, onSearchParameter, edit, editData } = props;
    const [dropdownOpen, setDropdownOpen] = useState(false);
    const [searchKeyword, setSearchKeyword] = useState("");
    const [parameterOptions, setParameterOptions] = useState<any>([]);
@@ -23,6 +23,19 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
       onSearchParameter(searchKeyword);
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [searchKeyword]);
+
+   useEffect(() => {
+      if (edit) {
+         const parameters = editData.parameters.map((parameter: any) => ({
+            ...parameter,
+            ...parameter.parameter,
+            label: parameter.parameter.name,
+            value: parameter.objectId,
+         }));
+         setSelectedParameters(parameters);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [edit]);
 
    useEffect(() => {
       let parametersOption: any = searchedParameters.map((parameter: Parameter) => ({
@@ -44,7 +57,7 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
                         name: data.name,
                         parameters: selectedParameters.map((parameter: any) => ({
                            parameter: parameter.objectId,
-                           condition_type: parameter.type,
+                           condition_type: parameter.condition_type,
                            validation: parameter.validation,
                            method: parameter.method,
                            nabl: parameter.nabl,
@@ -62,7 +75,7 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
                >
                   {({ formProps, submitting }: any) => (
                      <form {...formProps}>
-                        <Field label="Name" isRequired name="name">
+                        <Field label="Name" isRequired name="name" defaultValue={edit && editData ? editData.name : ""}>
                            {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                         </Field>
 
@@ -75,16 +88,20 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
                                  options={parameterOptions}
                                  onInputChange={(keyword) => setSearchKeyword(keyword)}
                                  isLoading={false}
-                                 onChange={(options) => setSelectedParameters(options)}
+                                 onChange={(options: OptionType) => {
+                                    console.log(options);
+                                    setSelectedParameters(options);
+                                 }}
                                  menuIsOpen={dropdownOpen}
                                  onMenuOpen={() => setDropdownOpen(true)}
                                  placeholder="Search parameter"
                                  onBlur={() => setDropdownOpen(false)}
+                                 value={selectedParameters}
                               />
                            )}
                         </Field>
 
-                        {selectedParameters.map((item: any, idx: number) => (
+                        {selectedParameters?.map((item: any, idx: number) => (
                            <React.Fragment>
                               <Divider />
                               <div style={{ display: "flex", justifyContent: "space-between", marginTop: 10, alignItems: "center" }}>
@@ -107,7 +124,7 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
                               </div>
 
                               <Grid>
-                                 <GridColumn medium={item.type ? (item.type === "complies" ? 12 : 4) : 12}>
+                                 <GridColumn medium={item.condition_type ? (item.condition_type === "complies" ? 12 : 4) : 12}>
                                     <Field label="Validation type" isRequired name={`type${idx}`}>
                                        {({ fieldProps }: any) => (
                                           <Select
@@ -131,17 +148,18 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
                                                 }
                                                 let updateSelectedParameters = selectedParameters.map((parameter: any) =>
                                                    parameter.objectId === item.objectId
-                                                      ? { ...parameter, type: value.value, validation }
+                                                      ? { ...parameter, condition_type: value.value, validation }
                                                       : parameter
                                                 );
                                                 setSelectedParameters(updateSelectedParameters);
                                              }}
                                              placeholder="Search validation type"
+                                             value={{ value: item.condition_type, label: item.condition_type }}
                                           />
                                        )}
                                     </Field>
                                  </GridColumn>
-                                 {item.type === "range" && (
+                                 {item.condition_type === "range" && (
                                     <Fragment>
                                        <GridColumn medium={4}>
                                           <Field label="Minimum value" isRequired name={`min${idx}`}>
@@ -185,7 +203,7 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
                                        </GridColumn>
                                     </Fragment>
                                  )}
-                                 {item.type === "valid" && (
+                                 {item.condition_type === "valid" && (
                                     <Fragment>
                                        <GridColumn medium={4}>
                                           <Field label="Valid result" isRequired name={`validResult${idx}`}>
@@ -231,7 +249,7 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
                                        </GridColumn>
                                     </Fragment>
                                  )}
-                                 {item.type === "options" && (
+                                 {item.condition_type === "options" && (
                                     <Fragment>
                                        <Fragment>
                                           <GridColumn medium={4}>
@@ -331,7 +349,7 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
                               Back
                            </Button>
                            <Button type="submit" appearance="primary" isLoading={submitting}>
-                              Add parameter
+                              {edit ? "Edit test method" : "Add test method"}
                            </Button>
                         </div>
                      </form>

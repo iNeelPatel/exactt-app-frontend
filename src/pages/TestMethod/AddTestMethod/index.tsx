@@ -10,7 +10,7 @@ import { Breadcrumb, ScreenLoader } from "../../../components";
 import AddTestMethodForm from "./AddTestMethodForm";
 import { Props } from "./types";
 import { searchParameters } from "../../../redux/actions/ParameterActions";
-import { createSampleGroup, getSampleGroup } from "../../../redux/actions/SampleGroupsActions";
+import { createSampleGroup, getSampleGroup, updateSampleGroup } from "../../../redux/actions/SampleGroupsActions";
 
 const AddSampleGroup = (props: Props) => {
    const { testMethodId } = props.match.params;
@@ -43,7 +43,11 @@ const AddSampleGroup = (props: Props) => {
    };
 
    const onSubmit = async (data: any) => {
-      await props.createSampleGroup(data);
+      if (testMethodId) {
+         await props.updateSampleGroup({ ...data, objectId: testMethodId });
+      } else {
+         await props.createSampleGroup(data);
+      }
    };
 
    return (
@@ -61,6 +65,8 @@ const AddSampleGroup = (props: Props) => {
                      onSubmit={onSubmit}
                      onSearchParameter={onSearchParameter}
                      searchedParameters={props.searchedParameters}
+                     edit={testMethodId ? true : false}
+                     editData={props.sampleGroup}
                   />
                )}
             </GridColumn>
@@ -72,11 +78,12 @@ const AddSampleGroup = (props: Props) => {
 const mapStateToProps = (state: AppState) => ({
    sampleGroupPermission: state.user.user.role.permission.samples_group,
    searchedParameters: state.parameter.searchedParameters,
+   sampleGroup: state.sampleGroup.sampleGroup,
 });
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ searchParameters, createSampleGroup, getSampleGroup }, dispatch),
+      ...bindActionCreators({ searchParameters, createSampleGroup, getSampleGroup, updateSampleGroup }, dispatch),
    };
 }
 

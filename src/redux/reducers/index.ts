@@ -9,6 +9,7 @@ import CustomerReducer from "./CustomerReducer";
 import TestGroupsReducer from "./TestGroupsReducer";
 import ParameterReducer from "./ParameterReducer";
 import SampleGroupsReducer from "./SampleGroupsReducer";
+import SamplesDeatilsReducer from "./SamplesDeatilsReducer";
 import AppState from "../types";
 
 const rootReducer = combineReducers<AppState>({
@@ -22,6 +23,7 @@ const rootReducer = combineReducers<AppState>({
    testGroup: TestGroupsReducer,
    parameter: ParameterReducer,
    sampleGroup: SampleGroupsReducer,
+   samplesDetails: SamplesDeatilsReducer,
 });
 
 export default rootReducer;

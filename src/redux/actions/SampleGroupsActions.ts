@@ -49,6 +49,29 @@ export function createSampleGroup(data: any) {
    };
 }
 
+export function updateSampleGroup(data: any) {
+   return async (dispatch: DispatchType): Promise<SampleGroup[]> => {
+      try {
+         let fromData = {
+            objectId: data.objectId,
+            name: data.name,
+            parameters: data.parameters,
+         };
+         let res = await Parse.Cloud.run("updateSampleGroup", fromData);
+
+         dispatch({
+            type: ActionsTypes.UPDATE_SAMPLE_GROUP,
+            payload: res,
+         });
+         AlertBox(dispatch, "confirmation", "Test method created successfully.");
+         return res;
+      } catch (error) {
+         AlertBox(dispatch, "error", "error");
+         return error;
+      }
+   };
+}
+
 export function getSampleGroup(objectId: string) {
    return async (dispatch: DispatchType): Promise<SampleGroup[]> => {
       try {

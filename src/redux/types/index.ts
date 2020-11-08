@@ -8,6 +8,7 @@ import { CustomerState } from "./CustomerTypes";
 import { TestGroupState } from "./TestGroupsTypes";
 import { ParameterState } from "./ParameterTypes";
 import { SampleGroupState } from "./SampleGroupTypes";
+import { SampleDetailsState } from "./SampleDetailsTypes";
 
 export default interface AppState {
    user: UserState;
@@ -20,4 +21,5 @@ export default interface AppState {
    testGroup: TestGroupState;
    parameter: ParameterState;
    sampleGroup: SampleGroupState;
+   samplesDetails: SampleDetailsState;
 }
