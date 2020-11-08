@@ -41,6 +41,7 @@ interface ActionsTypes {
    CREATE_SAMPLE_DETAILS: string;
    GET_SAMPLE_DETAILS: string;
    UPDATE_SAMPLE_DETAILS: string;
+   SEARCH_SAMPLE_GROUP: string;
 }
 
 const Actions: ActionsTypes = {
@@ -101,6 +102,7 @@ const Actions: ActionsTypes = {
    CREATE_SAMPLE_GROUP: "CREATE_SAMPLE_GROUP",
    GET_SAMPLE_GROUP: "GET_SAMPLE_GROUP",
    UPDATE_SAMPLE_GROUP: "UPDATE_SAMPLE_GROUP",
+   SEARCH_SAMPLE_GROUP: "SEARCH_SAMPLE_GROUP",
 
    //Sample Group Actions
    GET_SAMPLES_DETAILS: "GET_SAMPLES_DETAILS",

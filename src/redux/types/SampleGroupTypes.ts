@@ -3,6 +3,7 @@ import { Parameter } from "./ParameterTypes";
 export interface SampleGroupState {
    sampleGroups: SampleGroup[] | [];
    sampleGroup: SampleGroup | undefined;
+   searchSampleGroup: SampleGroup[] | [];
 }
 
 export interface SampleGroup {
