@@ -1,6 +1,7 @@
 export interface SampleDetailsState {
    samplesDetails: SampleDetails[] | [];
    sampleDetails: SampleDetails | undefined;
+   searchedSamplesDetails: SampleDetails[] | [];
 }
 
 export interface SampleDetails {

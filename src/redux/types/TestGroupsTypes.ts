@@ -1,6 +1,7 @@
 export interface TestGroupState {
    testGroups: TestGroup[] | [];
    testGroup: TestGroup | undefined;
+   searchedTestGroups: TestGroup[] | [];
 }
 
 export interface TestGroup {

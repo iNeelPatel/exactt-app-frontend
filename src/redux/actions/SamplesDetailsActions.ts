@@ -20,6 +20,21 @@ export function getSamplesDetails() {
    };
 }
 
+export function searchSamplesDetails(keyword: string) {
+   return async (dispatch: DispatchType): Promise<SampleDetails[]> => {
+      try {
+         let res = await Parse.Cloud.run("searchSampleDetails", { keyword });
+         dispatch({
+            type: ActionsTypes.GET_SAMPLES_DETAILS,
+            payload: res,
+         });
+         return res;
+      } catch (error) {
+         return error;
+      }
+   };
+}
+
 export function createSampleDetails(data: SampleDetails) {
    return async (dispatch: DispatchType): Promise<SampleDetails[]> => {
       try {

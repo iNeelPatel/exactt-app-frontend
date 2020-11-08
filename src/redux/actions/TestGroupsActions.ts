@@ -20,6 +20,21 @@ export function getTestGroups() {
    };
 }
 
+export function searchTestGroups(keyword: string) {
+   return async (dispatch: DispatchType): Promise<TestGroup[]> => {
+      try {
+         let res = await Parse.Cloud.run("searchTestGroups", { keyword });
+         dispatch({
+            type: ActionsTypes.GET_TEST_GROUPS,
+            payload: res,
+         });
+         return res;
+      } catch (error) {
+         return error;
+      }
+   };
+}
+
 export function createTestGroup(request: TestGroup) {
    return async (dispatch: DispatchType): Promise<TestGroup> => {
       try {

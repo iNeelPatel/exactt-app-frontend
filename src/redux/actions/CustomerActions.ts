@@ -20,6 +20,21 @@ export function getCustomers() {
    };
 }
 
+export function searchCustomers(keyword: string) {
+   return async (dispatch: DispatchType): Promise<any> => {
+      try {
+         let res = await Parse.Cloud.run("searchCustomers", { keyword });
+         dispatch({
+            type: ActionsTypes.SEARCH_CUSTOMERS,
+            payload: res,
+         });
+         return res;
+      } catch (error) {
+         return error;
+      }
+   };
+}
+
 export function getCustomer(customerId: string) {
    return async (dispatch: DispatchType): Promise<any> => {
       try {
