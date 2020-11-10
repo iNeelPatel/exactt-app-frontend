@@ -5,6 +5,7 @@ import ActionTypes from "../actions";
 const initialState: CustomerState = {
    customer: {},
    customers: [],
+   searchedCustomers: [],
 };
 
 export default (state: CustomerState = initialState, action: ActionInterface): CustomerState => {
@@ -42,6 +43,12 @@ export default (state: CustomerState = initialState, action: ActionInterface): C
          return {
             ...state,
             customer: action.payload,
+         };
+
+      case ActionTypes.SEARCH_CUSTOMERS:
+         return {
+            ...state,
+            searchedCustomers: action.payload,
          };
 
       default:

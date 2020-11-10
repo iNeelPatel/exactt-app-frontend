@@ -48,6 +48,7 @@ const SampleDetailScreen = (props: Props) => {
          {
             key: "generic_name",
             content: "Generic name",
+            width: "20",
             isSortable: false,
             shouldTruncate: false,
          },
@@ -55,7 +56,7 @@ const SampleDetailScreen = (props: Props) => {
             key: "test_method",
             content: "Test methods",
             isSortable: false,
-            shouldTruncate: false,
+            shouldTruncate: true,
          },
          {
             key: "action",
@@ -66,7 +67,6 @@ const SampleDetailScreen = (props: Props) => {
          },
       ],
    };
-
 
    useEffect(() => {
       const createRows: any = samplesDetails?.map((sampleDetail: SampleDetails) => ({

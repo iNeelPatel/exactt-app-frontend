@@ -28,4 +28,5 @@ export interface Customer {
 export interface CustomerState {
    customers: Customer[] | [];
    customer: Customer | {};
+   searchedCustomers: Customer[] | [];
 }

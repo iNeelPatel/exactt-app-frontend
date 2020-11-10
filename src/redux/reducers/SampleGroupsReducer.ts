@@ -5,6 +5,7 @@ import ActionTypes from "../actions";
 const initialState: SampleGroupState = {
    sampleGroups: [],
    sampleGroup: undefined,
+   searchSampleGroup: [],
 };
 
 export default (state: SampleGroupState = initialState, action: ActionInterface): SampleGroupState => {
@@ -31,6 +32,12 @@ export default (state: SampleGroupState = initialState, action: ActionInterface)
          return {
             ...state,
             sampleGroup: action.payload,
+         };
+
+      case ActionTypes.SEARCH_SAMPLE_GROUP:
+         return {
+            ...state,
+            searchSampleGroup: action.payload,
          };
 
       default:

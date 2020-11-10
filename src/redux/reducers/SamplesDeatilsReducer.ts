@@ -5,6 +5,7 @@ import ActionTypes from "../actions";
 const initialState: SampleDetailsState = {
    samplesDetails: [],
    sampleDetails: undefined,
+   searchedSamplesDetails: [],
 };
 
 export default (state: SampleDetailsState = initialState, action: ActionInterface): SampleDetailsState => {
@@ -31,6 +32,12 @@ export default (state: SampleDetailsState = initialState, action: ActionInterfac
          return {
             ...state,
             sampleDetails: action.payload,
+         };
+
+      case ActionTypes.SEARCH_SAMPLE_DETAILS:
+         return {
+            ...state,
+            searchedSamplesDetails: action.payload,
          };
 
       default:

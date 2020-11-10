@@ -5,6 +5,7 @@ import ActionTypes from "../actions";
 const initialState: TestGroupState = {
    testGroups: [],
    testGroup: undefined,
+   searchedTestGroups: [],
 };
 
 export default (state: TestGroupState = initialState, action: ActionInterface): TestGroupState => {
@@ -31,6 +32,12 @@ export default (state: TestGroupState = initialState, action: ActionInterface): 
          return {
             ...state,
             testGroup: action.payload,
+         };
+
+      case ActionTypes.SEARCH_TEST_GROUP:
+         return {
+            ...state,
+            searchedTestGroups: action.payload,
          };
 
       default:
