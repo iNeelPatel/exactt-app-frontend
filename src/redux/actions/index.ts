@@ -45,6 +45,11 @@ interface ActionsTypes {
    SEARCH_CUSTOMERS: string;
    SEARCH_SAMPLE_DETAILS: string;
    SEARCH_TEST_GROUP: string;
+   GET_SAMPLES: string;
+   CREATE_SAMPLE: string;
+   GET_SAMPLE: string;
+   UPDATE_SAMPLE: string;
+   SEARCH_SAMPLE: string;
 }
 
 const Actions: ActionsTypes = {
@@ -115,6 +120,13 @@ const Actions: ActionsTypes = {
    GET_SAMPLE_DETAILS: "GET_SAMPLE_DETAILS",
    UPDATE_SAMPLE_DETAILS: "UPDATE_SAMPLE_DETAILS",
    SEARCH_SAMPLE_DETAILS: "SEARCH_SAMPLE_DETAILS",
+
+   //Sample  Actions
+   GET_SAMPLES: "GET_SAMPLES",
+   CREATE_SAMPLE: "CREATE_SAMPLE",
+   GET_SAMPLE: "GET_SAMPLE",
+   UPDATE_SAMPLE: "UPDATE_SAMPLE",
+   SEARCH_SAMPLE: "SEARCH_SAMPLE",
 };
 
 export default Actions;

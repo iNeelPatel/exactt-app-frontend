@@ -9,6 +9,7 @@ import { TestGroupState } from "./TestGroupsTypes";
 import { ParameterState } from "./ParameterTypes";
 import { SampleGroupState } from "./SampleGroupTypes";
 import { SampleDetailsState } from "./SampleDetailsTypes";
+import { SampleState } from "./SampleTypes";
 
 export default interface AppState {
    user: UserState;
@@ -22,4 +23,5 @@ export default interface AppState {
    parameter: ParameterState;
    sampleGroup: SampleGroupState;
    samplesDetails: SampleDetailsState;
+   samples: SampleState;
 }
