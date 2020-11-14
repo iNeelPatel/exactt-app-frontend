@@ -4,7 +4,7 @@ import ActionTypes from "../actions";
 
 const initialState: SampleState = {
    samples: [],
-   sample: {},
+   sample: undefined,
    searchedSample: [],
 };
 

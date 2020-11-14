@@ -1,11 +1,13 @@
-import { User } from "parse";
 import { Departments } from "./DepartmentTypes";
 import { Parameter } from "./ParameterTypes";
+import { SampleGroup } from "./SampleGroupTypes";
+import { TestGroup } from "./TestGroupsTypes";
+import { User } from "./UserTypes";
 
 export interface SampleState {
    samples: Sample[] | [];
-   sample: Sample | {};
    searchedSample: Sample[] | [];
+   sample: Sample | undefined;
 }
 
 export interface Sample {
@@ -17,9 +19,16 @@ export interface Sample {
       phone: string;
       name: string;
       email: string;
+      address: {
+         line1: string;
+         line2: string;
+         city: string;
+         zip: string;
+         state: string;
+      };
    };
    generic_name: string;
-   test_group: string;
+   test_group: TestGroup;
    date: Date;
    due_date: Date;
    lab_due_date: Date;
@@ -43,7 +52,7 @@ export interface Sample {
    env_condition: string;
    collection_by: User;
    sampling_method: string;
-   test_method_group: Object;
+   test_method_group: SampleGroup;
    results: SampleResults;
    sampleResults: SampleResults;
    sampleResultParameters: SampleResultParameters[];

@@ -1,5 +1,5 @@
 // ====================================== Module imports ======================================
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import Button from "@atlaskit/button";
 import EditIcon from "@atlaskit/icon/glyph/edit";
@@ -8,15 +8,17 @@ import { typography } from "@atlaskit/theme";
 import { connect } from "react-redux";
 import Lozenge from "@atlaskit/lozenge";
 import ReactToPrint, { PrintContextConsumer } from "react-to-print";
+import { bindActionCreators } from "redux";
 
 // ====================================== File imports ======================================
-import { Breadcrumb, Heading, Divider } from "../../../components";
+import { Breadcrumb, Heading, Divider, ScreenLoader } from "../../../components";
 import AppState from "../../../redux/types";
 import { Props } from "./types";
 import CustomerDetails from "./CustomerDetails";
 import SampleDetailsComponent from "./SampleDetails";
 import TestDetails from "./TestDetails";
 import ParametersDetails from "./ParametersDetails";
+import { getSample } from "../../../redux/actions/SamplesActions";
 
 // ====================================== Print Page imports ======================================
 import JobAllotmentPrint from "../../../PrintPages/JobAllotment";
@@ -24,8 +26,20 @@ import JobAllotmentPrint from "../../../PrintPages/JobAllotment";
 let componentRef: any;
 
 const SampleDetails = (props: Props) => {
-   const { samplePermission } = props;
+   const { samplePermission, getSample, prefix, sample } = props;
    const { sampleId } = props.match.params;
+   const [loading, setLoading] = useState(true);
+   const sampleIdWithoutPrefix: string = sampleId.replace(`${prefix}-`, "");
+
+   const focus = async () => {
+      await getSample(sampleIdWithoutPrefix);
+      setLoading(false);
+   };
+
+   useEffect(() => {
+      focus();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
 
    const breadcrumbItems = [
       { path: "/", name: "Dashboard" },
@@ -33,7 +47,9 @@ const SampleDetails = (props: Props) => {
       { path: `/sample/id/${sampleId}`, name: `${sampleId}` },
    ];
 
-   return (
+   return loading ? (
+      <ScreenLoader />
+   ) : (
       <Page>
          <Grid spacing="compact" layout="fluid">
             <GridColumn medium={12}>
@@ -105,7 +121,6 @@ const SampleDetails = (props: Props) => {
                />
             </GridColumn>
             <GridColumn medium={12}>
-               
                <div style={{ display: "none" }}>
                   <JobAllotmentPrint details="This is test" ref={(el) => (componentRef = el)} />
                </div>
@@ -113,10 +128,10 @@ const SampleDetails = (props: Props) => {
                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div style={{ paddingRight: 50 }}>
                      <Heading mixin={typography.h300} style={{ marginTop: 1 }}>
-                        Sample name
+                        {sample?.name}
                      </Heading>
                      <Heading mixin={typography.h200} style={{ marginTop: 1 }}>
-                        Genric name
+                        {sample?.generic_name}
                      </Heading>
                   </div>
                   <div>
@@ -132,7 +147,7 @@ const SampleDetails = (props: Props) => {
                   <Heading mixin={typography.h200} style={{ marginTop: 1, textTransform: "uppercase" }}>
                      Customer
                   </Heading>
-                  <CustomerDetails customer={{}} />
+                  <CustomerDetails customer={sample?.customer} />
                </div>
 
                <Divider />
@@ -141,7 +156,7 @@ const SampleDetails = (props: Props) => {
                   <Heading mixin={typography.h200} style={{ marginTop: 1, marginBottom: 8, textTransform: "uppercase" }}>
                      Sample details
                   </Heading>
-                  <SampleDetailsComponent sampleDetails={{}} />
+                  <SampleDetailsComponent sampleDetails={sample} />
                </div>
 
                <Divider />
@@ -150,7 +165,7 @@ const SampleDetails = (props: Props) => {
                   <Heading mixin={typography.h200} style={{ marginTop: 1, marginBottom: 8, textTransform: "uppercase" }}>
                      Test details
                   </Heading>
-                  <TestDetails sampleDetails={{}} />
+                  <TestDetails sampleDetails={sample} />
                </div>
 
                <Divider />
@@ -172,6 +187,14 @@ const SampleDetails = (props: Props) => {
 const mapStateToProps = (state: AppState) => ({
    samplePermission: state.user.user.role.permission.samples_id,
    organization: state.orgnization.details,
+   prefix: state.orgnization.details.prefix,
+   sample: state.samples.sample,
 });
 
-export default connect(mapStateToProps)(SampleDetails);
+function mapDispatchToProps(dispatch: any) {
+   return {
+      ...bindActionCreators({ getSample }, dispatch),
+   };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SampleDetails);

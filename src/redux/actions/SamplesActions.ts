@@ -19,3 +19,22 @@ export function getSamples() {
       }
    };
 }
+
+export function getSample(sampleId: string) {
+   return async (dispatch: DispatchType): Promise<Sample[]> => {
+      try {
+         let res = await Parse.Cloud.run("getSample", { sampleId });
+         let hod = res.collection_by.toJSON();
+         let collection_by = res.collection_by.toJSON();
+         let test_group = res.test_group.toJSON();
+         let sample = { ...res, hod, collection_by, test_group };
+         dispatch({
+            type: ActionsTypes.GET_SAMPLE,
+            payload: sample,
+         });
+         return sample;
+      } catch (error) {
+         return error;
+      }
+   };
+}

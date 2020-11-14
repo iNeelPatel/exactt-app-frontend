@@ -24,29 +24,32 @@ const styles = {
 };
 
 const TestDetails = (props: TestDetailsProps) => {
+   const { sampleDetails } = props;
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
             <GridColumn medium={12}>
                <div style={styles.item}>
                   <div style={styles.label}>Sampling method</div>
-                  <div style={styles.text}>Lorem ipsum, or lipsum as it is sometimes known</div>
+                  <div style={styles.text}>{sampleDetails?.sampling_method}</div>
                </div>
                <div style={styles.item}>
-                  <div style={styles.label}>Test group</div>
-                  <div style={styles.text}>Lorem ipsum, or lipsum as it is sometimes known</div>
+                  <div style={styles.label}>Test method</div>
+                  <div style={styles.text}>{sampleDetails?.test_method_group.name}</div>
                </div>
                <div style={styles.item}>
                   <div style={styles.label}>Parameters</div>
-                  <div style={styles.text}>pH, color, etc.</div>
+                  <div style={styles.text}>
+                     {sampleDetails?.sampleResultParameters.map((sampleResultParameter, idx) => (
+                        <span>
+                           {sampleResultParameter.name} {sampleDetails?.sampleResultParameters.length - 1 !== idx && ","}
+                        </span>
+                     ))}
+                  </div>
                </div>
                <div style={styles.item}>
                   <div style={styles.label}>Instrustuons</div>
-                  <div style={styles.text}>
-                     Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The
-                     passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's
-                     De Finibus Bonorum et Malorum for use in a type specimen book.
-                  </div>
+                  <div style={styles.text}>{sampleDetails?.instruction}</div>
                </div>
             </GridColumn>
          </Grid>

@@ -1,4 +1,5 @@
 import { RouteComponentProps } from "react-router-dom";
+import { Sample } from "../../../redux/types/SampleTypes";
 
 export interface Props extends RouteComponentProps {
    samplePermission: {
@@ -7,18 +8,34 @@ export interface Props extends RouteComponentProps {
    };
    organization: any;
    match: any;
+   prefix: string;
+   sample: Sample | undefined;
+   getSample: (sampleId: string) => any;
 }
 
+export interface Customer {
+   objectId: string;
+   phone: string;
+   name: string;
+   email: string;
+   address: {
+      line1: string;
+      line2: string;
+      city: string;
+      zip: string;
+      state: string;
+   };
+}
 export interface CustomerDetailsProps {
-   customer: any;
+   customer: Customer | undefined;
 }
 
 export interface SampleDetailsProps {
-   sampleDetails: any;
+   sampleDetails: Sample | undefined;
 }
 
 export interface TestDetailsProps {
-   sampleDetails: any;
+   sampleDetails: Sample | undefined;
 }
 
 export interface ParameterDetailsProps {
