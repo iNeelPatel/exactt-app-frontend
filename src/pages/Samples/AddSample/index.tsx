@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import { ProgressTracker, Stages } from "@atlaskit/progress-tracker";
 import { colors, typography } from "@atlaskit/theme";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 // ====================================== File imports ======================================
 import { Breadcrumb, Divider, Heading } from "../../../components";
@@ -10,6 +12,9 @@ import { Props } from "./types";
 import SampleForm from "./SampleForm";
 import BasicDetailsForm from "./BasicDetailsForm";
 import TestDetailsForm from "./TestDetailsForm";
+import AppState from "../../../redux/types";
+import { searchCustomers } from "../../../redux/actions/CustomerActions";
+import { searchTestGroups } from "../../../redux/actions/TestGroupsActions";
 
 const style = {
    mainCard: {
@@ -38,16 +43,17 @@ const style = {
 };
 
 const AddSampleGroup = (props: Props) => {
+   const { searchCustomers, searchedCustomers, searchTestGroups, searchedTestGroups } = props;
    const { sampleId } = props.match.params;
 
    const [step, setStep] = useState(0);
-   const [basicDetails, setBasicDetails] = useState({});
-   const [sampleDetails, setSampleDetails] = useState({});
-   const [testingDetails, setTestingDetails] = useState({});
+   const [basicDetails, setBasicDetails] = useState<any>({});
+   const [sampleDetails, setSampleDetails] = useState<any>({});
+   const [testingDetails, setTestingDetails] = useState<any>({});
 
-   console.log("basicDetails => ", basicDetails);
-   console.log("sampleDetails => ", sampleDetails);
-   console.log("testingDetails => ", testingDetails);
+   // console.log("basicDetails => ", basicDetails);
+   // console.log("sampleDetails => ", sampleDetails);
+   // console.log("testingDetails => ", testingDetails);
 
    const breadcrumbItems = [
       { path: "/", name: "Dashboard" },
@@ -108,7 +114,7 @@ const AddSampleGroup = (props: Props) => {
       }
    });
 
-   console.log(step);
+   // console.log(step);
 
    return (
       <Page>
@@ -132,6 +138,10 @@ const AddSampleGroup = (props: Props) => {
                <div style={{ display: step === 0 ? "block" : "none" }}>
                   <BasicDetailsForm
                      onBack={onBack}
+                     onSearchCustomers={searchCustomers}
+                     searchedCustomers={searchedCustomers}
+                     onSearchTestGroups={searchTestGroups}
+                     searchedTestGroups={searchedTestGroups}
                      onSubmit={(data) => {
                         setBasicDetails(data);
                         setStep(step + 1);
@@ -160,36 +170,43 @@ const AddSampleGroup = (props: Props) => {
             <GridColumn medium={4}>
                <div style={{ marginTop: 30 }}>
                   <div style={style.mainCard}>
-                     <div style={style.card}>
-                        <div>
-                           <Heading mixin={typography.h200} style={style.heading}>
-                              Customer
-                           </Heading>
-                           <Heading mixin={typography.h500} style={style.heading}>
-                              SenseLab Inc.
-                           </Heading>
+                     {basicDetails.customer ? (
+                        <div style={style.card}>
+                           <div>
+                              <Heading mixin={typography.h200} style={style.heading}>
+                                 Customer
+                              </Heading>
+                              <Heading mixin={typography.h500} style={style.heading}>
+                                 {basicDetails.customer.name}
+                              </Heading>
+                           </div>
+                           <Divider />
+                           <div style={{ display: "flex" }}>
+                              <Heading mixin={typography.h400} style={style.subHeading}>
+                                 Phone
+                              </Heading>
+                              <span style={{ color: colors.N300 }}>{basicDetails.customer.contact.phone}</span>
+                           </div>
+                           <div style={{ display: "flex" }}>
+                              <Heading mixin={typography.h400} style={style.subHeading}>
+                                 Email
+                              </Heading>
+                              <span style={{ color: colors.N300 }}>{basicDetails.customer.contact.email}</span>
+                           </div>
+                           <div style={{ display: "flex" }}>
+                              <Heading mixin={typography.h400} style={style.subHeading}>
+                                 Address
+                              </Heading>
+                              <span
+                                 style={{ color: colors.N300 }}
+                              >{`${basicDetails.customer.address.line1}, ${basicDetails.customer.address.line2}, ${basicDetails.customer.address.city}, ${basicDetails.customer.address.state}-${basicDetails.customer.address.zip}`}</span>
+                           </div>
                         </div>
-                        <Divider />
-                        <div style={{ display: "flex" }}>
-                           <Heading mixin={typography.h400} style={style.subHeading}>
-                              Phone
-                           </Heading>
-                           <span style={{ color: colors.N300 }}> +91 9876387463</span>
-                        </div>
-                        <div style={{ display: "flex" }}>
-                           <Heading mixin={typography.h400} style={style.subHeading}>
-                              Email
-                           </Heading>
-                           <span style={{ color: colors.N300 }}> neelpatel@senselab.io</span>
-                        </div>
-                        <div style={{ display: "flex" }}>
-                           <Heading mixin={typography.h400} style={style.subHeading}>
-                              Address
-                           </Heading>
-                           <span style={{ color: colors.N300 }}>E/1 Vasudev Bunglows, B/H Annpurna Hotel, Jashodanagar, Ahmedabad</span>
-                        </div>
-                     </div>
-                     <div style={style.card}>
+                     ) : (
+                        <div style={{ display: "flex", justifyContent: "center" }}>Customer is not selected</div>
+                     )}
+
+                     {/* <div style={style.card}>
                         <div>
                            <Heading mixin={typography.h200} style={style.heading}>
                               Sample details
@@ -251,7 +268,7 @@ const AddSampleGroup = (props: Props) => {
                               pH, color, etc.
                            </Heading>
                         </div>
-                     </div>
+                     </div> */}
                   </div>
                </div>
             </GridColumn>
@@ -260,4 +277,16 @@ const AddSampleGroup = (props: Props) => {
    );
 };
 
-export default AddSampleGroup;
+const mapStateToProps = (state: AppState) => ({
+   samples: state.samples.samples,
+   searchedCustomers: state.customer.searchedCustomers,
+   searchedTestGroups: state.testGroup.searchedTestGroups,
+});
+
+function mapDispatchToProps(dispatch: any) {
+   return {
+      ...bindActionCreators({ searchCustomers, searchTestGroups }, dispatch),
+   };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddSampleGroup);

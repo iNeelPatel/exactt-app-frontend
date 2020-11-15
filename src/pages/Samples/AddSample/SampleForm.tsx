@@ -73,7 +73,7 @@ const SampleForm = (props: SampleFormProps) => {
                                  label="Collection date"
                                  isRequired
                                  name="collectionDate"
-                                 defaultValue={new Date()}
+                                 defaultValue={undefined}
                                  validate={(value: any) => {
                                     if (!value) {
                                        return "COLLECTION_DATE_REQUIRED";
@@ -88,7 +88,7 @@ const SampleForm = (props: SampleFormProps) => {
                                  label="Manufacture date"
                                  isRequired
                                  name="mfgDate"
-                                 defaultValue={new Date()}
+                                 defaultValue={undefined}
                                  validate={(value: any) => {
                                     if (!value) {
                                        return "MFG_DATE_REQUIRED";
@@ -103,7 +103,7 @@ const SampleForm = (props: SampleFormProps) => {
                                  label="Expiration date"
                                  isRequired
                                  name="expDate"
-                                 defaultValue={new Date()}
+                                 defaultValue={undefined}
                                  validate={(value: any) => {
                                     if (!value) {
                                        return "EXP_DATE_REQUIRED";

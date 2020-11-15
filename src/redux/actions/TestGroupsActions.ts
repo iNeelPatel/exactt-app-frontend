@@ -25,7 +25,7 @@ export function searchTestGroups(keyword: string) {
       try {
          let res = await Parse.Cloud.run("searchTestGroups", { keyword });
          dispatch({
-            type: ActionsTypes.GET_TEST_GROUPS,
+            type: ActionsTypes.SEARCH_TEST_GROUP,
             payload: res,
          });
          return res;

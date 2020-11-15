@@ -1,15 +1,65 @@
 // ====================================== Module imports ======================================
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import Form, { Field, ErrorMessage } from "@atlaskit/form";
 import Select from "@atlaskit/select";
 import { DatePicker } from "@atlaskit/datetime-picker";
 import Button from "@atlaskit/button";
+import moment from "moment";
 
 // ====================================== File imports ======================================
 import { BasicDetailsFormProps } from "./types";
+import { Customer } from "../../../redux/types/CustomerTypes";
+import { TestGroup } from "../../../redux/types/TestGroupsTypes";
 
 const BasicDetailsForm = (props: BasicDetailsFormProps) => {
+   const { onSearchCustomers, searchedCustomers, searchedTestGroups, onSearchTestGroups } = props;
+   const [customerSearchKeyword, setCustomerSearchKeyword] = useState("");
+   const [customerSearchLoading, setCustomerSearchLoading] = useState(false);
+   const [customerOptions, setCustomerOptions] = useState<any>([]);
+   const [testGroupSearchKeyword, setTestGroupSearchKeyword] = useState("");
+   const [testGroupSearchLoading, setTestGroupSearchLoading] = useState(false);
+   const [testGroupOptions, setTestGroupOptions] = useState<any>([]);
+
+   const customerSearch = async () => {
+      setCustomerSearchLoading(true);
+      await onSearchCustomers(customerSearchKeyword);
+      setCustomerSearchLoading(false);
+   };
+
+   const testGroupSearch = async () => {
+      setTestGroupSearchLoading(true);
+      await onSearchTestGroups(customerSearchKeyword);
+      setTestGroupSearchLoading(false);
+   };
+
+   useEffect(() => {
+      customerSearch();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [customerSearchKeyword]);
+
+   useEffect(() => {
+      let customerOptions: any = searchedCustomers?.map((customer: Customer) => ({
+         ...customer,
+         label: customer.name,
+         value: customer.objectId,
+      }));
+      setCustomerOptions(customerOptions);
+   }, [searchedCustomers]);
+
+   useEffect(() => {
+      testGroupSearch();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [testGroupSearchKeyword]);
+
+   useEffect(() => {
+      let testGroupOptions: any = searchedTestGroups?.map((testGroup: TestGroup) => ({
+         label: `${testGroup.name} (${testGroup.code})`,
+         value: testGroup.objectId,
+      }));
+      setTestGroupOptions(testGroupOptions);
+   }, [searchedTestGroups]);
+
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
@@ -17,6 +67,7 @@ const BasicDetailsForm = (props: BasicDetailsFormProps) => {
                <Form
                   onSubmit={async (data: any) => {
                      props.onSubmit(data);
+                     console.log(data);
                   }}
                >
                   {({ formProps, submitting }: any) => (
@@ -36,13 +87,10 @@ const BasicDetailsForm = (props: BasicDetailsFormProps) => {
                                  <Select
                                     {...fieldProps}
                                     validationState={error === "CUSTOMER_REQUIRED" && "error"}
-                                    options={[
-                                       { label: "Range", value: "range" },
-                                       { label: "Valid", value: "valid" },
-                                       { label: "Options", value: "options" },
-                                       { label: "Complies", value: "complies" },
-                                    ]}
+                                    options={customerOptions}
+                                    isLoading={customerSearchLoading}
                                     placeholder="Select customer"
+                                    onInputChange={(keyword) => setCustomerSearchKeyword(keyword)}
                                  />
                                  {error === "CUSTOMER_REQUIRED" && <ErrorMessage>Customer is required.</ErrorMessage>}
                               </Fragment>
@@ -65,13 +113,10 @@ const BasicDetailsForm = (props: BasicDetailsFormProps) => {
                                        <Select
                                           {...fieldProps}
                                           validationState={error === "GROUP_REQUIRED" && "error"}
-                                          options={[
-                                             { label: "Range", value: "range" },
-                                             { label: "Valid", value: "valid" },
-                                             { label: "Options", value: "options" },
-                                             { label: "Complies", value: "complies" },
-                                          ]}
+                                          options={testGroupOptions}
+                                          isLoading={testGroupSearchLoading}
                                           placeholder="Select Group"
+                                          onInputChange={(keyword) => setTestGroupSearchKeyword(keyword)}
                                        />
                                        {error === "GROUP_REQUIRED" && <ErrorMessage>Test group is required.</ErrorMessage>}
                                     </Fragment>
@@ -90,14 +135,24 @@ const BasicDetailsForm = (props: BasicDetailsFormProps) => {
                                  label="Due date"
                                  isRequired
                                  name="dueDate"
-                                 defaultValue={new Date()}
+                                 defaultValue={undefined}
                                  validate={(value: any) => {
                                     if (!value) {
                                        return "DATE_REQUIRED";
                                     }
+                                    let date = moment(value, "YYYY-MM-DD");
+                                    if (date.isBefore(moment().subtract(1, "day"))) {
+                                       return "PAST_DATE";
+                                    }
                                  }}
                               >
-                                 {({ fieldProps }: any) => <DatePicker {...fieldProps} dateFormat="DD/MM/YYYY" placeholder="Select date" />}
+                                 {({ fieldProps, error }: any) => (
+                                    <Fragment>
+                                       <DatePicker {...fieldProps} dateFormat="DD/MM/YYYY" placeholder="Select date" />
+                                       {error === "PAST_DATE" && <ErrorMessage>Past date is not allow!</ErrorMessage>}
+                                       {error === "DATE_REQUIRED" && <ErrorMessage>Lab due date is required.</ErrorMessage>}
+                                    </Fragment>
+                                 )}
                               </Field>
                            </GridColumn>
                            <GridColumn medium={6}>
@@ -105,14 +160,24 @@ const BasicDetailsForm = (props: BasicDetailsFormProps) => {
                                  label="Lab due date"
                                  isRequired
                                  name="labDueDate"
-                                 defaultValue={new Date()}
+                                 defaultValue={undefined}
                                  validate={(value: any) => {
                                     if (!value) {
                                        return "DATE_REQUIRED";
                                     }
+                                    let date = moment(value, "YYYY-MM-DD");
+                                    if (date.isBefore(moment().subtract(1, "day"))) {
+                                       return "PAST_DATE";
+                                    }
                                  }}
                               >
-                                 {({ fieldProps }: any) => <DatePicker {...fieldProps} dateFormat="DD/MM/YYYY" placeholder="Select date" />}
+                                 {({ fieldProps, error }: any) => (
+                                    <Fragment>
+                                       <DatePicker {...fieldProps} dateFormat="DD/MM/YYYY" placeholder="Select date" />
+                                       {error === "PAST_DATE" && <ErrorMessage>Past date is not allow!</ErrorMessage>}
+                                       {error === "DATE_REQUIRED" && <ErrorMessage>Lab due date is required.</ErrorMessage>}
+                                    </Fragment>
+                                 )}
                               </Field>
                            </GridColumn>
                         </Grid>
