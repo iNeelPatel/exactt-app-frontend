@@ -15,6 +15,7 @@ import TestDetailsForm from "./TestDetailsForm";
 import AppState from "../../../redux/types";
 import { searchCustomers } from "../../../redux/actions/CustomerActions";
 import { searchTestGroups } from "../../../redux/actions/TestGroupsActions";
+import { searchSamplesDetails } from "../../../redux/actions/SamplesDetailsActions";
 
 const style = {
    mainCard: {
@@ -43,7 +44,7 @@ const style = {
 };
 
 const AddSampleGroup = (props: Props) => {
-   const { searchCustomers, searchedCustomers, searchTestGroups, searchedTestGroups } = props;
+   const { searchCustomers, searchedCustomers, searchTestGroups, searchedTestGroups, searchSamplesDetails, searchedSamplesDetails } = props;
    const { sampleId } = props.match.params;
 
    const [step, setStep] = useState(0);
@@ -52,8 +53,8 @@ const AddSampleGroup = (props: Props) => {
    const [testingDetails, setTestingDetails] = useState<any>({});
 
    // console.log("basicDetails => ", basicDetails);
-   // console.log("sampleDetails => ", sampleDetails);
-   // console.log("testingDetails => ", testingDetails);
+   console.log("sampleDetails => ", sampleDetails);
+   console.warn("testingDetails => ", testingDetails);
 
    const breadcrumbItems = [
       { path: "/", name: "Dashboard" },
@@ -150,6 +151,8 @@ const AddSampleGroup = (props: Props) => {
                </div>
                <div style={{ display: step === 1 ? "block" : "none" }}>
                   <SampleForm
+                     searchedSamplesDetails={searchedSamplesDetails}
+                     onSearchSamplesDetails={searchSamplesDetails}
                      onBack={() => setStep(0)}
                      onSubmit={(data) => {
                         setSampleDetails(data);
@@ -281,11 +284,12 @@ const mapStateToProps = (state: AppState) => ({
    samples: state.samples.samples,
    searchedCustomers: state.customer.searchedCustomers,
    searchedTestGroups: state.testGroup.searchedTestGroups,
+   searchedSamplesDetails: state.samplesDetails.searchedSamplesDetails,
 });
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ searchCustomers, searchTestGroups }, dispatch),
+      ...bindActionCreators({ searchCustomers, searchTestGroups, searchSamplesDetails }, dispatch),
    };
 }
 

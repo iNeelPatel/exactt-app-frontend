@@ -1,5 +1,5 @@
 // ====================================== Module imports ======================================
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import Form, { Field, ErrorMessage } from "@atlaskit/form";
 import Select, { CreatableSelect } from "@atlaskit/select";
@@ -9,8 +9,35 @@ import Button from "@atlaskit/button";
 
 // ====================================== File imports ======================================
 import { SampleFormProps } from "./types";
+import { SampleDetails } from "../../../redux/types/SampleDetailsTypes";
 
 const SampleForm = (props: SampleFormProps) => {
+   const { onSearchSamplesDetails, searchedSamplesDetails } = props;
+
+   const [sampleDetailsSearchKeyword, setSampleDetailsSearchKeyword] = useState("");
+   const [sampleDetailsSearchLoading, setSampleDetailsSearchLoading] = useState(false);
+   const [sampleDetailsOptions, setSampleDetailsOptions] = useState<any>([]);
+
+   const customerSearch = async () => {
+      setSampleDetailsSearchLoading(true);
+      await onSearchSamplesDetails(sampleDetailsSearchKeyword);
+      setSampleDetailsSearchLoading(false);
+   };
+
+   useEffect(() => {
+      customerSearch();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [searchedSamplesDetails]);
+
+   useEffect(() => {
+      let customerOptions: any = searchedSamplesDetails?.map((sampleDetails: SampleDetails) => ({
+         ...sampleDetails,
+         label: sampleDetails.name,
+         value: sampleDetails.objectId,
+      }));
+      setSampleDetailsOptions(customerOptions);
+   }, [searchedSamplesDetails]);
+
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
@@ -37,13 +64,10 @@ const SampleForm = (props: SampleFormProps) => {
                                  <CreatableSelect
                                     {...fieldProps}
                                     validationState={error === "SAMPLE_NAME_REQUIRED" && "error"}
-                                    options={[
-                                       { label: "Range", value: "range" },
-                                       { label: "Valid", value: "valid" },
-                                       { label: "Options", value: "options" },
-                                       { label: "Complies", value: "complies" },
-                                    ]}
-                                    placeholder="Select customer"
+                                    options={sampleDetailsOptions}
+                                    placeholder="Select sample"
+                                    isLoading={sampleDetailsSearchLoading}
+                                    onInputChange={(keyword) => setSampleDetailsSearchKeyword(keyword)}
                                  />
                                  {error === "SAMPLE_NAME_REQUIRED" && <ErrorMessage>Sample name is required.</ErrorMessage>}
                               </Fragment>

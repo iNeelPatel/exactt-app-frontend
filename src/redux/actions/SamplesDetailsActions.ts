@@ -25,7 +25,7 @@ export function searchSamplesDetails(keyword: string) {
       try {
          let res = await Parse.Cloud.run("searchSampleDetails", { keyword });
          dispatch({
-            type: ActionsTypes.GET_SAMPLES_DETAILS,
+            type: ActionsTypes.SEARCH_SAMPLE_DETAILS,
             payload: res,
          });
          return res;
