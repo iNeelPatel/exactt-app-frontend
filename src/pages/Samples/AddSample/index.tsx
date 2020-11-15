@@ -16,6 +16,8 @@ import AppState from "../../../redux/types";
 import { searchCustomers } from "../../../redux/actions/CustomerActions";
 import { searchTestGroups } from "../../../redux/actions/TestGroupsActions";
 import { searchSamplesDetails } from "../../../redux/actions/SamplesDetailsActions";
+import { searchSampleGroup } from "../../../redux/actions/SampleGroupsActions";
+import { searchParameters } from "../../../redux/actions/ParameterActions";
 import { getUsers } from "../../../redux/actions/UserActions";
 import { User } from "../../../redux/types/UserTypes";
 
@@ -55,10 +57,14 @@ const AddSampleGroup = (props: Props) => {
       searchedSamplesDetails,
       getUsers,
       users,
+      searchSampleGroup,
+      searchedSampleGroup,
+      searchParameters,
+      searchedParameters,
    } = props;
    const { sampleId } = props.match.params;
 
-   const [step, setStep] = useState(0);
+   const [step, setStep] = useState(2);
    const [loading, setLoading] = useState(true);
    const [basicDetails, setBasicDetails] = useState<any>({});
    const [sampleDetails, setSampleDetails] = useState<any>({});
@@ -203,6 +209,11 @@ const AddSampleGroup = (props: Props) => {
                </div>
                <div style={{ display: step === 2 ? "block" : "none" }}>
                   <TestDetailsForm
+                     onSearchSampleGroup={searchSampleGroup}
+                     searchedSampleGroup={searchedSampleGroup}
+                     searchedParameters={searchedParameters}
+                     onSearchParameters={searchParameters}
+                     isNewSample={sampleDetails?.sample?.__isNew__ ? true : false}
                      hodOptions={hodOptions}
                      onBack={() => setStep(1)}
                      onSubmit={(data) => {
@@ -327,12 +338,17 @@ const mapStateToProps = (state: AppState) => ({
    searchedCustomers: state.customer.searchedCustomers,
    searchedTestGroups: state.testGroup.searchedTestGroups,
    searchedSamplesDetails: state.samplesDetails.searchedSamplesDetails,
+   searchedSampleGroup: state.sampleGroup.searchSampleGroup,
+   searchedParameters: state.parameter.searchedParameters,
    users: state.user.users,
 });
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ searchCustomers, searchTestGroups, searchSamplesDetails, getUsers }, dispatch),
+      ...bindActionCreators(
+         { searchCustomers, searchTestGroups, searchSamplesDetails, getUsers, searchSampleGroup, searchParameters },
+         dispatch
+      ),
    };
 }
 
