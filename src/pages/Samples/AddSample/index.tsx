@@ -1,5 +1,5 @@
 // ====================================== Module imports ======================================
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import { ProgressTracker, Stages } from "@atlaskit/progress-tracker";
 import { colors, typography } from "@atlaskit/theme";
@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 // ====================================== File imports ======================================
-import { Breadcrumb, Divider, Heading } from "../../../components";
+import { Breadcrumb, Divider, Heading, ScreenLoader } from "../../../components";
 import { Props } from "./types";
 import SampleForm from "./SampleForm";
 import BasicDetailsForm from "./BasicDetailsForm";
@@ -16,6 +16,8 @@ import AppState from "../../../redux/types";
 import { searchCustomers } from "../../../redux/actions/CustomerActions";
 import { searchTestGroups } from "../../../redux/actions/TestGroupsActions";
 import { searchSamplesDetails } from "../../../redux/actions/SamplesDetailsActions";
+import { getUsers } from "../../../redux/actions/UserActions";
+import { User } from "../../../redux/types/UserTypes";
 
 const style = {
    mainCard: {
@@ -44,17 +46,55 @@ const style = {
 };
 
 const AddSampleGroup = (props: Props) => {
-   const { searchCustomers, searchedCustomers, searchTestGroups, searchedTestGroups, searchSamplesDetails, searchedSamplesDetails } = props;
+   const {
+      searchCustomers,
+      searchedCustomers,
+      searchTestGroups,
+      searchedTestGroups,
+      searchSamplesDetails,
+      searchedSamplesDetails,
+      getUsers,
+      users,
+   } = props;
    const { sampleId } = props.match.params;
 
    const [step, setStep] = useState(0);
+   const [loading, setLoading] = useState(true);
    const [basicDetails, setBasicDetails] = useState<any>({});
    const [sampleDetails, setSampleDetails] = useState<any>({});
    const [testingDetails, setTestingDetails] = useState<any>({});
+   const [userOptions, setUserOptions] = useState<any>([]);
+   const [hodOptions, setHodOptions] = useState<any>([]);
 
    // console.log("basicDetails => ", basicDetails);
-   console.log("sampleDetails => ", sampleDetails);
+   console.warn("sampleDetails => ", sampleDetails);
    console.warn("testingDetails => ", testingDetails);
+
+   const getUsersFun = async () => {
+      await getUsers();
+      setLoading(false);
+   };
+
+   useEffect(() => {
+      if (users) {
+         let hodUserOptions: any[] = [];
+         let usersOptions: any[] = [];
+         users?.map((user: User) => {
+            if (user.role.name === "hod") {
+               hodUserOptions.push({ label: user.name, value: user.objectId });
+            } else {
+               usersOptions.push({ label: user.name, value: user.objectId });
+            }
+         });
+         setUserOptions(usersOptions);
+         setHodOptions(hodUserOptions);
+      }
+   }, [users]);
+
+   useEffect(() => {
+      getUsersFun();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
 
    const breadcrumbItems = [
       { path: "/", name: "Dashboard" },
@@ -115,9 +155,9 @@ const AddSampleGroup = (props: Props) => {
       }
    });
 
-   // console.log(step);
-
-   return (
+   return loading ? (
+      <ScreenLoader />
+   ) : (
       <Page>
          <Grid spacing="compact" layout="fluid">
             <GridColumn medium={12}>
@@ -153,6 +193,7 @@ const AddSampleGroup = (props: Props) => {
                   <SampleForm
                      searchedSamplesDetails={searchedSamplesDetails}
                      onSearchSamplesDetails={searchSamplesDetails}
+                     userOptions={userOptions}
                      onBack={() => setStep(0)}
                      onSubmit={(data) => {
                         setSampleDetails(data);
@@ -162,6 +203,7 @@ const AddSampleGroup = (props: Props) => {
                </div>
                <div style={{ display: step === 2 ? "block" : "none" }}>
                   <TestDetailsForm
+                     hodOptions={hodOptions}
                      onBack={() => setStep(1)}
                      onSubmit={(data) => {
                         setTestingDetails(data);
@@ -285,11 +327,12 @@ const mapStateToProps = (state: AppState) => ({
    searchedCustomers: state.customer.searchedCustomers,
    searchedTestGroups: state.testGroup.searchedTestGroups,
    searchedSamplesDetails: state.samplesDetails.searchedSamplesDetails,
+   users: state.user.users,
 });
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ searchCustomers, searchTestGroups, searchSamplesDetails }, dispatch),
+      ...bindActionCreators({ searchCustomers, searchTestGroups, searchSamplesDetails, getUsers }, dispatch),
    };
 }
 

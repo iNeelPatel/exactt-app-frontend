@@ -12,7 +12,7 @@ import { SampleFormProps } from "./types";
 import { SampleDetails } from "../../../redux/types/SampleDetailsTypes";
 
 const SampleForm = (props: SampleFormProps) => {
-   const { onSearchSamplesDetails, searchedSamplesDetails } = props;
+   const { onSearchSamplesDetails, searchedSamplesDetails, userOptions } = props;
 
    const [sampleDetailsSearchKeyword, setSampleDetailsSearchKeyword] = useState("");
    const [sampleDetailsSearchLoading, setSampleDetailsSearchLoading] = useState(false);
@@ -442,13 +442,8 @@ const SampleForm = (props: SampleFormProps) => {
                                        <Select
                                           {...fieldProps}
                                           validationState={error === "SAMPLE_NAME_REQUIRED" && "error"}
-                                          options={[
-                                             { label: "Range", value: "range" },
-                                             { label: "Valid", value: "valid" },
-                                             { label: "Options", value: "options" },
-                                             { label: "Complies", value: "complies" },
-                                          ]}
-                                          placeholder="Select customer"
+                                          options={userOptions}
+                                          placeholder="Select user"
                                        />
                                        {error === "COLLECTED_BY_REQUIRED" && <ErrorMessage>Collected by is required.</ErrorMessage>}
                                     </Fragment>

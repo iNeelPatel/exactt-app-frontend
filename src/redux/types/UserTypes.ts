@@ -11,7 +11,7 @@ export interface User {
    email: string;
    username: string;
    phone: string;
-   role: Object;
+   role: any;
    department: Object;
    delete: boolean;
 }

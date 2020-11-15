@@ -11,6 +11,7 @@ import { Checkbox } from "@atlaskit/checkbox";
 import { TestDetailsFormProps } from "./types";
 
 const TestDetailsForm = (props: TestDetailsFormProps) => {
+   const { hodOptions } = props;
    const [dropdownOpen, setDropdownOpen] = useState(false);
    return (
       <Page>
@@ -123,17 +124,10 @@ const TestDetailsForm = (props: TestDetailsFormProps) => {
                                  {({ fieldProps, error }: any) => (
                                     <Fragment>
                                        <Select
-                                          isMulti
                                           {...fieldProps}
                                           validationState={error === "HOD_REQUIRED" && "error"}
-                                          options={[
-                                             { label: "Range", value: "range" },
-                                             { label: "Valid", value: "valid" },
-                                             { label: "Options", value: "options" },
-                                             { label: "Complies", value: "complies" },
-                                          ]}
-                                          placeholder="Select test group"
-                                          menuIsOpen={dropdownOpen}
+                                          options={hodOptions}
+                                          placeholder="Select hod"
                                        />
                                        {error === "PARAMETERS_REQUIRED" && <ErrorMessage>HOD is required.</ErrorMessage>}
                                     </Fragment>
