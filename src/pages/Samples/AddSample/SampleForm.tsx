@@ -18,24 +18,24 @@ const SampleForm = (props: SampleFormProps) => {
    const [sampleDetailsSearchLoading, setSampleDetailsSearchLoading] = useState(false);
    const [sampleDetailsOptions, setSampleDetailsOptions] = useState<any>([]);
 
-   const customerSearch = async () => {
+   const sampleDetailsSearch = async () => {
       setSampleDetailsSearchLoading(true);
       await onSearchSamplesDetails(sampleDetailsSearchKeyword);
       setSampleDetailsSearchLoading(false);
    };
 
    useEffect(() => {
-      customerSearch();
+      sampleDetailsSearch();
       // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [searchedSamplesDetails]);
+   }, [sampleDetailsSearchKeyword]);
 
    useEffect(() => {
-      let customerOptions: any = searchedSamplesDetails?.map((sampleDetails: SampleDetails) => ({
+      let sampleDetailsOptions: any = searchedSamplesDetails?.map((sampleDetails: SampleDetails) => ({
          ...sampleDetails,
          label: sampleDetails.name,
          value: sampleDetails.objectId,
       }));
-      setSampleDetailsOptions(customerOptions);
+      setSampleDetailsOptions(sampleDetailsOptions);
    }, [searchedSamplesDetails]);
 
    return (
