@@ -49,6 +49,7 @@ export interface TestDetailsFormProps {
    hodOptions: any[];
    searchedSampleGroup: SampleGroup[] | undefined;
    searchedParameters: Parameter[] | undefined;
+   sampleDetails: any;
    onSearchParameters: (keyword: string) => any;
    onSearchSampleGroup: (keyword: string) => any;
    onBack: () => void;

@@ -64,7 +64,7 @@ const AddSampleGroup = (props: Props) => {
    } = props;
    const { sampleId } = props.match.params;
 
-   const [step, setStep] = useState(2);
+   const [step, setStep] = useState(0);
    const [loading, setLoading] = useState(true);
    const [basicDetails, setBasicDetails] = useState<any>({});
    const [sampleDetails, setSampleDetails] = useState<any>({});
@@ -73,7 +73,7 @@ const AddSampleGroup = (props: Props) => {
    const [hodOptions, setHodOptions] = useState<any>([]);
 
    // console.log("basicDetails => ", basicDetails);
-   console.warn("sampleDetails => ", sampleDetails);
+   // console.warn("sampleDetails => ", sampleDetails);
    console.warn("testingDetails => ", testingDetails);
 
    const getUsersFun = async () => {
@@ -213,7 +213,8 @@ const AddSampleGroup = (props: Props) => {
                      searchedSampleGroup={searchedSampleGroup}
                      searchedParameters={searchedParameters}
                      onSearchParameters={searchParameters}
-                     isNewSample={sampleDetails?.sample?.__isNew__ ? true : false}
+                     isNewSample={sampleDetails?.sampleName?.__isNew__ ? true : false}
+                     sampleDetails={sampleDetails?.sampleName}
                      hodOptions={hodOptions}
                      onBack={() => setStep(1)}
                      onSubmit={(data) => {

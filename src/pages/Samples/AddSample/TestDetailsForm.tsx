@@ -13,7 +13,15 @@ import { Parameter } from "../../../redux/types/ParameterTypes";
 import { SampleGroup } from "../../../redux/types/SampleGroupTypes";
 
 const TestDetailsForm = (props: TestDetailsFormProps) => {
-   const { hodOptions, searchedParameters, searchedSampleGroup, onSearchParameters, onSearchSampleGroup } = props;
+   const {
+      hodOptions,
+      searchedParameters,
+      searchedSampleGroup,
+      onSearchParameters,
+      onSearchSampleGroup,
+      sampleDetails,
+      isNewSample,
+   } = props;
    const [dropdownOpen, setDropdownOpen] = useState(false);
    const [parameterSearchKeyword, setParameterSearchKeyword] = useState("");
    const [parameterSearchLoading, setParameterSearchLoading] = useState(false);
@@ -54,7 +62,9 @@ const TestDetailsForm = (props: TestDetailsFormProps) => {
    }, [searchedParameters]);
 
    useEffect(() => {
-      sampleGroupSearch();
+      if (isNewSample === true) {
+         sampleGroupSearch();
+      }
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [sampleGroupSearchKeyword]);
 
@@ -73,6 +83,22 @@ const TestDetailsForm = (props: TestDetailsFormProps) => {
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [includeAllParameters]);
+
+   useEffect(() => {
+      if (isNewSample === false) {
+         let sampleGroupOptions = sampleDetails?.sampleGroups?.map((sampleGroup: any) => ({
+            ...sampleGroup,
+            label: sampleGroup.name,
+            parameters: sampleGroup.parameters.map((parameter: any) => ({
+               ...parameter,
+               parameter: parameter?.parameter?.toJSON(),
+            })),
+            value: sampleGroup.objectId,
+         }));
+
+         setSampleGroupOptions(sampleGroupOptions);
+      }
+   }, [isNewSample, sampleDetails]);
 
    return (
       <Page>
@@ -120,14 +146,12 @@ const TestDetailsForm = (props: TestDetailsFormProps) => {
                                        setParameterSearchable(false);
                                        let parameterOptions = value?.parameters.map((parameter: any) => ({
                                           ...parameter,
-                                          name: parameter.parameter.name,
-                                          label: parameter.parameter.name,
-                                          value: parameter.objectId,
+                                          name: parameter?.parameter?.name,
+                                          label: parameter?.parameter?.name,
+                                          value: parameter?.objectId,
                                        }));
                                        setParameterOptions(parameterOptions);
                                     }
-                                    setSelectedParameters([]);
-                                    setIncludeAllParameters(false);
                                  }}
                               >
                                  {({ fieldProps, error }: any) => (
@@ -147,22 +171,13 @@ const TestDetailsForm = (props: TestDetailsFormProps) => {
                            </GridColumn>
                         </Grid>
 
-                        <Field
-                           label="Parameters"
-                           isRequired
-                           name="parameters"
-                           validate={(value: any) => {
-                              if (!value) {
-                                 return "PARAMETERS_REQUIRED";
-                              }
-                           }}
-                        >
+                        <Field label="Parameters" isRequired name="parameters">
                            {({ fieldProps, error }: any) => (
                               <Fragment>
                                  <Select
                                     isMulti
                                     {...fieldProps}
-                                    validationState={error === "SAMPLING_METHOD_REQUIRED" && "error"}
+                                    validationState={error === "PARAMETERS_REQUIRED" && "error"}
                                     options={parameterOptions}
                                     placeholder="Select test group"
                                     menuIsOpen={dropdownOpen}
