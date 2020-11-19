@@ -74,7 +74,7 @@ const TestDetailsForm = (props: TestDetailsFormProps) => {
          label: sampleGroup.name,
          value: sampleGroup.objectId,
       }));
-      setSampleGroupOptions([{ label: "N/A", value: "N/A" }, ...sampleGroupOptions]);
+      setSampleGroupOptions(sampleGroupOptions);
    }, [searchedSampleGroup]);
 
    useEffect(() => {
@@ -106,7 +106,7 @@ const TestDetailsForm = (props: TestDetailsFormProps) => {
             <GridColumn medium={12}>
                <Form
                   onSubmit={async (data: any) => {
-                     props.onSubmit(data);
+                     props.onSubmit({ data, parameters: selectedParameters });
                   }}
                >
                   {({ formProps, submitting }: any) => (
@@ -159,7 +159,11 @@ const TestDetailsForm = (props: TestDetailsFormProps) => {
                                        <Select
                                           {...fieldProps}
                                           validationState={error === "SAMPLING_METHOD_REQUIRED" && "error"}
-                                          options={sampleGroupOptions}
+                                          options={
+                                             sampleGroupOptions?.length > 0
+                                                ? [{ label: "N/A", value: "N/A" }, ...sampleGroupOptions]
+                                                : [{ label: "N/A", value: "N/A" }]
+                                          }
                                           placeholder="Select test group"
                                           onInputChange={(value) => setSampleGroupSearchKeyword(value)}
                                           isLoading={sampleGroupSearchLoading}

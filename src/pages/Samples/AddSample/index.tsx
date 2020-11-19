@@ -68,13 +68,13 @@ const AddSampleGroup = (props: Props) => {
    const [loading, setLoading] = useState(true);
    const [basicDetails, setBasicDetails] = useState<any>({});
    const [sampleDetails, setSampleDetails] = useState<any>({});
-   const [testingDetails, setTestingDetails] = useState<any>({});
+   // const [testingDetails, setTestingDetails] = useState<any>({});
    const [userOptions, setUserOptions] = useState<any>([]);
    const [hodOptions, setHodOptions] = useState<any>([]);
 
    // console.log("basicDetails => ", basicDetails);
    // console.warn("sampleDetails => ", sampleDetails);
-   console.warn("testingDetails => ", testingDetails);
+   // console.warn("testingDetails => ", testingDetails);
 
    const getUsersFun = async () => {
       await getUsers();
@@ -112,9 +112,12 @@ const AddSampleGroup = (props: Props) => {
       props.history.goBack();
    };
 
-   // const onSubmit = (data: any) => {
-   //    console.log(data);
-   // };
+   const onSubmit = (testingData: any) => {
+      let data: any = { basicDetails, sampleDetails, testingData };
+      let formData: any = {};
+      formData["name"] = sampleDetails.sampleName.value;
+      console.log(JSON.stringify(data));
+   };
 
    const items: Stages = [
       {
@@ -217,9 +220,7 @@ const AddSampleGroup = (props: Props) => {
                      sampleDetails={sampleDetails?.sampleName}
                      hodOptions={hodOptions}
                      onBack={() => setStep(1)}
-                     onSubmit={(data) => {
-                        setTestingDetails(data);
-                     }}
+                     onSubmit={(data) => onSubmit(data)}
                   />
                </div>
             </GridColumn>

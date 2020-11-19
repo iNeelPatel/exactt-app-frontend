@@ -67,7 +67,6 @@ const BasicDetailsForm = (props: BasicDetailsFormProps) => {
                <Form
                   onSubmit={async (data: any) => {
                      props.onSubmit(data);
-                     console.log(data);
                   }}
                >
                   {({ formProps, submitting }: any) => (
