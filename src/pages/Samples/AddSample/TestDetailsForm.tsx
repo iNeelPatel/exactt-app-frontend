@@ -106,7 +106,12 @@ const TestDetailsForm = (props: TestDetailsFormProps) => {
             <GridColumn medium={12}>
                <Form
                   onSubmit={async (data: any) => {
-                     props.onSubmit({ ...data, parameters: selectedParameters });
+                     let parameters: any = selectedParameters.map((parameter: any): any => ({
+                        ...parameter,
+                        parameter: parameter.parameter.objectId,
+                        department: parameter.parameter.department.objectId,
+                     }));
+                     props.onSubmit({ ...data, parameters });
                   }}
                >
                   {({ formProps, submitting }: any) => (

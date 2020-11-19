@@ -19,9 +19,9 @@ const CustomerDetails = (props: CustomerDetailsProps) => {
                <Grid layout="fluid">
                   <GridColumn medium={6}>
                      <div style={{ color: colors.N300 }}>
-                        <div>{customer?.name}</div>
-                        <div>{customer?.phone}</div>
-                        <div>{customer?.email}</div>
+                        <div>{customer?.contact.name}</div>
+                        <div>{customer?.contact.phone}</div>
+                        <div>{customer?.contact.email}</div>
                      </div>
                   </GridColumn>
                   <GridColumn medium={6}>

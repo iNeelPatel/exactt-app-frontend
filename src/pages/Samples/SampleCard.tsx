@@ -63,7 +63,7 @@ const SampleCard = (props: SampleCardProps) => {
                {sample.name} ({sample.generic_name})
             </div>
             <div>
-               {sample.customer.name} | {sample.customer.phone}
+               {sample?.customer?.contact?.email} | {sample?.customer?.contact?.phone}
             </div>
          </div>
          <div style={{ display: "flex" }}>

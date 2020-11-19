@@ -19,6 +19,7 @@ export interface Sample {
       phone: string;
       name: string;
       email: string;
+      contact: any;
       address: {
          line1: string;
          line2: string;

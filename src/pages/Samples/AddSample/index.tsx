@@ -114,7 +114,6 @@ const AddSampleGroup = (props: Props) => {
    };
 
    const onSubmit = (testingData: any) => {
-      let data: any = { basicDetails, sampleDetails, testingData };
       let formData: any = {};
       formData["name"] = sampleDetails.sampleName.label;
       formData["test_group"] = basicDetails.testGroup.value;
@@ -130,8 +129,7 @@ const AddSampleGroup = (props: Props) => {
       formData["manufacture"] = sampleDetails.manufacture;
       formData["marking"] = sampleDetails.marking;
       formData["supplier"] = sampleDetails.supplier;
-      formData["batchNo"] = sampleDetails.batchNo;
-      formData["batchNo"] = sampleDetails.batchNo;
+      formData["batch_no"] = sampleDetails.batchNo;
       formData["batch_size"] = sampleDetails.batchSize;
       formData["drug_lic_no"] = sampleDetails.licNo;
       formData["type"] = sampleDetails.type;
@@ -149,10 +147,9 @@ const AddSampleGroup = (props: Props) => {
       };
       formData["instruction"] = testingData.instruction;
       formData["hod"] = testingData.hod.value;
+      formData["parameters"] = testingData.parameters;
 
-      console.log("formData =>", formData);
-
-      console.log(JSON.stringify(data));
+      console.log("formData => \n \n \n", JSON.stringify(formData));
    };
 
    const items: Stages = [
