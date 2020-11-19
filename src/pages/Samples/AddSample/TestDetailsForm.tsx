@@ -106,7 +106,7 @@ const TestDetailsForm = (props: TestDetailsFormProps) => {
             <GridColumn medium={12}>
                <Form
                   onSubmit={async (data: any) => {
-                     props.onSubmit({ data, parameters: selectedParameters });
+                     props.onSubmit({ ...data, parameters: selectedParameters });
                   }}
                >
                   {({ formProps, submitting }: any) => (

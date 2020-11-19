@@ -5,6 +5,7 @@ import { ProgressTracker, Stages } from "@atlaskit/progress-tracker";
 import { colors, typography } from "@atlaskit/theme";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import moment from "moment";
 
 // ====================================== File imports ======================================
 import { Breadcrumb, Divider, Heading, ScreenLoader } from "../../../components";
@@ -115,7 +116,42 @@ const AddSampleGroup = (props: Props) => {
    const onSubmit = (testingData: any) => {
       let data: any = { basicDetails, sampleDetails, testingData };
       let formData: any = {};
-      formData["name"] = sampleDetails.sampleName.value;
+      formData["name"] = sampleDetails.sampleName.label;
+      formData["test_group"] = basicDetails.testGroup.value;
+      formData["generic_name"] = sampleDetails.genericName;
+      formData["customer"] = basicDetails.customer;
+      formData["date"] = moment(basicDetails.date).toDate();
+      formData["lab_due_date"] = moment(basicDetails.labDueDate).toDate();
+      formData["due_date"] = moment(basicDetails.dueDate).toDate();
+      formData["mfg_date"] = moment(sampleDetails.mfgDate, "YYYY-MM-DD").toDate();
+      formData["exp_date"] = moment(sampleDetails.expDate, "YYYY-MM-DD").toDate();
+      formData["sample_code"] = sampleDetails.sampleCode;
+      formData["brand_name"] = sampleDetails.brandName;
+      formData["manufacture"] = sampleDetails.manufacture;
+      formData["marking"] = sampleDetails.marking;
+      formData["supplier"] = sampleDetails.supplier;
+      formData["batchNo"] = sampleDetails.batchNo;
+      formData["batchNo"] = sampleDetails.batchNo;
+      formData["batch_size"] = sampleDetails.batchSize;
+      formData["drug_lic_no"] = sampleDetails.licNo;
+      formData["type"] = sampleDetails.type;
+      formData["description"] = sampleDetails.description;
+      formData["sample_packing"] = sampleDetails.samplePacking;
+      formData["sample_qty"] = sampleDetails.sampleQty;
+      formData["sample_condition"] = sampleDetails.sampleCondition;
+      formData["serving_size"] = sampleDetails.servingSize;
+      formData["env_condition"] = sampleDetails.envCondition;
+      formData["collection_by"] = sampleDetails.conllectedBy.value;
+      formData["sampling_method"] = testingData.samplingMethod;
+      formData["test_method_group"] = {
+         name: testingData.testGroup.name,
+         objectId: testingData.testGroup.objectId,
+      };
+      formData["instruction"] = testingData.instruction;
+      formData["hod"] = testingData.hod.value;
+
+      console.log("formData =>", formData);
+
       console.log(JSON.stringify(data));
    };
 
