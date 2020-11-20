@@ -19,6 +19,7 @@ import { searchTestGroups } from "../../../redux/actions/TestGroupsActions";
 import { searchSamplesDetails } from "../../../redux/actions/SamplesDetailsActions";
 import { searchSampleGroup } from "../../../redux/actions/SampleGroupsActions";
 import { searchParameters } from "../../../redux/actions/ParameterActions";
+import { createSample } from "../../../redux/actions/SamplesActions";
 import { getUsers } from "../../../redux/actions/UserActions";
 import { User } from "../../../redux/types/UserTypes";
 
@@ -62,6 +63,7 @@ const AddSampleGroup = (props: Props) => {
       searchedSampleGroup,
       searchParameters,
       searchedParameters,
+      createSample,
    } = props;
    const { sampleId } = props.match.params;
 
@@ -113,7 +115,7 @@ const AddSampleGroup = (props: Props) => {
       props.history.goBack();
    };
 
-   const onSubmit = (testingData: any) => {
+   const onSubmit = async (testingData: any) => {
       let formData: any = {};
       formData["name"] = sampleDetails.sampleName.label;
       formData["test_group"] = basicDetails.testGroup.value;
@@ -124,6 +126,7 @@ const AddSampleGroup = (props: Props) => {
       formData["due_date"] = moment(basicDetails.dueDate).toDate();
       formData["mfg_date"] = moment(sampleDetails.mfgDate, "YYYY-MM-DD").toDate();
       formData["exp_date"] = moment(sampleDetails.expDate, "YYYY-MM-DD").toDate();
+      formData["collection_date"] = moment(sampleDetails.collectionDate, "YYYY-MM-DD").toDate();
       formData["sample_code"] = sampleDetails.sampleCode;
       formData["brand_name"] = sampleDetails.brandName;
       formData["manufacture"] = sampleDetails.manufacture;
@@ -149,7 +152,9 @@ const AddSampleGroup = (props: Props) => {
       formData["hod"] = testingData.hod.value;
       formData["parameters"] = testingData.parameters;
 
-      console.log("formData => \n \n \n", JSON.stringify(formData));
+      console.log(formData);
+      let res = await createSample(formData);
+      console.log("res => ", res);
    };
 
    const items: Stages = [
@@ -317,7 +322,7 @@ const mapStateToProps = (state: AppState) => ({
 function mapDispatchToProps(dispatch: any) {
    return {
       ...bindActionCreators(
-         { searchCustomers, searchTestGroups, searchSamplesDetails, getUsers, searchSampleGroup, searchParameters },
+         { searchCustomers, searchTestGroups, searchSamplesDetails, getUsers, searchSampleGroup, searchParameters, createSample },
          dispatch
       ),
    };

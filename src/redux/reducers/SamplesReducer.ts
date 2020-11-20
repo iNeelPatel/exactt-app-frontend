@@ -22,6 +22,12 @@ export default (state: SampleState = initialState, action: ActionInterface): Sam
             sample: action.payload,
          };
 
+      case ActionTypes.CREATE_SAMPLE:
+         return {
+            ...state,
+            sample: action.payload,
+         };
+
       default:
          return state;
    }

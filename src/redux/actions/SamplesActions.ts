@@ -1,6 +1,6 @@
 import { DispatchType } from "../types/ActionDispatch";
 import { Sample } from "../types/SampleTypes";
-// import AlertBox from "./Alert";
+import AlertBox from "./Alert";
 import ActionsTypes from ".";
 
 import Parse from "parse";
@@ -15,6 +15,23 @@ export function getSamples() {
          });
          return res;
       } catch (error) {
+         return error;
+      }
+   };
+}
+
+export function createSample(sampleDetails: Object) {
+   return async (dispatch: DispatchType): Promise<Sample[]> => {
+      try {
+         let res = await Parse.Cloud.run("createSample", sampleDetails);
+         dispatch({
+            type: ActionsTypes.CREATE_SAMPLE,
+            payload: res,
+         });
+         AlertBox(dispatch, "confirmation", "Sample added successfully.");
+         return res;
+      } catch (error) {
+         // AlertBox(dispatch, "error", error);
          return error;
       }
    };

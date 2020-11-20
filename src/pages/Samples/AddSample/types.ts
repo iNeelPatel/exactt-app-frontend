@@ -14,6 +14,7 @@ export interface Props extends RouteComponentProps {
    users: User[] | undefined;
    searchedSampleGroup: SampleGroup[] | [];
    searchedParameters: Parameter[] | [];
+   createSample: (sampleDetails: any) => any;
    getUsers: () => any;
    searchParameters: (keyword: string) => any;
    searchSampleGroup: (keyword: string) => any;

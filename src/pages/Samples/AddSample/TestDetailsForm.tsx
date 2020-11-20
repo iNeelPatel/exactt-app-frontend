@@ -108,10 +108,11 @@ const TestDetailsForm = (props: TestDetailsFormProps) => {
                   onSubmit={async (data: any) => {
                      let parameters: any = selectedParameters.map((parameter: any): any => ({
                         ...parameter,
+                        sampleGroup: parameter.sampleGroup.toJSON(),
                         parameter: parameter.parameter.objectId,
                         department: parameter.parameter.department.objectId,
                      }));
-                     props.onSubmit({ ...data, parameters });
+                     await props.onSubmit({ ...data, parameters });
                   }}
                >
                   {({ formProps, submitting }: any) => (
