@@ -39,10 +39,10 @@ const ParameterDetails = (props: ParameterDetailsProps) => {
                            />
                         </GridColumn>
                         <GridColumn medium={2}>
-                           <DatePicker dateFormat="DD/MM/YYYY" placeholder="Select date" defaultValue={new Date().toString()} />
+                           <DatePicker dateFormat="DD/MM/YYYY" placeholder="Select date" defaultValue={undefined} />
                         </GridColumn>
                         <GridColumn medium={2}>
-                           <DatePicker dateFormat="DD/MM/YYYY" placeholder="Select date" defaultValue={new Date().toString()} />
+                           <DatePicker dateFormat="DD/MM/YYYY" placeholder="Select date" defaultValue={undefined} />
                         </GridColumn>
                      </div>
                   </Grid>
@@ -62,10 +62,10 @@ const ParameterDetails = (props: ParameterDetailsProps) => {
                            />
                         </GridColumn>
                         <GridColumn medium={2}>
-                           <DatePicker dateFormat="DD/MM/YYYY" placeholder="Select date" defaultValue={new Date().toString()} />
+                           <DatePicker dateFormat="DD/MM/YYYY" placeholder="Select date" defaultValue={undefined} />
                         </GridColumn>
                         <GridColumn medium={2}>
-                           <DatePicker dateFormat="DD/MM/YYYY" placeholder="Select date" defaultValue={new Date().toString()} />
+                           <DatePicker dateFormat="DD/MM/YYYY" placeholder="Select date" defaultValue={undefined} />
                         </GridColumn>
                      </div>
                   </Grid>

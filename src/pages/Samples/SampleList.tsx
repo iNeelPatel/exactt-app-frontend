@@ -31,13 +31,17 @@ const SampleList = (props: SampleListProps) => {
          <Grid spacing="compact" layout="fluid">
             <GridColumn medium={12}>
                <div style={styles.mainCard}>
-                  {samples.map((sample) => (
-                     <SampleCard
-                        sample={sample}
-                        prefix={prefix}
-                        onClick={() => props.navigationHistory.push(`/sample/id/${prefix}-${sample.sampleId}`)}
-                     />
-                  ))}
+                  {samples.length > 0 ? (
+                     samples.map((sample) => (
+                        <SampleCard
+                           sample={sample}
+                           prefix={prefix}
+                           onClick={() => props.navigationHistory.push(`/sample/id/${prefix}-${sample.sampleId}`)}
+                        />
+                     ))
+                  ) : (
+                     <div style={{ display: "flex", justifyContent: "center" }}>No sample found</div>
+                  )}
                </div>
             </GridColumn>
          </Grid>

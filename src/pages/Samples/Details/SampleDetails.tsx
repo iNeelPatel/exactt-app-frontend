@@ -123,12 +123,14 @@ const SampleDetails = (props: SampleDetailsProps) => {
                   <div style={styles.text}>{sampleDetails?.collection_by.name}</div>
                </div>
             </GridColumn>
-            <GridColumn medium={12}>
-               <div style={styles.item}>
-                  <div style={styles.label}>Description</div>
-                  <div style={styles.text}>{sampleDetails?.description}</div>
-               </div>
-            </GridColumn>
+            {sampleDetails?.description ? (
+               <GridColumn medium={12}>
+                  <div style={styles.item}>
+                     <div style={styles.label}>Description</div>
+                     <div style={styles.text}>{sampleDetails?.description}</div>
+                  </div>
+               </GridColumn>
+            ) : null}
          </Grid>
       </Page>
    );

@@ -42,15 +42,18 @@ const TestDetails = (props: TestDetailsProps) => {
                   <div style={styles.text}>
                      {sampleDetails?.sampleResultParameters.map((sampleResultParameter, idx) => (
                         <span>
-                           {sampleResultParameter.name} {sampleDetails?.sampleResultParameters.length - 1 !== idx && ","}
+                           {sampleResultParameter.name}
+                           {sampleDetails?.sampleResultParameters.length - 1 !== idx && ", "}
                         </span>
                      ))}
                   </div>
                </div>
-               <div style={styles.item}>
-                  <div style={styles.label}>Instrustuons</div>
-                  <div style={styles.text}>{sampleDetails?.instruction}</div>
-               </div>
+               {sampleDetails?.instruction ? (
+                  <div style={styles.item}>
+                     <div style={styles.label}>Instrustuons</div>
+                     <div style={styles.text}>{sampleDetails?.instruction}</div>
+                  </div>
+               ) : null}
             </GridColumn>
          </Grid>
       </Page>
