@@ -153,8 +153,12 @@ const AddSampleGroup = (props: Props) => {
       formData["parameters"] = testingData.parameters;
 
       console.log(formData);
-      let res = await createSample(formData);
-      console.log("res => ", res);
+      try {
+         await createSample(formData);
+         onBack();
+      } catch (error) {
+         console.log(error);
+      }
    };
 
    const items: Stages = [

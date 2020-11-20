@@ -31,8 +31,8 @@ export function createSample(sampleDetails: Object) {
          AlertBox(dispatch, "confirmation", "Sample added successfully.");
          return res;
       } catch (error) {
-         // AlertBox(dispatch, "error", error);
-         return error;
+         AlertBox(dispatch, "error", error.message);
+         throw new Error(error);
       }
    };
 }

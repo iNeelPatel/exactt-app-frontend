@@ -17,6 +17,7 @@ const SampleForm = (props: SampleFormProps) => {
    const [sampleDetailsSearchKeyword, setSampleDetailsSearchKeyword] = useState("");
    const [sampleDetailsSearchLoading, setSampleDetailsSearchLoading] = useState(false);
    const [sampleDetailsOptions, setSampleDetailsOptions] = useState<any>([]);
+   const [sampleName, setSampleName] = useState<any>({});
 
    const sampleDetailsSearch = async () => {
       setSampleDetailsSearchLoading(true);
@@ -44,21 +45,12 @@ const SampleForm = (props: SampleFormProps) => {
             <GridColumn medium={12}>
                <Form
                   onSubmit={async (data: any) => {
-                     props.onSubmit(data);
+                     props.onSubmit({ ...data, sampleName });
                   }}
                >
-                  {({ formProps, submitting }: any) => (
+                  {({ formProps, submitting, setFieldValue }: any) => (
                      <form {...formProps} noValidate={true}>
-                        <Field
-                           label="Sample Name"
-                           isRequired
-                           name="sampleName"
-                           validate={(value: any) => {
-                              if (!value) {
-                                 return "SAMPLE_NAME_REQUIRED";
-                              }
-                           }}
-                        >
+                        <Field label="Sample Name" isRequired name="sampleName">
                            {({ fieldProps, error }: any) => (
                               <Fragment>
                                  <CreatableSelect
@@ -68,6 +60,12 @@ const SampleForm = (props: SampleFormProps) => {
                                     placeholder="Select sample"
                                     isLoading={sampleDetailsSearchLoading}
                                     onInputChange={(keyword) => setSampleDetailsSearchKeyword(keyword)}
+                                    onChange={(value: any) => {
+                                       let label: string = value.label.replace('Create "', "").replace('"', "");
+                                       setSampleName({ ...value, label });
+                                       setFieldValue("genericName", value.genericName ? value.genericName : "");
+                                    }}
+                                    value={sampleName}
                                  />
                                  {error === "SAMPLE_NAME_REQUIRED" && <ErrorMessage>Sample name is required.</ErrorMessage>}
                               </Fragment>
