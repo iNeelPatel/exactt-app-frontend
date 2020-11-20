@@ -14,4 +14,6 @@ export interface User {
    role: any;
    department: Object;
    delete: boolean;
+   get: (fieldName: string) => string;
+   toJSON: () => any;
 }

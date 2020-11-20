@@ -7,4 +7,5 @@ export interface Departments {
    createdAt: string;
    updatedAt: string;
    objectId: string;
+   get: (fieldName: string) => string;
 }

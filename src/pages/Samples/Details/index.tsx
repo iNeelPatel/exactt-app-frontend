@@ -18,7 +18,8 @@ import CustomerDetails from "./CustomerDetails";
 import SampleDetailsComponent from "./SampleDetails";
 import TestDetails from "./TestDetails";
 import ParametersDetails from "./ParametersDetails";
-import { getSample } from "../../../redux/actions/SamplesActions";
+import { getSample, assignSample } from "../../../redux/actions/SamplesActions";
+import { getUsers } from "../../../redux/actions/UserActions";
 
 // ====================================== Print Page imports ======================================
 import JobAllotmentPrint from "../../../PrintPages/JobAllotment";
@@ -26,13 +27,15 @@ import JobAllotmentPrint from "../../../PrintPages/JobAllotment";
 let componentRef: any;
 
 const SampleDetails = (props: Props) => {
-   const { samplePermission, getSample, prefix, sample } = props;
+   const { samplePermission, getSample, prefix, sample, getUsers, users, assignSample } = props;
    const { sampleId } = props.match.params;
    const [loading, setLoading] = useState(true);
+   const [usersOptions, setusersOptions] = useState<any>([]);
    const sampleIdWithoutPrefix: string = sampleId.replace(`${prefix}-`, "");
 
    const focus = async () => {
       await getSample(sampleIdWithoutPrefix);
+      await getUsers();
       setLoading(false);
    };
 
@@ -40,6 +43,17 @@ const SampleDetails = (props: Props) => {
       focus();
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
+
+   useEffect(() => {
+      if (users) {
+         let usersOptions = users.map((user) => ({
+            ...user,
+            label: user.name,
+            value: user.objectId,
+         }));
+         setusersOptions(usersOptions);
+      }
+   }, [users]);
 
    const breadcrumbItems = [
       { path: "/", name: "Dashboard" },
@@ -135,9 +149,21 @@ const SampleDetails = (props: Props) => {
                      </Heading>
                   </div>
                   <div>
-                     <Lozenge isBold appearance="success">
-                        Complete
-                     </Lozenge>
+                     {sample?.status === 0 && (
+                        <Lozenge appearance="removed" isBold>
+                           Pending
+                        </Lozenge>
+                     )}
+                     {sample?.status === 1 && (
+                        <Lozenge appearance="inprogress" isBold>
+                           In progress
+                        </Lozenge>
+                     )}
+                     {sample?.status === 2 && (
+                        <Lozenge appearance="success" isBold>
+                           Complete
+                        </Lozenge>
+                     )}
                   </div>
                </div>
 
@@ -174,7 +200,18 @@ const SampleDetails = (props: Props) => {
                   <Heading mixin={typography.h200} style={{ marginTop: 1, marginBottom: 8, textTransform: "uppercase" }}>
                      Parameters
                   </Heading>
-                  <ParametersDetails parameters={{}} />
+                  <ParametersDetails
+                     assignSample={assignSample}
+                     usersOptions={usersOptions}
+                     parameters={sample?.sampleResultParameters.map((parameter) => ({
+                        ...parameter,
+                        assign_to: parameter.assign_to && {
+                           ...parameter.assign_to.toJSON(),
+                           label: parameter.assign_to.toJSON().name,
+                           value: parameter.assign_to.toJSON().objectId,
+                        },
+                     }))}
+                  />
                </div>
 
                <Divider />
@@ -189,11 +226,12 @@ const mapStateToProps = (state: AppState) => ({
    organization: state.orgnization.details,
    prefix: state.orgnization.details.prefix,
    sample: state.samples.sample,
+   users: state.user.users,
 });
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ getSample }, dispatch),
+      ...bindActionCreators({ getSample, getUsers, assignSample }, dispatch),
    };
 }
 

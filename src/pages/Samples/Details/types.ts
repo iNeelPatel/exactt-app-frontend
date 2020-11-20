@@ -1,5 +1,6 @@
 import { RouteComponentProps } from "react-router-dom";
-import { Sample } from "../../../redux/types/SampleTypes";
+import { Sample, SampleResultParameters } from "../../../redux/types/SampleTypes";
+import { User } from "../../../redux/types/UserTypes";
 
 export interface Props extends RouteComponentProps {
    samplePermission: {
@@ -10,7 +11,10 @@ export interface Props extends RouteComponentProps {
    match: any;
    prefix: string;
    sample: Sample | undefined;
+   users: User[] | undefined;
+   getUsers: () => any;
    getSample: (sampleId: string) => any;
+   assignSample: (data: any) => any;
 }
 
 export interface Customer {
@@ -40,5 +44,7 @@ export interface TestDetailsProps {
 }
 
 export interface ParameterDetailsProps {
-   parameters: any;
+   parameters: SampleResultParameters[] | undefined;
+   usersOptions: any[];
+   assignSample: (data: any) => any;
 }

@@ -1,5 +1,5 @@
 import { DispatchType } from "../types/ActionDispatch";
-import { Sample } from "../types/SampleTypes";
+import { Sample, SampleResultParameters } from "../types/SampleTypes";
 import AlertBox from "./Alert";
 import ActionsTypes from ".";
 
@@ -51,6 +51,23 @@ export function getSample(sampleId: string) {
          });
          return sample;
       } catch (error) {
+         return error;
+      }
+   };
+}
+
+export function assignSample(data: SampleResultParameters[]) {
+   return async (dispatch: DispatchType): Promise<Sample[]> => {
+      try {
+         let res = await Parse.Cloud.run("assignSample", { parameters: data });
+         dispatch({
+            type: ActionsTypes.SAMPLE_ASSIGN,
+            payload: res,
+         });
+         AlertBox(dispatch, "confirmation", "Sample assign successfully.");
+         return res;
+      } catch (error) {
+         AlertBox(dispatch, "error", error.message);
          return error;
       }
    };

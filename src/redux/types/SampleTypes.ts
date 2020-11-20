@@ -8,6 +8,7 @@ export interface SampleState {
    samples: Sample[] | [];
    searchedSample: Sample[] | [];
    sample: Sample | undefined;
+   sampleAssign: SampleResultParameters[] | [];
 }
 
 export interface Sample {
