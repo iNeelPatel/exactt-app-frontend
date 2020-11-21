@@ -9,7 +9,7 @@ const page: CSSProperties = {
 };
 
 const document: CSSProperties = {
-   margin: "5mm",
+   margin: "10mm",
 };
 
 const header: CSSProperties = {
