@@ -23,8 +23,10 @@ import { getUsers } from "../../../redux/actions/UserActions";
 
 // ====================================== Print Page imports ======================================
 import JobAllotmentPrint from "../../../PrintPages/JobAllotment";
+import TestRequest from "../../../PrintPages/TestRequest";
 
-let componentRef: any;
+let JobAllotementRef: any;
+let TestRequestRef: any;
 
 const SampleDetails = (props: Props) => {
    const { samplePermission, getSample, prefix, sample, getUsers, users, assignSample } = props;
@@ -83,32 +85,26 @@ const SampleDetails = (props: Props) => {
                   screen={sampleId}
                   right={
                      <div>
-                        {samplePermission.write && (
-                           <ReactToPrint content={() => componentRef}>
-                              <PrintContextConsumer>
-                                 {({ handlePrint }) => (
-                                    <Button
-                                       type="submit"
-                                       style={{ height: 38, marginLeft: 10, marginTop: 9 }}
-                                       appearance="link"
-                                       onClick={handlePrint}
-                                    >
-                                       Job Allotment
-                                    </Button>
-                                 )}
-                              </PrintContextConsumer>
-                           </ReactToPrint>
-                        )}
-                        {samplePermission.write && (
-                           <Button
-                              type="submit"
-                              style={{ height: 38, marginLeft: 10, marginTop: 9 }}
-                              appearance="link"
-                              onClick={() => props.history.push("/sample/add")}
-                           >
-                              Test Request
-                           </Button>
-                        )}
+                        <ReactToPrint content={() => JobAllotementRef}>
+                           <PrintContextConsumer>
+                              {({ handlePrint }) => (
+                                 <Button style={{ height: 38, marginLeft: 10, marginTop: 9 }} appearance="link" onClick={handlePrint}>
+                                    Job Allotment
+                                 </Button>
+                              )}
+                           </PrintContextConsumer>
+                        </ReactToPrint>
+
+                        <ReactToPrint content={() => TestRequestRef}>
+                           <PrintContextConsumer>
+                              {({ handlePrint }) => (
+                                 <Button style={{ height: 38, marginLeft: 10, marginTop: 9 }} appearance="link" onClick={handlePrint}>
+                                    Test Request
+                                 </Button>
+                              )}
+                           </PrintContextConsumer>
+                        </ReactToPrint>
+
                         {samplePermission.write && (
                            <Button
                               type="submit"
@@ -147,7 +143,11 @@ const SampleDetails = (props: Props) => {
             </GridColumn>
             <GridColumn medium={12}>
                <div style={{ display: "none" }}>
-                  <JobAllotmentPrint sample={sample} details={props.organization} ref={(el) => (componentRef = el)} />
+                  <JobAllotmentPrint sample={sample} details={props.organization} ref={(el) => (JobAllotementRef = el)} />
+               </div>
+
+               <div style={{ display: "none" }}>
+                  <TestRequest sample={sample} details={props.organization} ref={(el) => (TestRequestRef = el)} />
                </div>
 
                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>

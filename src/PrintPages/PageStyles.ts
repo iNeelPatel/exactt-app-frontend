@@ -57,7 +57,7 @@ const detialsListContainer: CSSProperties = {
 
 const detialsListTitle: CSSProperties = {
    fontWeight: "bold",
-   width: "120px",
+   width: "148px",
 };
 
 const tableRow: CSSProperties = {
@@ -65,6 +65,14 @@ const tableRow: CSSProperties = {
    borderBottomWidth: 1,
    borderBottomStyle: "solid",
    borderBottomColor: "black",
+};
+
+const tableRowAllBorder: CSSProperties = {
+   display: "flex",
+   borderWidth: 1,
+   borderStyle: "solid",
+   borderColor: "black",
+   borderTopWidth: 0,
 };
 
 const tableHeaderCol = (width: string): CSSProperties => {
@@ -76,6 +84,13 @@ const tableHeaderCol = (width: string): CSSProperties => {
       padding: "2mm",
       textAlign: "center",
       width: width,
+   };
+};
+
+const tableHeaderColNoBorder = (width: string): CSSProperties => {
+   return {
+      ...tableHeaderCol(width),
+      borderWidth: 0,
    };
 };
 
@@ -101,6 +116,13 @@ const tableCol = (width: string): CSSProperties => {
       borderLeftStyle: "solid",
       padding: "2mm",
       width: width,
+   };
+};
+
+const tableColNoBorder = (width: string): CSSProperties => {
+   return {
+      ...tableCol(width),
+      borderWidth: 0,
    };
 };
 
@@ -141,4 +163,7 @@ export default {
    tableCol,
    tableLastCol,
    tableColCenterText,
+   tableRowAllBorder,
+   tableHeaderColNoBorder,
+   tableColNoBorder,
 };

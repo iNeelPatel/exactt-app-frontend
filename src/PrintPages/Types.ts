@@ -4,3 +4,8 @@ export interface JobAllotementProps {
    details: any;
    sample: Sample | undefined;
 }
+
+export interface TestRequestProps {
+   details: any;
+   sample: Sample | undefined;
+}
