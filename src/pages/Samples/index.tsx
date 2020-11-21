@@ -33,6 +33,7 @@ const SampleScreen = (props: Props) => {
       focus();
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
+
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">

@@ -28,8 +28,6 @@ const ParameterDetails = (props: ParameterDetailsProps) => {
       setIsSubmitting(false);
    };
 
-   console.log(parameters);
-
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">

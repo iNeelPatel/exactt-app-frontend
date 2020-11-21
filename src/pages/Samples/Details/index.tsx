@@ -39,6 +39,17 @@ const SampleDetails = (props: Props) => {
       setLoading(false);
    };
 
+   const handleAssignSample = async (data: any) => {
+      try {
+         await assignSample(data);
+         setLoading(true);
+         await getSample(sampleIdWithoutPrefix);
+         setLoading(false);
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
    useEffect(() => {
       focus();
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -136,7 +147,7 @@ const SampleDetails = (props: Props) => {
             </GridColumn>
             <GridColumn medium={12}>
                <div style={{ display: "none" }}>
-                  <JobAllotmentPrint details="This is test" ref={(el) => (componentRef = el)} />
+                  <JobAllotmentPrint sample={sample} details={props.organization} ref={(el) => (componentRef = el)} />
                </div>
 
                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -201,7 +212,7 @@ const SampleDetails = (props: Props) => {
                      Parameters
                   </Heading>
                   <ParametersDetails
-                     assignSample={assignSample}
+                     assignSample={handleAssignSample}
                      usersOptions={usersOptions}
                      parameters={sample?.sampleResultParameters.map((parameter) => ({
                         ...parameter,

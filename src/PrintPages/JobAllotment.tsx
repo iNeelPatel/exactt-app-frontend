@@ -1,16 +1,59 @@
 import React, { Component } from "react";
 import { JobAllotementProps } from "./Types";
+import Barcode from "./Barcode";
+import PageStyles from "./PageStyles";
 
 export default class JobAllotment extends Component<JobAllotementProps, any> {
    render() {
+      const { details, sample } = this.props;
+
       return (
-         <div>
-            <h1>Test print</h1>
-            <img
-               src="http://exactt-dev.herokuapp.com/api/files/exactt-backend/9ea584fcfe5e72fc379d53af00158f6a_companyLogo.png"
-               alt="logo"
-            />
-            {this.props.details}
+         <div style={PageStyles.page}>
+            <div style={PageStyles.document}>
+               <div style={PageStyles.header}>
+                  <div>
+                     <div style={PageStyles.orgName}>{details.name}</div>
+                     <div style={PageStyles.normalText}>{details.address.line1}</div>
+                     <div style={PageStyles.normalText}>{details.address.line2}</div>
+                     <div style={PageStyles.normalText}>{`${details.address.city}, ${details.address.state}-${details.address.zip}`}</div>
+                     <div style={PageStyles.normalText}>{`M: ${details.contact.phone} Email: ${details.contact.email}`}</div>
+                  </div>
+                  <img src={details.logo.toJSON().url} alt="logo" style={PageStyles.orgLogo} />
+               </div>
+               <div style={PageStyles.documentBody}>
+                  <div style={PageStyles.documentTitle}>JOB SHEET ALLOCATION RECORD</div>
+                  <div style={PageStyles.detialsListContainer}>
+                     <div style={{ flex: 0.5 }}>
+                        <div style={{ display: "flex" }}>
+                           <div style={PageStyles.detialsListTitle}>Lab Code</div>
+                           <div>: {`${details.prefix}-${sample?.sampleId}`}</div>
+                        </div>
+                        <div style={{ display: "flex" }}>
+                           <div style={PageStyles.detialsListTitle}>Commodity</div>
+                           <div>: {sample?.name}</div>
+                        </div>
+                     </div>
+                     <div style={{ flex: 0.5, alignItems: "center" }}>
+                        <Barcode value={`${details.prefix}-${sample?.sampleId}`} />
+                     </div>
+                  </div>
+               </div>
+
+               <div style={PageStyles.tableRow}>
+                  <div style={PageStyles.tableHeaderCol("6%")}>Sr No.</div>
+                  <div style={PageStyles.tableHeaderCol("25%")}>Section</div>
+                  <div style={PageStyles.tableHeaderCol("34%")}>Allotted Test Perameters</div>
+                  <div style={PageStyles.tableHeaderLastCol("35%")}>Allotted to Chemist/ Microbiologist/ Analyst</div>
+               </div>
+               {sample?.sampleResultParameters.map((parameter, idx) => (
+                  <div style={PageStyles.tableRow}>
+                     <div style={PageStyles.tableColCenterText("6%")}>{idx + 1}.</div>
+                     <div style={PageStyles.tableCol("25%")}>{parameter.department.get("name")}</div>
+                     <div style={PageStyles.tableCol("34%")}>{parameter.name}</div>
+                     <div style={PageStyles.tableLastCol("35%")}>{parameter.assign_to ? parameter.assign_to.get("name") : "N/A"}</div>
+                  </div>
+               ))}
+            </div>
          </div>
       );
    }
