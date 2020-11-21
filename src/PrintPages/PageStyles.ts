@@ -55,9 +55,11 @@ const detialsListContainer: CSSProperties = {
    display: "flex",
 };
 
-const detialsListTitle: CSSProperties = {
-   fontWeight: "bold",
-   width: "148px",
+const detialsListTitle = (width: string): CSSProperties => {
+   return {
+      fontWeight: "bold",
+      width: width,
+   };
 };
 
 const tableRow: CSSProperties = {

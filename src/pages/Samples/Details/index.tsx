@@ -24,9 +24,11 @@ import { getUsers } from "../../../redux/actions/UserActions";
 // ====================================== Print Page imports ======================================
 import JobAllotmentPrint from "../../../PrintPages/JobAllotment";
 import TestRequest from "../../../PrintPages/TestRequest";
+import JobSheet from "../../../PrintPages/JobSheet";
 
 let JobAllotementRef: any;
 let TestRequestRef: any;
+let JobSheetRef: any;
 
 const SampleDetails = (props: Props) => {
    const { samplePermission, getSample, prefix, sample, getUsers, users, assignSample } = props;
@@ -105,16 +107,16 @@ const SampleDetails = (props: Props) => {
                            </PrintContextConsumer>
                         </ReactToPrint>
 
-                        {samplePermission.write && (
-                           <Button
-                              type="submit"
-                              style={{ height: 38, marginLeft: 10, marginTop: 9 }}
-                              appearance="link"
-                              onClick={() => props.history.push("/sample/add")}
-                           >
-                              Job Sheet
-                           </Button>
-                        )}
+                        <ReactToPrint content={() => JobSheetRef}>
+                           <PrintContextConsumer>
+                              {({ handlePrint }) => (
+                                 <Button style={{ height: 38, marginLeft: 10, marginTop: 9 }} appearance="link" onClick={handlePrint}>
+                                    Job Sheet
+                                 </Button>
+                              )}
+                           </PrintContextConsumer>
+                        </ReactToPrint>
+
                         {samplePermission.write && (
                            <Button
                               iconBefore={<FileIcon label="File icon" size="small" />}
@@ -148,6 +150,10 @@ const SampleDetails = (props: Props) => {
 
                <div style={{ display: "none" }}>
                   <TestRequest sample={sample} details={props.organization} ref={(el) => (TestRequestRef = el)} />
+               </div>
+
+               <div style={{ display: "none" }}>
+                  <JobSheet sample={sample} details={props.organization} ref={(el) => (JobSheetRef = el)} />
                </div>
 
                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>

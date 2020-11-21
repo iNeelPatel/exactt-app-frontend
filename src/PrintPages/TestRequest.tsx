@@ -26,27 +26,27 @@ export default class JobAllotment extends Component<TestRequestProps, any> {
                   <div style={PageStyles.detialsListContainer}>
                      <div style={{ flex: 0.5 }}>
                         <div style={{ display: "flex" }}>
-                           <div style={PageStyles.detialsListTitle}>Lab Code</div>
+                           <div style={PageStyles.detialsListTitle("130px")}>Lab Code</div>
                            <div>: {`${details.prefix}-${sample?.sampleId}`}</div>
                         </div>
                         <div style={{ display: "flex" }}>
-                           <div style={PageStyles.detialsListTitle}>Commodity</div>
+                           <div style={PageStyles.detialsListTitle("130px")}>Commodity</div>
                            <div>: {sample?.name}</div>
                         </div>
                         <div style={{ display: "flex" }}>
-                           <div style={PageStyles.detialsListTitle}>Sample Code</div>
+                           <div style={PageStyles.detialsListTitle("130px")}>Sample Code</div>
                            <div>: {sample?.sample_code}</div>
                         </div>
                         <div style={{ display: "flex" }}>
-                           <div style={PageStyles.detialsListTitle}>Brand</div>
+                           <div style={PageStyles.detialsListTitle("130px")}>Brand</div>
                            <div>: {sample?.brand_name}</div>
                         </div>
                         <div style={{ display: "flex" }}>
-                           <div style={PageStyles.detialsListTitle}>Party Name</div>
+                           <div style={PageStyles.detialsListTitle("130px")}>Party Name</div>
                            <div>: {sample?.customer.name}</div>
                         </div>
                         <div style={{ display: "flex" }}>
-                           <div style={PageStyles.detialsListTitle}>Address</div>
+                           <div style={PageStyles.detialsListTitle("130px")}>Address</div>
                            <div>:</div>
                            <div style={{ marginLeft: 4 }}>
                               <div style={{ lineHeight: 1 }}>{sample?.customer.address.line1}</div>
@@ -59,19 +59,19 @@ export default class JobAllotment extends Component<TestRequestProps, any> {
                      </div>
                      <div style={{ flex: 0.5 }}>
                         <div style={{ display: "flex" }}>
-                           <div style={PageStyles.detialsListTitle}>Date of Receipt</div>
+                           <div style={PageStyles.detialsListTitle("148px")}>Date of Receipt</div>
                            <div>: {moment(sample?.date, "YYYY-MM-DD").format("DD/MM/YYYY")}</div>
                         </div>
                         <div style={{ display: "flex" }}>
-                           <div style={PageStyles.detialsListTitle}>Batch no.</div>
+                           <div style={PageStyles.detialsListTitle("148px")}>Batch no.</div>
                            <div>: {sample?.batch_no}</div>
                         </div>
                         <div style={{ display: "flex" }}>
-                           <div style={PageStyles.detialsListTitle}>DOM</div>
+                           <div style={PageStyles.detialsListTitle("148px")}>DOM</div>
                            <div>: {moment(sample?.mfg_date).format("DD/MM/YYYY")}</div>
                         </div>
                         <div style={{ display: "flex" }}>
-                           <div style={PageStyles.detialsListTitle}>Qty</div>
+                           <div style={PageStyles.detialsListTitle("148px")}>Qty</div>
                            <div>: {sample?.sample_qty}</div>
                         </div>
                         <div style={{ alignItems: "center" }}>
