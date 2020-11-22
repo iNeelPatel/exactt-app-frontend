@@ -25,19 +25,19 @@ export default class JobAllotment extends Component<JobAllotementProps, any> {
                <div style={PageStyles.detialsListContainer}>
                   <div style={{ flex: 0.5 }}>
                      <div style={{ display: "flex" }}>
-                        <div style={PageStyles.detialsListTitle("190px")}>Lab Code</div>
+                        <div style={PageStyles.detialsListTitle("120px")}>Lab Code</div>
                         <div>: {`${details.prefix}-${sample?.sampleId}`}</div>
                      </div>
                      <div style={{ display: "flex" }}>
-                        <div style={PageStyles.detialsListTitle("190px")}>Commodity</div>
+                        <div style={PageStyles.detialsListTitle("120px")}>Commodity</div>
                         <div>: {sample?.name}</div>
                      </div>
                      <div style={{ display: "flex" }}>
-                        <div style={PageStyles.detialsListTitle("190px")}>Date of Receipt</div>
+                        <div style={PageStyles.detialsListTitle("120px")}>Date of Receipt</div>
                         <div>: {moment(sample?.date, "YYYY-MM-DD").format("DD/MM/YYYY")}</div>
                      </div>
                      <div style={{ display: "flex" }}>
-                        <div style={PageStyles.detialsListTitle("190px")}>Date of Completion</div>
+                        <div style={PageStyles.detialsListTitle("120px")}>Date of Completion</div>
                         <div>: </div>
                      </div>
                   </div>

@@ -24,11 +24,11 @@ export default class JobAllotment extends Component<JobAllotementProps, any> {
                <div style={PageStyles.detialsListContainer}>
                   <div style={{ flex: 0.5 }}>
                      <div style={{ display: "flex" }}>
-                        <div style={PageStyles.detialsListTitle("120px")}>Lab Code</div>
+                        <div style={PageStyles.detialsListTitle("80px")}>Lab Code</div>
                         <div>: {`${details.prefix}-${sample?.sampleId}`}</div>
                      </div>
                      <div style={{ display: "flex" }}>
-                        <div style={PageStyles.detialsListTitle("120px")}>Commodity</div>
+                        <div style={PageStyles.detialsListTitle("80px")}>Commodity</div>
                         <div>: {sample?.name}</div>
                      </div>
                   </div>
