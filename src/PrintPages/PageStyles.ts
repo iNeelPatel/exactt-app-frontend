@@ -22,16 +22,17 @@ const header: CSSProperties = {
 };
 
 const orgName: CSSProperties = {
-   fontSize: 26,
+   fontSize: 16,
    fontWeight: "bold",
 };
 
 const normalText: CSSProperties = {
-   fontSize: 20,
+   fontSize: 14,
+   lineHeight: 1.5,
 };
 
 const orgLogo: CSSProperties = {
-   height: "40mm",
+   height: 120,
 };
 
 const documentBody: CSSProperties = {
