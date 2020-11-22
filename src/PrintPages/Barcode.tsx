@@ -11,7 +11,7 @@ export default function Barcode(props: Props) {
       options: {
          background: "#ffffff",
          height: 40,
-         width: 2,
+         width: 1.5,
       },
    });
    return <svg ref={inputRef} />;

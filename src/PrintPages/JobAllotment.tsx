@@ -33,7 +33,7 @@ export default class JobAllotment extends Component<JobAllotementProps, any> {
                            <div>: {sample?.name}</div>
                         </div>
                      </div>
-                     <div style={{ flex: 0.5, alignItems: "center" }}>
+                     <div style={{ flex: 0.5, alignItems: "center", textAlign: "center" }}>
                         <Barcode value={`${details.prefix}-${sample?.sampleId}`} />
                      </div>
                   </div>
@@ -41,16 +41,16 @@ export default class JobAllotment extends Component<JobAllotementProps, any> {
 
                <div style={PageStyles.tableRow}>
                   <div style={PageStyles.tableHeaderCol("6%")}>Sr No.</div>
-                  <div style={PageStyles.tableHeaderCol("25%")}>Section</div>
-                  <div style={PageStyles.tableHeaderCol("34%")}>Allotted Test Perameters</div>
-                  <div style={PageStyles.tableHeaderLastCol("35%")}>Allotted to Chemist/ Microbiologist/ Analyst</div>
+                  <div style={PageStyles.tableHeaderCol("23%")}>Section</div>
+                  <div style={PageStyles.tableHeaderCol("31%")}>Allotted Test Perameters</div>
+                  <div style={PageStyles.tableHeaderLastCol("40%")}>Allotted to Chemist/ Microbiologist/ Analyst</div>
                </div>
                {sample?.sampleResultParameters.map((parameter, idx) => (
                   <div style={PageStyles.tableRow}>
                      <div style={PageStyles.tableColCenterText("6%")}>{idx + 1}.</div>
-                     <div style={PageStyles.tableCol("25%")}>{parameter.department.get("name")}</div>
-                     <div style={PageStyles.tableCol("34%")}>{parameter.name}</div>
-                     <div style={PageStyles.tableLastCol("35%")}>{parameter.assign_to ? parameter.assign_to.get("name") : "N/A"}</div>
+                     <div style={PageStyles.tableCol("23%")}>{parameter.department.get("name")}</div>
+                     <div style={PageStyles.tableCol("31%")}>{parameter.name}</div>
+                     <div style={PageStyles.tableLastCol("40%")}>{parameter.assign_to ? parameter.assign_to.get("name") : "N/A"}</div>
                   </div>
                ))}
             </div>

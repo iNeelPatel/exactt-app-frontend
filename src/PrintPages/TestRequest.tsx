@@ -74,7 +74,7 @@ export default class JobAllotment extends Component<TestRequestProps, any> {
                            <div style={PageStyles.detialsListTitle("148px")}>Qty</div>
                            <div>: {sample?.sample_qty}</div>
                         </div>
-                        <div style={{ alignItems: "center" }}>
+                        <div style={{ alignItems: "center", textAlign: "center" }}>
                            <Barcode value={`${details.prefix}-${sample?.sampleId}`} />
                         </div>
                      </div>

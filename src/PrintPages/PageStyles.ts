@@ -5,7 +5,7 @@ const page: CSSProperties = {
    display: "flex",
    flexDirection: "column",
    color: "black",
-   fontSize: 20,
+   fontSize: 18,
 };
 
 const document: CSSProperties = {
@@ -22,16 +22,16 @@ const header: CSSProperties = {
 };
 
 const orgName: CSSProperties = {
-   fontSize: "26px",
+   fontSize: 26,
    fontWeight: "bold",
 };
 
 const normalText: CSSProperties = {
-   fontSize: "22px",
+   fontSize: 20,
 };
 
 const orgLogo: CSSProperties = {
-   height: "45mm",
+   height: "40mm",
 };
 
 const documentBody: CSSProperties = {
@@ -98,16 +98,10 @@ const tableHeaderColNoBorder = (width: string): CSSProperties => {
 
 const tableHeaderLastCol = (width: string): CSSProperties => {
    return {
-      fontWeight: "bold",
-      borderLeftWidth: 1,
-      borderLeftColor: "black",
-      borderLeftStyle: "solid",
-      padding: "2mm",
-      textAlign: "center",
+      ...tableHeaderCol(width),
       borderRightWidth: 1,
       borderRightColor: "black",
       borderRightStyle: "solid",
-      width: width,
    };
 };
 
@@ -116,7 +110,8 @@ const tableCol = (width: string): CSSProperties => {
       borderLeftWidth: 1,
       borderLeftColor: "black",
       borderLeftStyle: "solid",
-      padding: "2mm",
+      paddingLeft: "2mm",
+      paddingRight: "2mm",
       width: width,
    };
 };
@@ -140,7 +135,8 @@ const tableLastCol = (width: string): CSSProperties => {
       borderLeftWidth: 1,
       borderLeftColor: "black",
       borderLeftStyle: "solid",
-      padding: "2mm",
+      paddingLeft: "2mm",
+      paddingRight: "2mm",
       borderRightWidth: 1,
       borderRightColor: "black",
       borderRightStyle: "solid",

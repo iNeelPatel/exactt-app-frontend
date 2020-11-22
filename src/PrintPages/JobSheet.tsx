@@ -42,7 +42,7 @@ export default class JobAllotment extends Component<JobAllotementProps, any> {
                            <div>: </div>
                         </div>
                      </div>
-                     <div style={{ flex: 0.5, alignItems: "center" }}>
+                     <div style={{ flex: 0.5, alignItems: "center", textAlign: "center" }}>
                         <Barcode value={`${details.prefix}-${sample?.sampleId}`} />
                      </div>
                   </div>
