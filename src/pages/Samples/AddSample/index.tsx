@@ -19,7 +19,7 @@ import { searchTestGroups } from "../../../redux/actions/TestGroupsActions";
 import { searchSamplesDetails } from "../../../redux/actions/SamplesDetailsActions";
 import { searchSampleGroup } from "../../../redux/actions/SampleGroupsActions";
 import { searchParameters } from "../../../redux/actions/ParameterActions";
-import { createSample } from "../../../redux/actions/SamplesActions";
+import { createSample, getSample } from "../../../redux/actions/SamplesActions";
 import { getUsers } from "../../../redux/actions/UserActions";
 import { User } from "../../../redux/types/UserTypes";
 
@@ -64,6 +64,9 @@ const AddSampleGroup = (props: Props) => {
       searchParameters,
       searchedParameters,
       createSample,
+      getSample,
+      prefix,
+      sample,
    } = props;
    const { sampleId } = props.match.params;
 
@@ -71,18 +74,21 @@ const AddSampleGroup = (props: Props) => {
    const [loading, setLoading] = useState(true);
    const [basicDetails, setBasicDetails] = useState<any>({});
    const [sampleDetails, setSampleDetails] = useState<any>({});
-   // const [testingDetails, setTestingDetails] = useState<any>({});
    const [userOptions, setUserOptions] = useState<any>([]);
    const [hodOptions, setHodOptions] = useState<any>([]);
 
-   // console.log("basicDetails => ", basicDetails);
-   // console.warn("sampleDetails => ", sampleDetails);
-   // console.warn("testingDetails => ", testingDetails);
-
-   const getUsersFun = async () => {
+   const focus = async () => {
+      if (sampleId) {
+         await getSample(`${sampleId.replace(`${prefix}-`, "")}`);
+      }
       await getUsers();
       setLoading(false);
    };
+
+   useEffect(() => {
+      focus();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
 
    useEffect(() => {
       if (users) {
@@ -99,11 +105,6 @@ const AddSampleGroup = (props: Props) => {
          setHodOptions(hodUserOptions);
       }
    }, [users]);
-
-   useEffect(() => {
-      getUsersFun();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, []);
 
    const breadcrumbItems = [
       { path: "/", name: "Dashboard" },
@@ -229,6 +230,8 @@ const AddSampleGroup = (props: Props) => {
             <GridColumn medium={8}>
                <div style={{ display: step === 0 ? "block" : "none" }}>
                   <BasicDetailsForm
+                     edit={sampleId ? true : false}
+                     editData={sample}
                      onBack={onBack}
                      onSearchCustomers={searchCustomers}
                      searchedCustomers={searchedCustomers}
@@ -242,6 +245,8 @@ const AddSampleGroup = (props: Props) => {
                </div>
                <div style={{ display: step === 1 ? "block" : "none" }}>
                   <SampleForm
+                     edit={sampleId ? true : false}
+                     editData={sample}
                      searchedSamplesDetails={searchedSamplesDetails}
                      onSearchSamplesDetails={searchSamplesDetails}
                      userOptions={userOptions}
@@ -254,6 +259,8 @@ const AddSampleGroup = (props: Props) => {
                </div>
                <div style={{ display: step === 2 ? "block" : "none" }}>
                   <TestDetailsForm
+                     edit={sampleId ? true : false}
+                     editData={sample}
                      onSearchSampleGroup={searchSampleGroup}
                      searchedSampleGroup={searchedSampleGroup}
                      searchedParameters={searchedParameters}
@@ -297,9 +304,9 @@ const AddSampleGroup = (props: Props) => {
                               <Heading mixin={typography.h400} style={style.subHeading}>
                                  Address
                               </Heading>
-                              <span
-                                 style={{ color: colors.N300 }}
-                              >{`${basicDetails.customer.address.line1}, ${basicDetails.customer.address.line2}, ${basicDetails.customer.address.city}, ${basicDetails.customer.address.state}-${basicDetails.customer.address.zip}`}</span>
+                              <span style={{ color: colors.N300 }}>
+                                 {`${basicDetails.customer.address.line1}, ${basicDetails.customer.address.line2}, ${basicDetails.customer.address.city}, ${basicDetails.customer.address.state}-${basicDetails.customer.address.zip}`}
+                              </span>
                            </div>
                         </div>
                      ) : (
@@ -321,12 +328,23 @@ const mapStateToProps = (state: AppState) => ({
    searchedSampleGroup: state.sampleGroup.searchSampleGroup,
    searchedParameters: state.parameter.searchedParameters,
    users: state.user.users,
+   prefix: state.orgnization.details.prefix,
+   sample: state.samples.sample,
 });
 
 function mapDispatchToProps(dispatch: any) {
    return {
       ...bindActionCreators(
-         { searchCustomers, searchTestGroups, searchSamplesDetails, getUsers, searchSampleGroup, searchParameters, createSample },
+         {
+            searchCustomers,
+            searchTestGroups,
+            searchSamplesDetails,
+            getUsers,
+            searchSampleGroup,
+            searchParameters,
+            createSample,
+            getSample,
+         },
          dispatch
       ),
    };

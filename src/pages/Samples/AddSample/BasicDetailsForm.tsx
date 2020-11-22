@@ -13,7 +13,7 @@ import { Customer } from "../../../redux/types/CustomerTypes";
 import { TestGroup } from "../../../redux/types/TestGroupsTypes";
 
 const BasicDetailsForm = (props: BasicDetailsFormProps) => {
-   const { onSearchCustomers, searchedCustomers, searchedTestGroups, onSearchTestGroups } = props;
+   const { onSearchCustomers, searchedCustomers, searchedTestGroups, onSearchTestGroups, edit, editData } = props;
    const [customerSearchKeyword, setCustomerSearchKeyword] = useState("");
    const [customerSearchLoading, setCustomerSearchLoading] = useState(false);
    const [customerOptions, setCustomerOptions] = useState<any>([]);
@@ -72,6 +72,7 @@ const BasicDetailsForm = (props: BasicDetailsFormProps) => {
                   {({ formProps, submitting }: any) => (
                      <form {...formProps}>
                         <Field
+                           isDisabled={edit}
                            label="Customer"
                            isRequired
                            name="customer"
@@ -80,6 +81,7 @@ const BasicDetailsForm = (props: BasicDetailsFormProps) => {
                                  return "CUSTOMER_REQUIRED";
                               }
                            }}
+                           defaultValue={edit ? editData?.customer : undefined}
                         >
                            {({ fieldProps, error }: any) => (
                               <Fragment>
@@ -98,6 +100,7 @@ const BasicDetailsForm = (props: BasicDetailsFormProps) => {
                         <Grid>
                            <GridColumn medium={6}>
                               <Field
+                                 isDisabled={edit}
                                  label="Test Group"
                                  isRequired
                                  name="testGroup"
@@ -106,6 +109,11 @@ const BasicDetailsForm = (props: BasicDetailsFormProps) => {
                                        return "GROUP_REQUIRED";
                                     }
                                  }}
+                                 defaultValue={
+                                    edit
+                                       ? { ...editData?.test_group, label: editData?.test_group.name, value: editData?.test_group.objectId }
+                                       : undefined
+                                 }
                               >
                                  {({ fieldProps, error }: any) => (
                                     <Fragment>
@@ -123,7 +131,12 @@ const BasicDetailsForm = (props: BasicDetailsFormProps) => {
                               </Field>
                            </GridColumn>
                            <GridColumn medium={6}>
-                              <Field label="Date" isRequired name="date" defaultValue={new Date()}>
+                              <Field
+                                 label="Date"
+                                 isRequired
+                                 name="date"
+                                 defaultValue={edit ? moment(editData?.date, "YYYY-MM-DD").toDate() : new Date()}
+                              >
                                  {({ fieldProps }: any) => <DatePicker {...fieldProps} dateFormat="DD/MM/YYYY" isDisabled />}
                               </Field>
                            </GridColumn>
@@ -134,7 +147,7 @@ const BasicDetailsForm = (props: BasicDetailsFormProps) => {
                                  label="Due date"
                                  isRequired
                                  name="dueDate"
-                                 defaultValue={undefined}
+                                 defaultValue={edit ? editData?.due_date : undefined}
                                  validate={(value: any) => {
                                     if (!value) {
                                        return "DATE_REQUIRED";
@@ -159,7 +172,7 @@ const BasicDetailsForm = (props: BasicDetailsFormProps) => {
                                  label="Lab due date"
                                  isRequired
                                  name="labDueDate"
-                                 defaultValue={undefined}
+                                 defaultValue={edit ? editData?.lab_due_date : undefined}
                                  validate={(value: any) => {
                                     if (!value) {
                                        return "DATE_REQUIRED";

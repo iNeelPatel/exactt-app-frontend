@@ -3,6 +3,7 @@ import { Customer } from "../../../redux/types/CustomerTypes";
 import { Parameter } from "../../../redux/types/ParameterTypes";
 import { SampleDetails } from "../../../redux/types/SampleDetailsTypes";
 import { SampleGroup } from "../../../redux/types/SampleGroupTypes";
+import { Sample } from "../../../redux/types/SampleTypes";
 import { TestGroup } from "../../../redux/types/TestGroupsTypes";
 import { User } from "../../../redux/types/UserTypes";
 
@@ -14,6 +15,9 @@ export interface Props extends RouteComponentProps {
    users: User[] | undefined;
    searchedSampleGroup: SampleGroup[] | [];
    searchedParameters: Parameter[] | [];
+   prefix: string;
+   sample: Sample | undefined;
+   getSample: (sampleId: string) => any;
    createSample: (sampleDetails: any) => any;
    getUsers: () => any;
    searchParameters: (keyword: string) => any;
@@ -26,6 +30,8 @@ export interface Props extends RouteComponentProps {
 export interface BasicDetailsFormProps {
    searchedCustomers: Customer[] | undefined;
    searchedTestGroups: TestGroup[] | undefined;
+   editData: Sample | undefined;
+   edit: boolean;
    onBack: () => void;
    onSubmit: (arg0: any) => void;
    onSearchCustomers: (keyword: string) => any;
@@ -40,6 +46,8 @@ export interface PreviewProps {
 export interface SampleFormProps {
    searchedSamplesDetails: SampleDetails[] | undefined;
    userOptions: any[];
+   editData: Sample | undefined;
+   edit: boolean;
    onSearchSamplesDetails: (keywrod: string) => any;
    onBack: () => void;
    onSubmit: (arg0: any) => void;
@@ -51,6 +59,8 @@ export interface TestDetailsFormProps {
    searchedSampleGroup: SampleGroup[] | undefined;
    searchedParameters: Parameter[] | undefined;
    sampleDetails: any;
+   editData: Sample | undefined;
+   edit: boolean;
    onSearchParameters: (keyword: string) => any;
    onSearchSampleGroup: (keyword: string) => any;
    onBack: () => void;

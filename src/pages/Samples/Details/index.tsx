@@ -134,7 +134,7 @@ const SampleDetails = (props: Props) => {
                               type="submit"
                               style={{ height: 38, marginLeft: 10, marginTop: 9 }}
                               appearance="link"
-                              onClick={() => props.history.push("/sample/add")}
+                              onClick={() => props.history.push(`/sample/edit/${sampleId}`)}
                            >
                               Edit
                            </Button>

@@ -11,8 +11,8 @@ import { Props } from "./types";
 import SampleDetails from "./SampleDetails";
 
 const SampleResult = (props: Props) => {
-   // const { sampleResultPermission } = props;
    const { sampleId } = props.match.params;
+   const { sample } = props;
    const breadcrumbItems = [
       { path: "/", name: "Dashboard" },
       { path: "/sample", name: "Sample" },
@@ -26,7 +26,7 @@ const SampleResult = (props: Props) => {
                <Breadcrumb items={breadcrumbItems} screen="Result" />
             </GridColumn>
             <GridColumn medium={12}>
-               <SampleDetails sampleDetails={{}} />
+               <SampleDetails sampleDetails={sample} />
                <ReportDetails details={{}} onSubmit={() => {}} />
             </GridColumn>
          </Grid>
@@ -36,6 +36,7 @@ const SampleResult = (props: Props) => {
 
 const mapStateToProps = (state: AppState) => ({
    sampleResultPermission: state.user.user.role.permission.samples_id_result,
+   sample: state.samples.sample,
 });
 
 export default connect(mapStateToProps)(SampleResult);
