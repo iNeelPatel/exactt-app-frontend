@@ -1,25 +1,39 @@
 // ====================================== Module imports ======================================
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import Button from "@atlaskit/button";
 import AddIcon from "@atlaskit/icon/glyph/add";
 import SearchIcon from "@atlaskit/icon/glyph/search";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import TextField from "@atlaskit/textfield";
 
 // ====================================== File imports ======================================
-import { Breadcrumb } from "../../components";
+import { Breadcrumb, ScreenLoader } from "../../components";
 import AppState from "../../redux/types";
 import { Props } from "./types";
 import SampleList from "./SampleList";
+import { getSamples } from "../../redux/actions/SamplesActions";
 
 const breadcrumbItems = [
    { path: "/", name: "Dashboard" },
    { path: "/sample", name: "Samples" },
 ];
 
-const Sample = (props: Props) => {
-   const { samplePermission } = props;
+const SampleScreen = (props: Props) => {
+   const { samplePermission, getSamples, samples } = props;
+   const [loading, setLoading] = useState(true);
+
+   const focus = async () => {
+      await getSamples();
+      setLoading(false);
+   };
+
+   useEffect(() => {
+      focus();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
+
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
@@ -53,7 +67,7 @@ const Sample = (props: Props) => {
                />
             </GridColumn>
             <GridColumn medium={12}>
-               <SampleList samples={[]} navigationHistory={props.history} />
+               {loading ? <ScreenLoader /> : <SampleList samples={samples} navigationHistory={props.history} />}
             </GridColumn>
          </Grid>
       </Page>
@@ -62,6 +76,13 @@ const Sample = (props: Props) => {
 
 const mapStateToProps = (state: AppState) => ({
    samplePermission: state.user.user.role.permission.samples_id,
+   samples: state.samples.samples,
 });
 
-export default connect(mapStateToProps)(Sample);
+function mapDispatchToProps(dispatch: any) {
+   return {
+      ...bindActionCreators({ getSamples }, dispatch),
+   };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SampleScreen);

@@ -2,7 +2,7 @@
 import React from "react";
 import { colors, typography } from "@atlaskit/theme";
 import Lozenge from "@atlaskit/lozenge";
-
+import moment from "moment";
 // ====================================== File imports ======================================
 import { SampleCardProps } from "./types";
 import { Heading } from "../../components";
@@ -35,38 +35,52 @@ const styles = {
 };
 
 const SampleCard = (props: SampleCardProps) => {
+   const { sample, prefix } = props;
    return (
       <div style={styles.card} onClick={() => props.onClick()}>
          <div style={{ display: "flex", justifyContent: "space-between" }}>
             <Heading mixin={typography.h400} style={{ marginTop: 0 }}>
-               HTL-KSZ-201008043
+               {`${prefix}-${sample.sampleId}`}
             </Heading>
-            <Lozenge appearance="success">Complete</Lozenge>
+            {sample.status === 0 && (
+               <Lozenge appearance="removed" isBold>
+                  Pending
+               </Lozenge>
+            )}
+            {sample.status === 1 && (
+               <Lozenge appearance="inprogress" isBold>
+                  In progress
+               </Lozenge>
+            )}
+            {sample.status === 2 && (
+               <Lozenge appearance="success" isBold>
+                  Complete
+               </Lozenge>
+            )}
          </div>
          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div>Sample Name (comodity name)</div>
-            <div>Customer name | +91 984755938</div>
+            <div>
+               {sample.name} ({sample.generic_name})
+            </div>
+            <div>
+               {sample?.customer?.contact?.email} | {sample?.customer?.contact?.phone}
+            </div>
          </div>
          <div style={{ display: "flex" }}>
             <div style={styles.item}>
                <div style={styles.label}>Due date :</div>
-               <div style={styles.text}>24/10/2020</div>
+               <div style={styles.text}>{moment(sample.due_date).format("DD/MM/YYYY")}</div>
             </div>
             <div style={styles.item}>
                <div style={styles.label}>Parameters :</div>
                <div style={styles.text}>
-                  <div style={styles.parameterTag}>
-                     <Lozenge appearance="success">pH</Lozenge>
-                  </div>
-                  <div style={styles.parameterTag}>
-                     <Lozenge appearance="inprogress">Color</Lozenge>
-                  </div>
-                  <div style={styles.parameterTag}>
-                     <Lozenge appearance="removed">TDS</Lozenge>
-                  </div>
-                  <div style={styles.parameterTag}>
-                     <Lozenge appearance="inprogress">Heavy metals</Lozenge>
-                  </div>
+                  {sample.sampleResultParameters.map((sampleResultParameters) => (
+                     <div style={styles.parameterTag}>
+                        {sampleResultParameters.status === 0 && <Lozenge appearance="removed">{sampleResultParameters.name}</Lozenge>}
+                        {sampleResultParameters.status === 1 && <Lozenge appearance="inprogress">{sampleResultParameters.name}</Lozenge>}
+                        {sampleResultParameters.status === 2 && <Lozenge appearance="success">{sampleResultParameters.name}</Lozenge>}
+                     </div>
+                  ))}
                </div>
             </div>
          </div>

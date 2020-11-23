@@ -8,6 +8,7 @@ import { CustomerDetailsProps } from "./types";
 import { Heading } from "../../../components";
 
 const CustomerDetails = (props: CustomerDetailsProps) => {
+   const { customer } = props;
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
@@ -18,16 +19,18 @@ const CustomerDetails = (props: CustomerDetailsProps) => {
                <Grid layout="fluid">
                   <GridColumn medium={6}>
                      <div style={{ color: colors.N300 }}>
-                        <div>Neel Patel</div>
-                        <div>+91-9876787656</div>
-                        <div>neelpatel@senselab.in</div>
+                        <div>{customer?.contact?.name}</div>
+                        <div>{customer?.contact?.phone}</div>
+                        <div>{customer?.contact?.email}</div>
                      </div>
                   </GridColumn>
                   <GridColumn medium={6}>
                      <div style={{ textAlign: "right", color: colors.N300 }}>
-                        <div>E/1 Vasudev Bungalows, B/H Annpurna Hotel,</div>
-                        <div>Jashodanagar, Vatva Road</div>
-                        <div>Ahmedabad, Gujarat - 382445,</div>
+                        <div>{customer?.address?.line1}</div>
+                        <div>{customer?.address?.line2}</div>
+                        <div>
+                           {customer?.address?.city} {customer?.address?.state} - {customer?.address?.zip}
+                        </div>
                      </div>
                   </GridColumn>
                </Grid>

@@ -1,5 +1,5 @@
 // ====================================== Module imports ======================================
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import Form, { Field, ErrorMessage } from "@atlaskit/form";
 import Select, { CreatableSelect } from "@atlaskit/select";
@@ -9,41 +9,63 @@ import Button from "@atlaskit/button";
 
 // ====================================== File imports ======================================
 import { SampleFormProps } from "./types";
+import { SampleDetails } from "../../../redux/types/SampleDetailsTypes";
 
 const SampleForm = (props: SampleFormProps) => {
+   const { onSearchSamplesDetails, searchedSamplesDetails, userOptions } = props;
+
+   const [sampleDetailsSearchKeyword, setSampleDetailsSearchKeyword] = useState("");
+   const [sampleDetailsSearchLoading, setSampleDetailsSearchLoading] = useState(false);
+   const [sampleDetailsOptions, setSampleDetailsOptions] = useState<any>([]);
+   const [sampleName, setSampleName] = useState<any>({});
+
+   const sampleDetailsSearch = async () => {
+      setSampleDetailsSearchLoading(true);
+      await onSearchSamplesDetails(sampleDetailsSearchKeyword);
+      setSampleDetailsSearchLoading(false);
+   };
+
+   useEffect(() => {
+      sampleDetailsSearch();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [sampleDetailsSearchKeyword]);
+
+   useEffect(() => {
+      let sampleDetailsOptions: any = searchedSamplesDetails?.map((sampleDetails: SampleDetails) => ({
+         ...sampleDetails,
+         label: sampleDetails.name,
+         value: sampleDetails.objectId,
+      }));
+      setSampleDetailsOptions(sampleDetailsOptions);
+   }, [searchedSamplesDetails]);
+
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
             <GridColumn medium={12}>
                <Form
                   onSubmit={async (data: any) => {
-                     props.onSubmit(data);
+                     props.onSubmit({ ...data, sampleName });
                   }}
                >
-                  {({ formProps, submitting }: any) => (
+                  {({ formProps, submitting, setFieldValue }: any) => (
                      <form {...formProps} noValidate={true}>
-                        <Field
-                           label="Sample Name"
-                           isRequired
-                           name="sampleName"
-                           validate={(value: any) => {
-                              if (!value) {
-                                 return "SAMPLE_NAME_REQUIRED";
-                              }
-                           }}
-                        >
+                        <Field label="Sample Name" isRequired name="sampleName">
                            {({ fieldProps, error }: any) => (
                               <Fragment>
                                  <CreatableSelect
                                     {...fieldProps}
                                     validationState={error === "SAMPLE_NAME_REQUIRED" && "error"}
-                                    options={[
-                                       { label: "Range", value: "range" },
-                                       { label: "Valid", value: "valid" },
-                                       { label: "Options", value: "options" },
-                                       { label: "Complies", value: "complies" },
-                                    ]}
-                                    placeholder="Select customer"
+                                    options={sampleDetailsOptions}
+                                    placeholder="Select sample"
+                                    isLoading={sampleDetailsSearchLoading}
+                                    onInputChange={(keyword) => setSampleDetailsSearchKeyword(keyword)}
+                                    onChange={(value: any) => {
+                                       let label: string = value.label.replace('Create "', "").replace('"', "");
+                                       setSampleName({ ...value, label });
+                                       setFieldValue("genericName", value.genericName ? value.genericName : "");
+                                    }}
+                                    value={sampleName}
                                  />
                                  {error === "SAMPLE_NAME_REQUIRED" && <ErrorMessage>Sample name is required.</ErrorMessage>}
                               </Fragment>
@@ -73,7 +95,7 @@ const SampleForm = (props: SampleFormProps) => {
                                  label="Collection date"
                                  isRequired
                                  name="collectionDate"
-                                 defaultValue={new Date()}
+                                 defaultValue={undefined}
                                  validate={(value: any) => {
                                     if (!value) {
                                        return "COLLECTION_DATE_REQUIRED";
@@ -88,7 +110,7 @@ const SampleForm = (props: SampleFormProps) => {
                                  label="Manufacture date"
                                  isRequired
                                  name="mfgDate"
-                                 defaultValue={new Date()}
+                                 defaultValue={undefined}
                                  validate={(value: any) => {
                                     if (!value) {
                                        return "MFG_DATE_REQUIRED";
@@ -103,7 +125,7 @@ const SampleForm = (props: SampleFormProps) => {
                                  label="Expiration date"
                                  isRequired
                                  name="expDate"
-                                 defaultValue={new Date()}
+                                 defaultValue={undefined}
                                  validate={(value: any) => {
                                     if (!value) {
                                        return "EXP_DATE_REQUIRED";
@@ -418,13 +440,8 @@ const SampleForm = (props: SampleFormProps) => {
                                        <Select
                                           {...fieldProps}
                                           validationState={error === "SAMPLE_NAME_REQUIRED" && "error"}
-                                          options={[
-                                             { label: "Range", value: "range" },
-                                             { label: "Valid", value: "valid" },
-                                             { label: "Options", value: "options" },
-                                             { label: "Complies", value: "complies" },
-                                          ]}
-                                          placeholder="Select customer"
+                                          options={userOptions}
+                                          placeholder="Select user"
                                        />
                                        {error === "COLLECTED_BY_REQUIRED" && <ErrorMessage>Collected by is required.</ErrorMessage>}
                                     </Fragment>

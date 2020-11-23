@@ -3,6 +3,7 @@ import React from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import { colors } from "@atlaskit/theme";
 import { typography } from "@atlaskit/theme";
+import moment from "moment";
 
 // ====================================== File imports ======================================
 import { Heading, Divider } from "../../components";
@@ -26,15 +27,16 @@ const styles = {
 };
 
 const SampleDetails = (props: SampleDetailsProps) => {
+   const { sampleDetails } = props;
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
             <GridColumn medium={12}>
                <Heading mixin={typography.h300} style={{ marginTop: 1 }}>
-                  Sample name
+                  {sampleDetails?.name}
                </Heading>
                <Heading mixin={typography.h200} style={{ marginTop: 1 }}>
-                  HTL-KSZ-201008043
+                  {sampleDetails?.sampleId}
                </Heading>
             </GridColumn>
          </Grid>
@@ -43,33 +45,33 @@ const SampleDetails = (props: SampleDetailsProps) => {
             <GridColumn medium={4}>
                <div style={styles.item}>
                   <div style={styles.label}>Method</div>
-                  <div style={styles.text}>ISO 15203 - 2003</div>
+                  <div style={styles.text}>{sampleDetails?.test_method_group.name}</div>
                </div>
                <div style={styles.item}>
                   <div style={styles.label}>Batch no</div>
-                  <div style={styles.text}>HNKS9123MS</div>
+                  <div style={styles.text}>{sampleDetails?.batch_no}</div>
                </div>
             </GridColumn>
 
             <GridColumn medium={4}>
                <div style={styles.item}>
                   <div style={styles.label}>Sample date</div>
-                  <div style={styles.text}>17/10/2020</div>
+                  <div style={styles.text}>{moment(sampleDetails?.date, "YYYY-MM-DD").format("DD/MM/YYYY")}</div>
                </div>
                <div style={styles.item}>
                   <div style={styles.label}>Marking</div>
-                  <div style={styles.text}>N/A</div>
+                  <div style={styles.text}>{sampleDetails?.marking}</div>
                </div>
             </GridColumn>
 
             <GridColumn medium={4}>
                <div style={styles.item}>
                   <div style={styles.label}>Due date</div>
-                  <div style={styles.text}>17/10/2020</div>
+                  <div style={styles.text}>{moment(sampleDetails?.due_date).format("DD/MM/YYYY")}</div>
                </div>
                <div style={styles.item}>
                   <div style={styles.label}>Sample Qty</div>
-                  <div style={styles.text}>4 Nos.</div>
+                  <div style={styles.text}>{sampleDetails?.sample_qty}</div>
                </div>
             </GridColumn>
          </Grid>

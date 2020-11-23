@@ -89,7 +89,6 @@ const AddTestMethod = (props: AddTestMethodFormProps) => {
                                  onInputChange={(keyword) => setSearchKeyword(keyword)}
                                  isLoading={false}
                                  onChange={(options: OptionType) => {
-                                    console.log(options);
                                     setSelectedParameters(options);
                                  }}
                                  menuIsOpen={dropdownOpen}

@@ -1,24 +1,119 @@
 // ====================================== Module imports ======================================
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import Form, { Field, ErrorMessage } from "@atlaskit/form";
 import Button from "@atlaskit/button";
 import TextField from "@atlaskit/textfield";
-import Select from "@atlaskit/select";
+import Select, { OptionType } from "@atlaskit/select";
 import { Checkbox } from "@atlaskit/checkbox";
 
 // ====================================== File imports ======================================
 import { TestDetailsFormProps } from "./types";
+import { Parameter } from "../../../redux/types/ParameterTypes";
+import { SampleGroup } from "../../../redux/types/SampleGroupTypes";
 
 const TestDetailsForm = (props: TestDetailsFormProps) => {
+   const {
+      hodOptions,
+      searchedParameters,
+      searchedSampleGroup,
+      onSearchParameters,
+      onSearchSampleGroup,
+      sampleDetails,
+      isNewSample,
+   } = props;
    const [dropdownOpen, setDropdownOpen] = useState(false);
+   const [parameterSearchKeyword, setParameterSearchKeyword] = useState("");
+   const [parameterSearchLoading, setParameterSearchLoading] = useState(false);
+   const [parameterOptions, setParameterOptions] = useState<any>([]);
+   const [sampleGroupSearchKeyword, setSampleGroupSearchKeyword] = useState("");
+   const [sampleGroupSearchLoading, setSampleGroupSearchLoading] = useState(false);
+   const [sampleGroupOptions, setSampleGroupOptions] = useState<any>([]);
+   const [parameterSearchable, setParameterSearchable] = useState(true);
+   const [includeAllParameters, setIncludeAllParameters] = useState<any>(false);
+   const [selectedParameters, setSelectedParameters] = useState<any>([]);
+
+   const sampleGroupSearch = async () => {
+      setSampleGroupSearchLoading(true);
+      await onSearchSampleGroup(sampleGroupSearchKeyword);
+      setSampleGroupSearchLoading(false);
+   };
+
+   const parameterSearch = async () => {
+      setParameterSearchLoading(true);
+      await onSearchParameters(parameterSearchKeyword);
+      setParameterSearchLoading(false);
+   };
+
+   useEffect(() => {
+      if (parameterSearchable) {
+         parameterSearch();
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [parameterSearchKeyword]);
+
+   useEffect(() => {
+      let parameterOptions: any = searchedParameters?.map((parameter: Parameter) => ({
+         ...parameter,
+         label: parameter.name,
+         value: parameter.objectId,
+      }));
+      setParameterOptions(parameterOptions);
+   }, [searchedParameters]);
+
+   useEffect(() => {
+      if (isNewSample === true) {
+         sampleGroupSearch();
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [sampleGroupSearchKeyword]);
+
+   useEffect(() => {
+      let sampleGroupOptions: any = searchedSampleGroup?.map((sampleGroup: SampleGroup) => ({
+         ...sampleGroup,
+         label: sampleGroup.name,
+         value: sampleGroup.objectId,
+      }));
+      setSampleGroupOptions(sampleGroupOptions);
+   }, [searchedSampleGroup]);
+
+   useEffect(() => {
+      if (includeAllParameters) {
+         setSelectedParameters(parameterOptions);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [includeAllParameters]);
+
+   useEffect(() => {
+      if (isNewSample === false) {
+         let sampleGroupOptions = sampleDetails?.sampleGroups?.map((sampleGroup: any) => ({
+            ...sampleGroup,
+            label: sampleGroup.name,
+            parameters: sampleGroup.parameters.map((parameter: any) => ({
+               ...parameter,
+               parameter: parameter?.parameter?.toJSON(),
+            })),
+            value: sampleGroup.objectId,
+         }));
+
+         setSampleGroupOptions(sampleGroupOptions);
+      }
+   }, [isNewSample, sampleDetails]);
+
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
             <GridColumn medium={12}>
                <Form
                   onSubmit={async (data: any) => {
-                     props.onSubmit(data);
+                     let parameters: any = selectedParameters.map((parameter: any): any => ({
+                        ...parameter,
+                        sampleGroup: parameter?.sampleGroup?.toJSON(),
+                        parameter: parameter?.parameter?.objectId,
+                        department: parameter?.parameter?.department?.objectId,
+                     }));
+                     console.log({ ...data, parameters });
+                     await props.onSubmit({ ...data, parameters });
                   }}
                >
                   {({ formProps, submitting }: any) => (
@@ -52,6 +147,18 @@ const TestDetailsForm = (props: TestDetailsFormProps) => {
                                     if (!value) {
                                        return "TEST_GROUP_REQUIRED";
                                     }
+                                    if (value?.value === "N/A") {
+                                       setParameterSearchable(true);
+                                    } else {
+                                       setParameterSearchable(false);
+                                       let parameterOptions = value?.parameters.map((parameter: any) => ({
+                                          ...parameter,
+                                          name: parameter?.parameter?.name,
+                                          label: parameter?.parameter?.name,
+                                          value: parameter?.objectId,
+                                       }));
+                                       setParameterOptions(parameterOptions);
+                                    }
                                  }}
                               >
                                  {({ fieldProps, error }: any) => (
@@ -59,13 +166,14 @@ const TestDetailsForm = (props: TestDetailsFormProps) => {
                                        <Select
                                           {...fieldProps}
                                           validationState={error === "SAMPLING_METHOD_REQUIRED" && "error"}
-                                          options={[
-                                             { label: "Range", value: "range" },
-                                             { label: "Valid", value: "valid" },
-                                             { label: "Options", value: "options" },
-                                             { label: "Complies", value: "complies" },
-                                          ]}
+                                          options={
+                                             sampleGroupOptions?.length > 0
+                                                ? [{ label: "N/A", value: "N/A" }, ...sampleGroupOptions]
+                                                : [{ label: "N/A", value: "N/A" }]
+                                          }
                                           placeholder="Select test group"
+                                          onInputChange={(value) => setSampleGroupSearchKeyword(value)}
+                                          isLoading={sampleGroupSearchLoading}
                                        />
                                        {error === "TEST_GROUP_REQUIRED" && <ErrorMessage>Test group is required.</ErrorMessage>}
                                     </Fragment>
@@ -74,37 +182,33 @@ const TestDetailsForm = (props: TestDetailsFormProps) => {
                            </GridColumn>
                         </Grid>
 
-                        <Field
-                           label="Parameters"
-                           isRequired
-                           name="parameters"
-                           validate={(value: any) => {
-                              if (!value) {
-                                 return "PARAMETERS_REQUIRED";
-                              }
-                           }}
-                        >
+                        <Field label="Parameters" isRequired name="parameters">
                            {({ fieldProps, error }: any) => (
                               <Fragment>
                                  <Select
                                     isMulti
                                     {...fieldProps}
-                                    validationState={error === "SAMPLING_METHOD_REQUIRED" && "error"}
-                                    options={[
-                                       { label: "Range", value: "range" },
-                                       { label: "Valid", value: "valid" },
-                                       { label: "Options", value: "options" },
-                                       { label: "Complies", value: "complies" },
-                                    ]}
+                                    validationState={error === "PARAMETERS_REQUIRED" && "error"}
+                                    options={parameterOptions}
                                     placeholder="Select test group"
                                     menuIsOpen={dropdownOpen}
                                     onMenuOpen={() => setDropdownOpen(true)}
                                     onBlur={() => setDropdownOpen(false)}
+                                    isLoading={parameterSearchLoading}
+                                    onInputChange={(value: string) => setParameterSearchKeyword(value)}
+                                    onChange={(selectedOptions: OptionType) => {
+                                       setSelectedParameters(selectedOptions);
+                                    }}
+                                    isDisabled={includeAllParameters}
+                                    value={selectedParameters}
                                  />
                                  <Checkbox
-                                    value="Add all parameters"
+                                    value={includeAllParameters}
                                     label="Add all parameters"
-                                    onChange={() => {}}
+                                    onChange={() => {
+                                       setIncludeAllParameters(!includeAllParameters);
+                                    }}
+                                    defaultChecked={false}
                                     name="all-parameters"
                                  />
                                  {error === "PARAMETERS_REQUIRED" && <ErrorMessage>Test group is required.</ErrorMessage>}
@@ -123,17 +227,10 @@ const TestDetailsForm = (props: TestDetailsFormProps) => {
                                  {({ fieldProps, error }: any) => (
                                     <Fragment>
                                        <Select
-                                          isMulti
                                           {...fieldProps}
                                           validationState={error === "HOD_REQUIRED" && "error"}
-                                          options={[
-                                             { label: "Range", value: "range" },
-                                             { label: "Valid", value: "valid" },
-                                             { label: "Options", value: "options" },
-                                             { label: "Complies", value: "complies" },
-                                          ]}
-                                          placeholder="Select test group"
-                                          menuIsOpen={dropdownOpen}
+                                          options={hodOptions}
+                                          placeholder="Select hod"
                                        />
                                        {error === "PARAMETERS_REQUIRED" && <ErrorMessage>HOD is required.</ErrorMessage>}
                                     </Fragment>

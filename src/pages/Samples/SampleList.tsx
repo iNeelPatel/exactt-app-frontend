@@ -3,9 +3,11 @@ import React from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import { colors } from "@atlaskit/theme";
 import SampleCard from "./SampleCard";
+import { connect } from "react-redux";
 
 // ====================================== File imports ======================================
 import { SampleListProps } from "./types";
+import AppState from "../../redux/types";
 
 const styles = {
    mainCard: {
@@ -23,20 +25,23 @@ const styles = {
 };
 
 const SampleList = (props: SampleListProps) => {
+   const { samples, prefix } = props;
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
             <GridColumn medium={12}>
                <div style={styles.mainCard}>
-                  <SampleCard sample={{}} onClick={() => props.navigationHistory.push("/sample/id/HTL-KSZ-201008043")} />
-                  <SampleCard sample={{}} onClick={() => props.navigationHistory.push("/sample/id/HTL-KSZ-201008043")} />
-                  <SampleCard sample={{}} onClick={() => props.navigationHistory.push("/sample/id/HTL-KSZ-201008043")} />
-                  <SampleCard sample={{}} onClick={() => props.navigationHistory.push("/sample/id/HTL-KSZ-201008043")} />
-                  <SampleCard sample={{}} onClick={() => props.navigationHistory.push("/sample/id/HTL-KSZ-201008043")} />
-                  <SampleCard sample={{}} onClick={() => props.navigationHistory.push("/sample/id/HTL-KSZ-201008043")} />
-                  <SampleCard sample={{}} onClick={() => props.navigationHistory.push("/sample/id/HTL-KSZ-201008043")} />
-                  <SampleCard sample={{}} onClick={() => props.navigationHistory.push("/sample/id/HTL-KSZ-201008043")} />
-                  <SampleCard sample={{}} onClick={() => props.navigationHistory.push("/sample/id/HTL-KSZ-201008043")} />
+                  {samples.length > 0 ? (
+                     samples.map((sample) => (
+                        <SampleCard
+                           sample={sample}
+                           prefix={prefix}
+                           onClick={() => props.navigationHistory.push(`/sample/id/${prefix}-${sample.sampleId}`)}
+                        />
+                     ))
+                  ) : (
+                     <div style={{ display: "flex", justifyContent: "center" }}>No sample found</div>
+                  )}
                </div>
             </GridColumn>
          </Grid>
@@ -44,4 +49,8 @@ const SampleList = (props: SampleListProps) => {
    );
 };
 
-export default SampleList;
+const mapStateToProps = (state: AppState) => ({
+   prefix: state.orgnization.details.prefix,
+});
+
+export default connect(mapStateToProps)(SampleList);
