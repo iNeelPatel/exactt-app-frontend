@@ -45,8 +45,8 @@ const ParameterDetails = (props: ParameterDetailsProps) => {
                   {assignedParameters?.map((parameter, idx) => (
                      <Grid layout="fluid">
                         <div style={{ display: "flex", flex: 1, alignItems: "center", marginTop: 5 }}>
-                           <GridColumn medium={3}>{parameter.name}</GridColumn>
-                           <GridColumn medium={2}>{parameter.department.get("name")}</GridColumn>
+                           <GridColumn medium={3}>{parameter?.name}</GridColumn>
+                           <GridColumn medium={2}>{parameter?.department?.get("name")}</GridColumn>
                            <GridColumn medium={3}>
                               <Select
                                  options={usersOptions}
@@ -72,7 +72,7 @@ const ParameterDetails = (props: ParameterDetailsProps) => {
                                     );
                                     setAssignedParameters(updateAssignedParameters);
                                  }}
-                                 value={parameter.assign_date.toString()}
+                                 value={parameter?.assign_date?.toString()}
                               />
                            </GridColumn>
                            <GridColumn medium={2}>
@@ -86,7 +86,7 @@ const ParameterDetails = (props: ParameterDetailsProps) => {
                                     );
                                     setAssignedParameters(updateAssignedParameters);
                                  }}
-                                 value={parameter.due_date.toString()}
+                                 value={parameter?.due_date?.toString()}
                               />
                            </GridColumn>
                         </div>
