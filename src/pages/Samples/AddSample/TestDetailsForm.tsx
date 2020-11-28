@@ -112,7 +112,6 @@ const TestDetailsForm = (props: TestDetailsFormProps) => {
                         parameter: parameter?.parameter?.objectId,
                         department: parameter?.parameter?.department?.objectId,
                      }));
-                     console.log({ ...data, parameters });
                      await props.onSubmit({ ...data, parameters });
                   }}
                >

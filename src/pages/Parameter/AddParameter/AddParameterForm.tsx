@@ -29,17 +29,17 @@ const AddSampleGroup = (props: AddParameterFormProps) => {
                      <form {...formProps}>
                         <Grid>
                            <GridColumn medium={8}>
-                              <Field label="Name" isRequired name="name" defaultValue={edit && editData && editData.name}>
+                              <Field label="Name" isRequired name="name" defaultValue={edit && editData ? editData.name : undefined}>
                                  {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                               </Field>
                            </GridColumn>
                            <GridColumn medium={4}>
-                              <Field label="Unit" isRequired name="unit" defaultValue={edit && editData && editData.unit}>
+                              <Field label="Unit" isRequired name="unit" defaultValue={edit && editData ? editData.unit : undefined}>
                                  {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                               </Field>
                            </GridColumn>
                         </Grid>
-                        <Field label="Method" isRequired name="method" defaultValue={edit && editData && editData.method}>
+                        <Field label="Method" isRequired name="method" defaultValue={edit && editData ? editData.method : undefined}>
                            {({ fieldProps }: any) => <Textfield {...fieldProps} />}
                         </Field>
                         <Field

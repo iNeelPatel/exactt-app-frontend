@@ -27,7 +27,17 @@ const SampleResult = (props: Props) => {
             </GridColumn>
             <GridColumn medium={12}>
                <SampleDetails sampleDetails={sample} />
-               <ReportDetails details={{}} onSubmit={() => {}} />
+               <ReportDetails
+                  parameters={sample?.sampleResultParameters.map((parameter) => ({
+                     ...parameter,
+                     assign_to: parameter.assign_to && {
+                        ...parameter.assign_to.toJSON(),
+                        label: parameter.assign_to.toJSON().name,
+                        value: parameter.assign_to.toJSON().objectId,
+                     },
+                  }))}
+                  onSubmit={() => {}}
+               />
             </GridColumn>
          </Grid>
       </Page>

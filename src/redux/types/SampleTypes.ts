@@ -76,7 +76,7 @@ export interface SampleResultParameters {
    result: string;
    unit: string;
    condition_type: string;
-   validation: Object;
+   validation: { min: number; max: number } | any;
    method: string;
    requirement: string;
    nabl: boolean;

@@ -217,6 +217,7 @@ const SampleDetails = (props: Props) => {
                   <Heading mixin={typography.h200} style={{ marginTop: 1, marginBottom: 8, textTransform: "uppercase" }}>
                      Parameters
                   </Heading>
+                  {console.log(sample?.sampleResultParameters)}
                   <ParametersDetails
                      assignSample={handleAssignSample}
                      usersOptions={usersOptions}
