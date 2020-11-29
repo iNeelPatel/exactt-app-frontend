@@ -1,7 +1,6 @@
 import { SampleGroupState } from "../types/SampleGroupTypes";
 import { ActionInterface } from "../types/ActionDispatch";
 import ActionTypes from "../actions";
-import { stat } from "fs";
 
 const initialState: SampleGroupState = {
    sampleGroups: [],
