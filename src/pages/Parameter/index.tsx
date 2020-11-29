@@ -7,13 +7,14 @@ import { connect } from "react-redux";
 import DynamicTable from "@atlaskit/dynamic-table";
 import EditIcon from "@atlaskit/icon/glyph/edit";
 import { bindActionCreators } from "redux";
+import Modal, { ModalTransition } from "@atlaskit/modal-dialog";
 
 // ====================================== File imports ======================================
 import { Breadcrumb, DeleteButton } from "../../components";
 import AppState from "../../redux/types";
 import { Props } from "./types";
 import { Parameter } from "../../redux/types/ParameterTypes";
-import { getParameters } from "../../redux/actions/ParameterActions";
+import { getParameters, deleteParameter } from "../../redux/actions/ParameterActions";
 
 const breadcrumbItems = [
    { path: "/", name: "Organization Settings" },
@@ -21,9 +22,19 @@ const breadcrumbItems = [
 ];
 
 const ParameterPage = (props: Props) => {
-   const { sampleParameterPermission, getParameters, parameters } = props;
+   const { sampleParameterPermission, getParameters, parameters, deleteParameter } = props;
    const [loading, setLoading] = useState(true);
    const [rows, setRows] = useState([]);
+   const [deleteParameterData, setDeleteParameterData] = useState<any>(undefined);
+   const [isDeleting, setisDeleting] = useState(false);
+
+   const close = () => setDeleteParameterData(undefined);
+   const handleDelete = async () => {
+      setisDeleting(true);
+      await deleteParameter(deleteParameterData?.objectId);
+      setDeleteParameterData(undefined);
+      setisDeleting(false);
+   };
 
    const head: any = {
       cells: [
@@ -92,7 +103,7 @@ const ParameterPage = (props: Props) => {
                      >
                         Edit
                      </Button>
-                     <DeleteButton onClick={() => props.history.push(`/organizationsettings/parameter`)} />
+                     <DeleteButton onClick={() => setDeleteParameterData(parameter)} />
                   </div>
                ),
             },
@@ -149,6 +160,20 @@ const ParameterPage = (props: Props) => {
                />
             </GridColumn>
          </Grid>
+         <ModalTransition>
+            {deleteParameterData && (
+               <Modal
+                  actions={[
+                     { text: "Delete", onClick: handleDelete, isLoading: isDeleting, appearance: "danger" },
+                     { text: "Cancle", onClick: close },
+                  ]}
+                  onClose={close}
+                  heading="Delete"
+               >
+                  Are you sure you want to delete <strong>{deleteParameterData.name}</strong> ?
+               </Modal>
+            )}
+         </ModalTransition>
       </Page>
    );
 };
@@ -160,7 +185,7 @@ const mapStateToProps = (state: AppState) => ({
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ getParameters }, dispatch),
+      ...bindActionCreators({ getParameters, deleteParameter }, dispatch),
    };
 }
 

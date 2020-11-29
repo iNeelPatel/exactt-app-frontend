@@ -62,7 +62,7 @@ export default (state: UserState = initialState, action: ActionInterface): UserS
       case ActionTypes.DELETE_USERS:
          return {
             ...state,
-            user: state.user.filter((item: any) => item.objectId !== action.payload.objectId),
+            users: state.users.filter((item: any) => item.objectId !== action.payload.objectId),
          };
 
       default:

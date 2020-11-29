@@ -8,12 +8,13 @@ import DynamicTable from "@atlaskit/dynamic-table";
 import EditIcon from "@atlaskit/icon/glyph/edit";
 import { bindActionCreators } from "redux";
 import Lozenge from "@atlaskit/lozenge";
+import Modal, { ModalTransition } from "@atlaskit/modal-dialog";
 
 // ====================================== File imports ======================================
 import { Breadcrumb, DeleteButton } from "../../components";
 import AppState from "../../redux/types";
 import { Props } from "./types";
-import { getSamplesDetails } from "../../redux/actions/SamplesDetailsActions";
+import { getSamplesDetails, deleteSampleDetail } from "../../redux/actions/SamplesDetailsActions";
 import { SampleDetails } from "../../redux/types/SampleDetailsTypes";
 
 const breadcrumbItems = [
@@ -22,13 +23,23 @@ const breadcrumbItems = [
 ];
 
 const SampleDetailScreen = (props: Props) => {
-   const { sampleDetailPermission, getSamplesDetails, samplesDetails } = props;
+   const { sampleDetailPermission, getSamplesDetails, samplesDetails, deleteSampleDetail } = props;
    const [loading, setLoading] = useState(true);
    const [rows, setRows] = useState<any>([]);
+   const [deleteSample, setDeleteSample] = useState<any>(undefined);
+   const [isDeleting, setisDeleting] = useState(false);
 
    const focus = async () => {
       await getSamplesDetails();
       setLoading(false);
+   };
+
+   const close = () => setDeleteSample(undefined);
+   const handleDelete = async () => {
+      setisDeleting(true);
+      await deleteSampleDetail(deleteSample?.objectId);
+      setDeleteSample(undefined);
+      setisDeleting(false);
    };
 
    useEffect(() => {
@@ -100,7 +111,7 @@ const SampleDetailScreen = (props: Props) => {
                      >
                         Edit
                      </Button>
-                     <DeleteButton onClick={() => props.history.push(`/organizationsettings/sampledetail/`)} />
+                     <DeleteButton onClick={() => setDeleteSample(sampleDetail)} />
                   </div>
                ),
             },
@@ -147,6 +158,20 @@ const SampleDetailScreen = (props: Props) => {
                />
             </GridColumn>
          </Grid>
+         <ModalTransition>
+            {deleteSample && (
+               <Modal
+                  actions={[
+                     { text: "Delete", onClick: handleDelete, isLoading: isDeleting, appearance: "danger" },
+                     { text: "Cancle", onClick: close },
+                  ]}
+                  onClose={close}
+                  heading="Delete"
+               >
+                  Are you sure you want to delete <strong>{deleteSample.name}</strong> ?
+               </Modal>
+            )}
+         </ModalTransition>
       </Page>
    );
 };
@@ -158,7 +183,7 @@ const mapStateToProps = (state: AppState) => ({
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ getSamplesDetails }, dispatch),
+      ...bindActionCreators({ getSamplesDetails, deleteSampleDetail }, dispatch),
    };
 }
 

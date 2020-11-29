@@ -96,3 +96,18 @@ export function getSampleDetails(objectId: string) {
       }
    };
 }
+
+export function deleteSampleDetail(objectId: string) {
+   return async (dispatch: DispatchType): Promise<SampleDetails[]> => {
+      try {
+         let res = await Parse.Cloud.run("deleteSampleDetail", { objectId });
+         dispatch({
+            type: ActionsTypes.DELETE_SAMPLE_DETAILS,
+            payload: res,
+         });
+         return res;
+      } catch (error) {
+         return error;
+      }
+   };
+}

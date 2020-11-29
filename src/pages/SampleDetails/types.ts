@@ -8,4 +8,5 @@ export interface Props extends RouteComponentProps {
       write: boolean;
    };
    samplesDetails: SampleDetails[] | undefined;
+   deleteSampleDetail: (arg0: any) => any;
 }

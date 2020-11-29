@@ -40,6 +40,12 @@ export default (state: TestGroupState = initialState, action: ActionInterface): 
             searchedTestGroups: action.payload,
          };
 
+      case ActionTypes.DELETE_TEST_GROUP:
+         return {
+            ...state,
+            testGroup: action.payload,
+         };
+
       default:
          return state;
    }

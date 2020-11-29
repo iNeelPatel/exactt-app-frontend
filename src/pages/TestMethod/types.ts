@@ -8,4 +8,5 @@ export interface Props extends RouteComponentProps {
    };
    sampleGroups: SampleGroup[] | undefined;
    getSampleGroups: () => any;
+   deleteSampleGroup: (arg0: any) => any;
 }

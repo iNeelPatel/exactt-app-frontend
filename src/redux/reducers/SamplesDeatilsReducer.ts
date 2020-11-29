@@ -40,6 +40,12 @@ export default (state: SampleDetailsState = initialState, action: ActionInterfac
             searchedSamplesDetails: action.payload,
          };
 
+      case ActionTypes.DELETE_SAMPLE_DETAILS:
+         return {
+            ...state,
+            sampleDetails: action.payload,
+         };
+
       default:
          return state;
    }

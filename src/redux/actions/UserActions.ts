@@ -185,22 +185,16 @@ export function getUsers() {
    };
 }
 
-export function deleteUser() {
+export function deleteUser(userId: string) {
    return async (dispatch: DispatchType): Promise<void> => {
       try {
-         let res = await Parse.Cloud.run("deleteUser");
-         let users = await res.map((user: any) => ({
-            ...user,
-            role: user.role.toJSON(),
-            department: user.department ? user?.department?.toJSON() : { name: "Admin", objectId: "" },
-         }));
+         let formData = {
+            objectId: userId,
+         };
+         let res = await Parse.Cloud.run("deleteUser", formData);
          dispatch({
             type: ActionsTypes.DELETE_USERS,
-            payload: {
-               ...res,
-               role: res?.role?.toJSON(),
-               department: res.department ? res?.department?.toJSON() : { name: "Admin", objectId: "" },
-            },
+            payload: res,
          });
          return res;
       } catch (error) {

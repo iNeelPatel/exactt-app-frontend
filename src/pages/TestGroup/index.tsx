@@ -7,12 +7,13 @@ import { connect } from "react-redux";
 import DynamicTable from "@atlaskit/dynamic-table";
 import EditIcon from "@atlaskit/icon/glyph/edit";
 import { bindActionCreators } from "redux";
+import Modal, { ModalTransition } from "@atlaskit/modal-dialog";
 
 // ====================================== File imports ======================================
 import { Breadcrumb, DeleteButton } from "../../components";
 import { Props } from "./types";
 import AppState from "../../redux/types";
-import { getTestGroups } from "../../redux/actions/TestGroupsActions";
+import { getTestGroups, deleteTestGroup } from "../../redux/actions/TestGroupsActions";
 import { TestGroup } from "../../redux/types/TestGroupsTypes";
 
 const breadcrumbItems = [
@@ -24,8 +25,18 @@ const TestGroupPage = (props: Props) => {
    const [loading, setLoading] = useState(true);
    const { sampleGroupPermission } = props;
    const [rows, setRows] = useState<any>([]);
+   const [deleteTestGroupData, setDeleteTestGroupData] = useState<any>(undefined);
+   const [isDeleting, setisDeleting] = useState(false);
 
-   const { getTestGroups, testGroups } = props;
+   const { getTestGroups, testGroups, deleteTestGroup } = props;
+
+   const close = () => setDeleteTestGroupData(undefined);
+   const handleDelete = async () => {
+      setisDeleting(true);
+      await deleteTestGroup(deleteTestGroupData?.objectId);
+      setDeleteTestGroupData(undefined);
+      setisDeleting(false);
+   };
 
    const head: any = {
       cells: [
@@ -86,7 +97,7 @@ const TestGroupPage = (props: Props) => {
                      >
                         Edit
                      </Button>
-                     <DeleteButton onClick={() => props.history.push(`/organizationsettings/testgroup/`)} />
+                     <DeleteButton onClick={() => setDeleteTestGroupData(testGroup)} />
                   </div>
                ),
             },
@@ -143,6 +154,20 @@ const TestGroupPage = (props: Props) => {
                />
             </GridColumn>
          </Grid>
+         <ModalTransition>
+            {deleteTestGroupData && (
+               <Modal
+                  actions={[
+                     { text: "Delete", onClick: handleDelete, isLoading: isDeleting, appearance: "danger" },
+                     { text: "Cancle", onClick: close },
+                  ]}
+                  onClose={close}
+                  heading="Delete"
+               >
+                  Are you sure you want to delete <strong>{deleteTestGroupData.name}</strong> ?
+               </Modal>
+            )}
+         </ModalTransition>
       </Page>
    );
 };
@@ -154,7 +179,7 @@ const mapStateToProps = (state: AppState) => ({
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ getTestGroups }, dispatch),
+      ...bindActionCreators({ getTestGroups, deleteTestGroup }, dispatch),
    };
 }
 

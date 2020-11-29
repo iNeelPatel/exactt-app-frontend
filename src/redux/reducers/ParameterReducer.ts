@@ -39,6 +39,11 @@ export default (state: ParameterState = initialState, action: ActionInterface): 
             ...state,
             searchedParameters: action.payload,
          };
+      case ActionTypes.DELETE_PATAMETER:
+         return {
+            ...state,
+            parameter: action.payload,
+         };
 
       default:
          return state;

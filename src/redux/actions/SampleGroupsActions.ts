@@ -111,3 +111,19 @@ export function searchSampleGroup(keyword: string) {
       }
    };
 }
+
+export function deleteSampleGroup(objectId: string) {
+   return async (dispatch: DispatchType): Promise<SampleGroup[]> => {
+      try {
+         let res = await Parse.Cloud.run("deleteSampleGroup", { objectId });
+         dispatch({
+            type: ActionsTypes.DELETE_SAMPLE_GROUP,
+            payload: res,
+         });
+         return res;
+      } catch (error) {
+         AlertBox(dispatch, "error", "error");
+         return error;
+      }
+   };
+}

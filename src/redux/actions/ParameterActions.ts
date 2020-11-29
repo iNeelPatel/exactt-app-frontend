@@ -108,3 +108,18 @@ export function searchParameters(keyword: string) {
       }
    };
 }
+
+export function deleteParameter(objectId: string) {
+   return async (dispatch: DispatchType): Promise<Parameter> => {
+      try {
+         let res = await Parse.Cloud.run("deleteParameter", { objectId });
+         dispatch({
+            type: ActionsTypes.DELETE_PATAMETER,
+            payload: res,
+         });
+         return res;
+      } catch (error) {
+         return error;
+      }
+   };
+}
