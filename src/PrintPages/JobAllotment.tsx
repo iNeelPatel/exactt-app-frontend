@@ -47,9 +47,9 @@ export default class JobAllotment extends Component<JobAllotementProps, any> {
             {sample?.sampleResultParameters.map((parameter, idx) => (
                <div style={PageStyles.tableRow}>
                   <div style={PageStyles.tableColCenterText("6%")}>{idx + 1}.</div>
-                  <div style={PageStyles.tableCol("23%")}>{parameter.department.get("name")}</div>
-                  <div style={PageStyles.tableCol("31%")}>{parameter.name}</div>
-                  <div style={PageStyles.tableLastCol("40%")}>{parameter.assign_to ? parameter.assign_to.get("name") : "N/A"}</div>
+                  <div style={PageStyles.tableCol("23%")}>{parameter?.department?.get("name")}</div>
+                  <div style={PageStyles.tableCol("31%")}>{parameter?.name}</div>
+                  <div style={PageStyles.tableLastCol("40%")}>{parameter.assign_to ? parameter?.assign_to?.get("name") : "N/A"}</div>
                </div>
             ))}
          </div>

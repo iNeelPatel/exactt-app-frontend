@@ -1,5 +1,5 @@
 // ====================================== Module imports ======================================
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useCallback } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import Form, { Field } from "@atlaskit/form";
 import TextField from "@atlaskit/textfield";
@@ -8,6 +8,14 @@ import { DatePicker } from "@atlaskit/datetime-picker";
 import { Checkbox } from "@atlaskit/checkbox";
 import { typography, colors } from "@atlaskit/theme";
 import Select from "@atlaskit/select";
+import { useDropzone } from "react-dropzone";
+import Folder48Icon from "@atlaskit/icon-file-type/glyph/folder/48";
+import Image24Icon from "@atlaskit/icon-file-type/glyph/image/24";
+import Document24Icon from "@atlaskit/icon-file-type/glyph/document/24";
+import Video24Icon from "@atlaskit/icon-file-type/glyph/video/24";
+import PdfDocument24Icon from "@atlaskit/icon-file-type/glyph/pdf-document/24";
+import Generic24Icon from "@atlaskit/icon-file-type/glyph/generic/24";
+import AddIcon from "@atlaskit/icon/glyph/add";
 
 // ====================================== File imports ======================================
 import { Divider, Heading } from "../../components";
@@ -17,8 +25,32 @@ import { SampleResultParameters } from "../../redux/types/SampleTypes";
 const TestDetailsForm = (props: ReportDetailProps) => {
    const { parameters } = props;
    const [resultsParameter, setResultsParameter] = useState<SampleResultParameters[] | undefined>(parameters);
+   const [files, setFiles] = useState<File[]>([]);
 
-   console.log(resultsParameter);
+   const onDrop = useCallback(
+      (acceptedFiles: File[]) => {
+         const updateFiles = [...files, ...acceptedFiles];
+         setFiles(updateFiles);
+         // eslint-disable-next-line react-hooks/exhaustive-deps
+      },
+      [files]
+   );
+
+   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
+   const formatFileSize = (bytes: any, decimalPoint: any): any => {
+      if (bytes === 0) return "0 Bytes";
+      var k = 1000,
+         dm = decimalPoint || 2,
+         sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"],
+         i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+   };
+
+   const handleDeleteFile = (index: number): void => {
+      let updateFiles = files.filter((item, idx) => index !== idx);
+      setFiles(updateFiles);
+   };
 
    return (
       <Page>
@@ -66,7 +98,7 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                         <Divider />
                         <Grid spacing="cosy" layout="fluid">
                            <GridColumn medium={12}>
-                              <div className="scroll-view" style={{ overflow: "scroll", overflowX: "scroll" }}>
+                              <div className="scroll-view" style={{ overflowX: "scroll", overflowY: "scroll" }}>
                                  <div style={{ display: "flex" }}>
                                     <Heading
                                        mixin={typography.h200}
@@ -219,13 +251,10 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                                  </div>
                                  {resultsParameter?.map((parameter, idx) => {
                                     let validOptions;
-                                    let invalidOptions;
+                                    let invalidOptions: any;
                                     let options;
                                     if (parameter.condition_type === "options") {
-                                       validOptions = parameter.validation.validOptions
-                                          ?.split(",")
-                                          ?.concat(parameter.validation.invalidOptions.split(","))
-                                          ?.map((option: any) => ({ label: option, value: option }));
+                                       validOptions = parameter.validation.validOptions.split(",");
                                        invalidOptions = parameter.validation.invalidOptions.split(",");
                                        options = validOptions
                                           .concat(invalidOptions)
@@ -240,7 +269,7 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                                              {parameter?.department?.get("name")}
                                           </div>
                                           <div style={{ margin: 0, paddingLeft: 4, minWidth: 150, maxWidth: 150 }}>
-                                             {parameter.assign_to.name}
+                                             {parameter.assign_to ? parameter.assign_to.name : "N/A"}
                                           </div>
                                           <div style={{ margin: 0, paddingLeft: 4, minWidth: 170, maxWidth: 170 }}>
                                              {parameter.condition_type === "range" ? (
@@ -249,7 +278,7 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                                                    style={{ maxWidth: 170 }}
                                                    onChange={(event: any) => {
                                                       let result = event.target.value;
-                                                      let resultInt = parseInt(result);
+                                                      let resultInt = parseFloat(result);
                                                       let nagative = !(
                                                          resultInt >= parameter.validation.min && resultInt <= parameter.validation.max
                                                       );
@@ -262,7 +291,18 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                                                 />
                                              ) : null}
                                              {parameter.condition_type === "options" ? (
-                                                <Select options={options} placeholder="Select option" />
+                                                <Select
+                                                   options={options}
+                                                   placeholder="Select option"
+                                                   onChange={(result: any) => {
+                                                      let nagative =
+                                                         invalidOptions.find((item: any) => item === result.value) !== undefined;
+                                                      let updateParameters: any = resultsParameter.map((data, index) =>
+                                                         index === idx ? { ...data, result, nagative } : data
+                                                      );
+                                                      setResultsParameter(updateParameters);
+                                                   }}
+                                                />
                                              ) : null}
                                              {parameter.condition_type === "valid" ? (
                                                 <Select
@@ -271,6 +311,43 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                                                       ?.concat(parameter.validation.invalidResult.split(","))
                                                       ?.map((option: any) => ({ label: option, value: option }))}
                                                    placeholder="Select option"
+                                                   onChange={(result: any) => {
+                                                      let invalidResult = parameter.validation.invalidResult.split(",");
+                                                      let nagative = invalidResult.find((item: any) => item === result.value) !== undefined;
+                                                      let updateParameters: any = resultsParameter.map((data, index) =>
+                                                         index === idx ? { ...data, result, nagative } : data
+                                                      );
+                                                      setResultsParameter(updateParameters);
+                                                   }}
+                                                   value={parameter.result}
+                                                />
+                                             ) : null}
+                                             {parameter.condition_type === "complies" ? (
+                                                <TextField
+                                                   style={{ maxWidth: 170 }}
+                                                   onChange={(event: any) => {
+                                                      let result = event.target.value;
+                                                      let nagative = false;
+                                                      let updateParameters: any = resultsParameter.map((data, index) =>
+                                                         index === idx ? { ...data, result, nagative } : data
+                                                      );
+                                                      setResultsParameter(updateParameters);
+                                                   }}
+                                                   value={parameter.result}
+                                                />
+                                             ) : null}
+                                             {!parameter.condition_type ? (
+                                                <TextField
+                                                   style={{ maxWidth: 170 }}
+                                                   onChange={(event: any) => {
+                                                      let result = event.target.value;
+                                                      let nagative = false;
+                                                      let updateParameters: any = resultsParameter.map((data, index) =>
+                                                         index === idx ? { ...data, result, nagative } : data
+                                                      );
+                                                      setResultsParameter(updateParameters);
+                                                   }}
+                                                   value={parameter.result}
                                                 />
                                              ) : null}
                                           </div>
@@ -284,12 +361,43 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                                              <Checkbox
                                                 value="Generate URL number"
                                                 label=""
+                                                isDisabled={!parameter.condition_type ? false : true}
                                                 isChecked={parameter.nabl}
-                                                onChange={() => {}}
+                                                onChange={() => {
+                                                   if (!parameter.condition_type) {
+                                                      let updateParameters: any = resultsParameter.map((data, index) =>
+                                                         index === idx ? { ...data, nabl: !parameter.nabl } : data
+                                                      );
+                                                      setResultsParameter(updateParameters);
+                                                   }
+                                                }}
                                                 name="all-parameters"
                                              />
                                           </div>
-                                          <div style={{ margin: 0, paddingLeft: 4, minWidth: 60, maxWidth: 60, cursor: "pointer" }}>
+                                          <div
+                                             style={{
+                                                margin: 0,
+                                                paddingLeft: 4,
+                                                minWidth: 60,
+                                                maxWidth: 60,
+                                                cursor:
+                                                   (parameter.result && parameter.condition_type === "complies") ||
+                                                   !parameter.condition_type
+                                                      ? "pointer"
+                                                      : "not-allowed",
+                                             }}
+                                             onClick={() => {
+                                                if (
+                                                   (parameter.result && parameter.condition_type === "complies") ||
+                                                   !parameter.condition_type
+                                                ) {
+                                                   let updateParameters: any = resultsParameter.map((data, index) =>
+                                                      index === idx ? { ...data, nagative: !parameter.nagative } : data
+                                                   );
+                                                   setResultsParameter(updateParameters);
+                                                }
+                                             }}
+                                          >
                                              {parameter.result ? (
                                                 parameter.nagative ? (
                                                    <span style={{ fontWeight: "bolder" }}>Yes</span>
@@ -310,7 +418,69 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                         <Divider />
 
                         <Grid spacing="cosy" layout="fluid">
-                           <GridColumn medium={12}>Document picker here</GridColumn>
+                           <GridColumn medium={12}>
+                              <div
+                                 style={{
+                                    backgroundColor: colors.N10A,
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    borderRadius: 10,
+                                    padding: 10,
+                                 }}
+                              >
+                                 {files.map((file, idx) => (
+                                    <div style={{ display: "flex", margin: 2, flexDirection: "column" }}>
+                                       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                                          <div style={{ display: "flex" }}>
+                                             {file.type.split("/")[0] === "image" ? (
+                                                <Image24Icon label="image" />
+                                             ) : file.type.split("/")[0] === "text" ? (
+                                                <Document24Icon label="text" />
+                                             ) : file.type.split("/")[0] === "video" ? (
+                                                <Video24Icon label="video" />
+                                             ) : file.type.split("/")[1] === "pdf" ? (
+                                                <PdfDocument24Icon label="pdf" />
+                                             ) : (
+                                                <Generic24Icon label="file" />
+                                             )}{" "}
+                                             <div style={{ width: 350, overflow: "hidden", marginLeft: 20 }}>{file.name}</div>
+                                          </div>
+                                          <div style={{ width: 150, textAlign: "center" }}>{formatFileSize(file.size, 2)}</div>
+                                          <div>
+                                             <Button appearance="link" size={15} onClick={() => handleDeleteFile(idx)}>
+                                                Remove
+                                             </Button>
+                                          </div>
+                                       </div>
+                                       <Divider />
+                                    </div>
+                                 ))}
+                                 <div
+                                    {...getRootProps()}
+                                    style={{
+                                       display: "flex",
+                                       flexDirection: "column",
+                                       justifyContent: "center",
+                                       alignItems: "center",
+                                       outline: "none",
+                                    }}
+                                 >
+                                    {files.length === 0 ? <Folder48Icon label="file" size="medium" /> : null}
+                                    <p style={{ color: colors.N500, margin: 20, marginTop: files.length === 0 ? 0 : 10 }}>
+                                       {isDragActive
+                                          ? "Drop file here"
+                                          : "Drag 'n' drop some files here, or click on \"Add file\" button to select files"}
+                                    </p>
+
+                                    <div>
+                                       <input {...getInputProps()} style={{ outline: "none", display: "none" }} />
+                                       <Button appearance="primary" iconBefore={<AddIcon label="Add icon" size="small" />}>
+                                          Add files
+                                       </Button>
+                                    </div>
+                                 </div>
+                              </div>
+                           </GridColumn>
                         </Grid>
 
                         <Grid spacing="cosy" layout="fluid">

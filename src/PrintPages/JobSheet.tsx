@@ -12,11 +12,11 @@ export default class JobAllotment extends Component<JobAllotementProps, any> {
          <div className="print-container" style={{ margin: "0", padding: "0" }}>
             <div style={PageStyles.header}>
                <div>
-                  <div style={PageStyles.orgName}>{details.name}</div>
-                  <div style={PageStyles.normalText}>{details.address.line1}</div>
-                  <div style={PageStyles.normalText}>{details.address.line2}</div>
-                  <div style={PageStyles.normalText}>{`${details.address.city}, ${details.address.state}-${details.address.zip}`}</div>
-                  <div style={PageStyles.normalText}>{`M: ${details.contact.phone} Email: ${details.contact.email}`}</div>
+                  <div style={PageStyles.orgName}>{details?.name}</div>
+                  <div style={PageStyles.normalText}>{details?.address?.line1}</div>
+                  <div style={PageStyles.normalText}>{details?.address?.line2}</div>
+                  <div style={PageStyles.normalText}>{`${details?.address?.city}, ${details?.address?.state}-${details?.address?.zip}`}</div>
+                  <div style={PageStyles.normalText}>{`M: ${details?.contact?.phone} Email: ${details?.contact?.email}`}</div>
                </div>
                <img src={details.logo.toJSON().url} alt="logo" style={PageStyles.orgLogo} />
             </div>
@@ -56,8 +56,8 @@ export default class JobAllotment extends Component<JobAllotementProps, any> {
             {sample?.sampleResultParameters.map((parameter, idx) => (
                <div style={PageStyles.tableRow}>
                   <div style={PageStyles.tableColCenterText("6%")}>{idx + 1}.</div>
-                  <div style={PageStyles.tableCol("25%")}>{parameter.department.get("name")}</div>
-                  <div style={PageStyles.tableCol("34%")}>{parameter.name}</div>
+                  <div style={PageStyles.tableCol("25%")}>{parameter?.department?.get("name")}</div>
+                  <div style={PageStyles.tableCol("34%")}>{parameter?.name}</div>
                   <div style={PageStyles.tableLastCol("35%")}></div>
                </div>
             ))}

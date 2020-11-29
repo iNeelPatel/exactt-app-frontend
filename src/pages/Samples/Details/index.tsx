@@ -37,6 +37,8 @@ const SampleDetails = (props: Props) => {
    const [usersOptions, setusersOptions] = useState<any>([]);
    const sampleIdWithoutPrefix: string = sampleId.replace(`${prefix}-`, "");
 
+   const PrinterIcon = require("../../../assets/images/printer.svg");
+
    const focus = async () => {
       await getSample(sampleIdWithoutPrefix);
       await getUsers();
@@ -91,6 +93,9 @@ const SampleDetails = (props: Props) => {
                            <PrintContextConsumer>
                               {({ handlePrint }) => (
                                  <Button style={{ height: 38, marginLeft: 10, marginTop: 9 }} appearance="link" onClick={handlePrint}>
+                                    <span>
+                                       <img src={PrinterIcon} alt="printer" width={12} style={{ marginRight: 5 }} />
+                                    </span>{" "}
                                     Job Allotment
                                  </Button>
                               )}
@@ -101,6 +106,9 @@ const SampleDetails = (props: Props) => {
                            <PrintContextConsumer>
                               {({ handlePrint }) => (
                                  <Button style={{ height: 38, marginLeft: 10, marginTop: 9 }} appearance="link" onClick={handlePrint}>
+                                    <span>
+                                       <img src={PrinterIcon} alt="printer" width={12} style={{ marginRight: 5 }} />
+                                    </span>{" "}
                                     Test Request
                                  </Button>
                               )}
@@ -111,6 +119,9 @@ const SampleDetails = (props: Props) => {
                            <PrintContextConsumer>
                               {({ handlePrint }) => (
                                  <Button style={{ height: 38, marginLeft: 10, marginTop: 9 }} appearance="link" onClick={handlePrint}>
+                                    <span>
+                                       <img src={PrinterIcon} alt="printer" width={12} style={{ marginRight: 5 }} />
+                                    </span>{" "}
                                     Job Sheet
                                  </Button>
                               )}
@@ -217,7 +228,6 @@ const SampleDetails = (props: Props) => {
                   <Heading mixin={typography.h200} style={{ marginTop: 1, marginBottom: 8, textTransform: "uppercase" }}>
                      Parameters
                   </Heading>
-                  {console.log(sample?.sampleResultParameters)}
                   <ParametersDetails
                      assignSample={handleAssignSample}
                      usersOptions={usersOptions}

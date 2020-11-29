@@ -14,4 +14,5 @@ export interface Parameter {
    unit: string;
    method: string;
    department: Departments;
+   toJSON: () => any;
 }

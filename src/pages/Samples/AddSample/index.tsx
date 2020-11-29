@@ -153,7 +153,6 @@ const AddSampleGroup = (props: Props) => {
       formData["hod"] = testingData.hod.value;
       formData["parameters"] = testingData.parameters;
 
-      console.log(formData);
       try {
          await createSample(formData);
          onBack();

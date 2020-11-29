@@ -27,7 +27,7 @@ const styles = {
 };
 
 const SampleDetails = (props: SampleDetailsProps) => {
-   const { sampleDetails } = props;
+   const { sampleDetails, sampleId } = props;
    return (
       <Page>
          <Grid spacing="compact" layout="fluid">
@@ -36,7 +36,7 @@ const SampleDetails = (props: SampleDetailsProps) => {
                   {sampleDetails?.name}
                </Heading>
                <Heading mixin={typography.h200} style={{ marginTop: 1 }}>
-                  {sampleDetails?.sampleId}
+                  {sampleId}
                </Heading>
             </GridColumn>
          </Grid>

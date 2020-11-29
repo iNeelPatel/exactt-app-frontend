@@ -90,7 +90,7 @@ export default class JobAllotment extends Component<TestRequestProps, any> {
                {sample?.sampleResultParameters.map((parameter, idx) => (
                   <div style={{ display: "flex" }}>
                      <div style={PageStyles.tableColNoBorder("6%")}>{idx + 1}.</div>
-                     <div style={PageStyles.tableColNoBorder("96%")}>{parameter.name}</div>
+                     <div style={PageStyles.tableColNoBorder("96%")}>{parameter?.name}</div>
                   </div>
                ))}
             </div>

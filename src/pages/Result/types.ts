@@ -12,6 +12,7 @@ export interface Props extends RouteComponentProps {
 
 export interface SampleDetailsProps {
    sampleDetails: Sample | undefined;
+   sampleId: string;
 }
 
 export interface ReportDetailsProps {}

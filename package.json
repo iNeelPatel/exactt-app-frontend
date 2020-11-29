@@ -13,6 +13,7 @@
       "@atlaskit/dynamic-table": "^14.1.1",
       "@atlaskit/form": "^8.1.0",
       "@atlaskit/icon": "^21.0.2",
+      "@atlaskit/icon-file-type": "^6.0.6",
       "@atlaskit/inline-edit": "^11.0.2",
       "@atlaskit/lozenge": "^10.0.5",
       "@atlaskit/menu": "^0.6.0",

@@ -26,7 +26,7 @@ const SampleResult = (props: Props) => {
                <Breadcrumb items={breadcrumbItems} screen="Result" />
             </GridColumn>
             <GridColumn medium={12}>
-               <SampleDetails sampleDetails={sample} />
+               <SampleDetails sampleDetails={sample} sampleId={sampleId} />
                <ReportDetails
                   parameters={sample?.sampleResultParameters.map((parameter) => ({
                      ...parameter,
@@ -35,6 +35,7 @@ const SampleResult = (props: Props) => {
                         label: parameter.assign_to.toJSON().name,
                         value: parameter.assign_to.toJSON().objectId,
                      },
+                     parameter: parameter.parameter.toJSON(),
                   }))}
                   onSubmit={() => {}}
                />
