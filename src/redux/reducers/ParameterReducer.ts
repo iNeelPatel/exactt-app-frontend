@@ -42,7 +42,7 @@ export default (state: ParameterState = initialState, action: ActionInterface): 
       case ActionTypes.DELETE_PATAMETER:
          return {
             ...state,
-            parameter: action.payload,
+            parameters: state.parameters.filter((item: any) => item.objectId !== action.payload.objectId),
          };
 
       default:

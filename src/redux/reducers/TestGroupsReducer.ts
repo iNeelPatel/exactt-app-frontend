@@ -43,7 +43,7 @@ export default (state: TestGroupState = initialState, action: ActionInterface): 
       case ActionTypes.DELETE_TEST_GROUP:
          return {
             ...state,
-            testGroup: action.payload,
+            testGroups: state.testGroups.filter((item: any) => item.objectId !== action.payload.objectId),
          };
 
       default:

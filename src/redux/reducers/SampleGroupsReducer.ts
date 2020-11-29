@@ -1,6 +1,7 @@
 import { SampleGroupState } from "../types/SampleGroupTypes";
 import { ActionInterface } from "../types/ActionDispatch";
 import ActionTypes from "../actions";
+import { stat } from "fs";
 
 const initialState: SampleGroupState = {
    sampleGroups: [],
@@ -42,7 +43,7 @@ export default (state: SampleGroupState = initialState, action: ActionInterface)
       case ActionTypes.DELETE_SAMPLE_GROUP:
          return {
             ...state,
-            sampleGroup: action.payload,
+            sampleGroups: state.sampleGroups.filter((item: any) => item.objectId !== action.payload.objectId),
          };
 
       default:
