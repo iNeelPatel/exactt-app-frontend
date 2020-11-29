@@ -1,10 +1,13 @@
-const { app, BrowserWindow } = require("electron");
-const isDev = require("electron-is-dev");
+const electron = require("electron");
+const app = electron.app;
+const BrowserWindow = electron.BrowserWindow;
+
 const path = require("path");
+const isDev = require("electron-is-dev");
 
 let mainWindow;
 
-const createWindow = () => {
+function createWindow() {
    mainWindow = new BrowserWindow({
       title: "Exactt",
       fullscreen: true,
@@ -12,14 +15,20 @@ const createWindow = () => {
       frame: false,
       icon: __dirname + "/Icon/AppIcon.icns",
    });
-   const startURL = isDev ? "http://localhost:3000" : `file://${path.join(__dirname, "../build/index.html")}`;
-
-   mainWindow.loadURL(startURL);
-
-   mainWindow.once("ready-to-show", () => mainWindow.show());
-   mainWindow.on("closed", () => {
-      mainWindow = null;
-   });
-};
+   mainWindow.loadURL(isDev ? "http://localhost:3000" : `file://${path.join(__dirname, "../build/index.html")}`);
+   mainWindow.on("closed", () => (mainWindow = null));
+}
 
 app.on("ready", createWindow);
+
+app.on("window-all-closed", () => {
+   if (process.platform !== "darwin") {
+      app.quit();
+   }
+});
+
+app.on("activate", () => {
+   if (mainWindow === null) {
+      createWindow();
+   }
+});
