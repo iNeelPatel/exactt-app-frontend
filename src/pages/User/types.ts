@@ -6,5 +6,6 @@ export interface Props extends RouteComponentProps {
       write: boolean;
    };
    getUsers: () => any;
+   deleteUser: (arg0: any) => any;
    users: Array<object>;
 }

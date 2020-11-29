@@ -8,12 +8,13 @@ import DynamicTable from "@atlaskit/dynamic-table";
 import EditIcon from "@atlaskit/icon/glyph/edit";
 import { bindActionCreators } from "redux";
 import Lozenge from "@atlaskit/lozenge";
+import Modal, { ModalTransition } from "@atlaskit/modal-dialog";
 
 // ====================================== File imports ======================================
 import { Breadcrumb, DeleteButton } from "../../components";
 import AppState from "../../redux/types";
 import { Props } from "./types";
-import { getSampleGroups } from "../../redux/actions/SampleGroupsActions";
+import { getSampleGroups, deleteSampleGroup } from "../../redux/actions/SampleGroupsActions";
 import { SampleGroup } from "../../redux/types/SampleGroupTypes";
 
 const breadcrumbItems = [
@@ -22,9 +23,19 @@ const breadcrumbItems = [
 ];
 
 const TestMethod = (props: Props) => {
-   const { testMethodPermission, getSampleGroups, sampleGroups } = props;
+   const { testMethodPermission, getSampleGroups, sampleGroups, deleteSampleGroup } = props;
    const [loading, setLoading] = useState(true);
    const [rows, setRows] = useState([]);
+   const [deleteSampleGroupData, setDeleteSampleGroupData] = useState<any>(undefined);
+   const [isDeleting, setisDeleting] = useState(false);
+
+   const close = () => setDeleteSampleGroupData(undefined);
+   const handleDelete = async () => {
+      setisDeleting(true);
+      await deleteSampleGroup(deleteSampleGroupData?.objectId);
+      setDeleteSampleGroupData(undefined);
+      setisDeleting(false);
+   };
 
    const head: any = {
       cells: [
@@ -78,7 +89,7 @@ const TestMethod = (props: Props) => {
                      >
                         Edit
                      </Button>
-                     <DeleteButton onClick={() => props.history.push(`/organizationsettings/testmethod/`)} />
+                     <DeleteButton onClick={() => setDeleteSampleGroupData(testMethod)} />
                   </div>
                ),
             },
@@ -135,6 +146,20 @@ const TestMethod = (props: Props) => {
                />
             </GridColumn>
          </Grid>
+         <ModalTransition>
+            {deleteSampleGroupData && (
+               <Modal
+                  actions={[
+                     { text: "Delete", onClick: handleDelete, isLoading: isDeleting, appearance: "danger" },
+                     { text: "Cancle", onClick: close },
+                  ]}
+                  onClose={close}
+                  heading="Delete"
+               >
+                  Are you sure you want to delete <strong>{deleteSampleGroupData.name}</strong> ?
+               </Modal>
+            )}
+         </ModalTransition>
       </Page>
    );
 };
@@ -146,7 +171,7 @@ const mapStateToProps = (state: AppState) => ({
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ getSampleGroups }, dispatch),
+      ...bindActionCreators({ getSampleGroups, deleteSampleGroup }, dispatch),
    };
 }
 

@@ -8,4 +8,5 @@ export interface Props extends RouteComponentProps {
    };
    getTestGroups: () => any;
    testGroups: any;
+   deleteTestGroup: (arg0: any) => any;
 }

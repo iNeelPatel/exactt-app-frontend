@@ -39,6 +39,11 @@ export default (state: SampleGroupState = initialState, action: ActionInterface)
             ...state,
             searchSampleGroup: action.payload,
          };
+      case ActionTypes.DELETE_SAMPLE_GROUP:
+         return {
+            ...state,
+            sampleGroups: state.sampleGroups.filter((item: any) => item.objectId !== action.payload.objectId),
+         };
 
       default:
          return state;

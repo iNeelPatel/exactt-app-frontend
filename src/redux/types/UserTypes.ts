@@ -3,6 +3,7 @@ export interface UserState {
    userData?: any;
    users?: any;
    createUser?: any;
+   delete?: any;
 }
 
 export interface User {

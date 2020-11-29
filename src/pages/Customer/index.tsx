@@ -7,11 +7,12 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import DynamicTable from "@atlaskit/dynamic-table";
 import EditIcon from "@atlaskit/icon/glyph/edit";
+import Modal, { ModalTransition } from "@atlaskit/modal-dialog";
 
 // ====================================== File imports ======================================
 import { Props } from "./types";
 import { Breadcrumb, ScreenLoader, DeleteButton } from "../../components";
-import { getCustomers, setDetailsCustomer } from "../../redux/actions/CustomerActions";
+import { getCustomers, deleteCustomer, setDetailsCustomer } from "../../redux/actions/CustomerActions";
 import AppState from "../../redux/types";
 import { Customer } from "../../redux/types/CustomerTypes";
 
@@ -21,9 +22,19 @@ const breadcrumbItems = [
 ];
 
 const CustomerScreen = (props: Props) => {
-   const { customers } = props;
+   const { customers, deleteCustomer } = props;
+   const [deleteCustomerData, setDeleteCustomerData] = useState<Customer | undefined>(undefined);
    const [loading, setLoading] = useState<boolean>(true);
    const [rows, setRows] = useState<any>([]);
+   const [isDeleting, setisDeleting] = useState(false);
+
+   const close = () => setDeleteCustomerData(undefined);
+   const handleDelete = async () => {
+      setisDeleting(true);
+      await deleteCustomer(deleteCustomerData?.objectId);
+      setDeleteCustomerData(undefined);
+      setisDeleting(false);
+   };
 
    const focus = async () => {
       await props.getCustomers();
@@ -86,7 +97,7 @@ const CustomerScreen = (props: Props) => {
                      >
                         Edit
                      </Button>
-                     <DeleteButton onClick={() => props.history.push(`/customer/edit/${customer.objectId}`)} />
+                     <DeleteButton onClick={() => setDeleteCustomerData(customer)} />
                   </div>
                ),
             },
@@ -177,6 +188,20 @@ const CustomerScreen = (props: Props) => {
                />
             </GridColumn>
          </Grid>
+         <ModalTransition>
+            {deleteCustomerData && (
+               <Modal
+                  actions={[
+                     { text: "Delete", onClick: handleDelete, isLoading: isDeleting, appearance: "danger" },
+                     { text: "Cancle", onClick: close },
+                  ]}
+                  onClose={close}
+                  heading="Delete"
+               >
+                  Are you sure you want to delete <strong>{deleteCustomerData.name}</strong> ?
+               </Modal>
+            )}
+         </ModalTransition>
       </Page>
    );
 };
@@ -188,7 +213,7 @@ const mapStateToProps = (state: AppState) => ({
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ getCustomers, setDetailsCustomer }, dispatch),
+      ...bindActionCreators({ getCustomers, deleteCustomer, setDetailsCustomer }, dispatch),
    };
 }
 

@@ -59,6 +59,12 @@ export default (state: UserState = initialState, action: ActionInterface): UserS
             userData: action.payload,
          };
 
+      case ActionTypes.DELETE_USERS:
+         return {
+            ...state,
+            users: state.users.filter((item: any) => item.objectId !== action.payload.objectId),
+         };
+
       default:
          return state;
    }

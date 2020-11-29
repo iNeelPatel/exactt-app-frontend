@@ -7,12 +7,13 @@ import EditIcon from "@atlaskit/icon/glyph/edit";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import DynamicTable from "@atlaskit/dynamic-table";
+import Modal, { ModalTransition } from "@atlaskit/modal-dialog";
 
 // ====================================== File imports ======================================
 import { Breadcrumb, DeleteButton } from "../../components";
 import { Props } from "./types";
 import AppState from "../../redux/types";
-import { getUsers } from "../../redux/actions/UserActions";
+import { getUsers, deleteUser } from "../../redux/actions/UserActions";
 
 const breadcrumbItems = [
    { path: "/", name: "Organization Settings" },
@@ -20,9 +21,19 @@ const breadcrumbItems = [
 ];
 
 const User = (props: Props) => {
-   const { userPermission, getUsers, users } = props;
+   const { userPermission, getUsers, users, deleteUser } = props;
+   const [deleteUserData, setDeleteUserData] = useState<any>(undefined);
    const [loading, setLoading] = useState(true);
    const [rows, setRows] = useState<any>([]);
+   const [isDeleting, setisDeleting] = useState(false);
+
+   const close = () => setDeleteUserData(undefined);
+   const handleDelete = async () => {
+      setisDeleting(true);
+      await deleteUser(deleteUserData?.objectId);
+      setDeleteUserData(undefined);
+      setisDeleting(false);
+   };
 
    const focus = async () => {
       await getUsers();
@@ -71,7 +82,7 @@ const User = (props: Props) => {
                         Edit
                      </Button>
                      <DeleteButton
-                        onClick={() => props.history.push(`/organizationsettings/user/edit/${user.objectId}`)}
+                        onClick={() => setDeleteUserData(user)}
                         isDisabled={user.department.name === "Admin"}
                      />
                   </div>
@@ -164,6 +175,20 @@ const User = (props: Props) => {
                />
             </GridColumn>
          </Grid>
+         <ModalTransition>
+            {deleteUserData && (
+               <Modal
+                  actions={[
+                     { text: "Delete", onClick: handleDelete, isLoading: isDeleting, appearance: "danger" },
+                     { text: "Cancle", onClick: close },
+                  ]}
+                  onClose={close}
+                  heading="Delete"
+               >
+                  Are you sure you want to delete <strong>{deleteUserData.name}</strong> ?
+               </Modal>
+            )}
+         </ModalTransition>
       </Page>
    );
 };
@@ -176,7 +201,7 @@ const mapStateToProps = (state: AppState) => ({
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ getUsers }, dispatch),
+      ...bindActionCreators({ getUsers, deleteUser }, dispatch),
    };
 }
 

@@ -184,3 +184,21 @@ export function getUsers() {
       }
    };
 }
+
+export function deleteUser(userId: string) {
+   return async (dispatch: DispatchType): Promise<void> => {
+      try {
+         let formData = {
+            objectId: userId,
+         };
+         let res = await Parse.Cloud.run("deleteUser", formData);
+         dispatch({
+            type: ActionsTypes.DELETE_USERS,
+            payload: res,
+         });
+         return res;
+      } catch (error) {
+         throw error;
+      }
+   };
+}

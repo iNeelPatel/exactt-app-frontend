@@ -134,6 +134,23 @@ export function updateCustomers(data: any) {
    };
 }
 
+export function deleteCustomer(customerId: string) {
+   return async (dispatch: DispatchType): Promise<any> => {
+      try {
+         let fromData = {
+            objectId: customerId,
+         };
+         let res = await Parse.Cloud.run("deleteCustomer", fromData);
+         dispatch({
+            type: ActionsTypes.DELETE_CUSTOMER,
+            payload: res,
+         });
+         return res;
+      } catch (error) {
+         return error;
+      }
+   };
+}
 export function setDetailsCustomer(data: any) {
    return async (dispatch: DispatchType): Promise<any> => {
       dispatch({

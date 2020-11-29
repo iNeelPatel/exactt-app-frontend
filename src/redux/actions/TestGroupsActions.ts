@@ -94,3 +94,21 @@ export function updateTestGroup(request: TestGroup) {
       }
    };
 }
+
+export function deleteTestGroup(objectId: string) {
+   return async (dispatch: DispatchType): Promise<TestGroup[]> => {
+      try {
+         let fromData = {
+            objectId: objectId,
+         };
+         let res = await Parse.Cloud.run("deleteTestGroup", fromData);
+         dispatch({
+            type: ActionsTypes.DELETE_TEST_GROUP,
+            payload: res,
+         });
+         return res;
+      } catch (error) {
+         return error;
+      }
+   };
+}

@@ -8,4 +8,5 @@ export interface Props extends RouteComponentProps {
    };
    getParameters: () => any;
    parameters: Parameter[];
+   deleteParameter: (arg0: any) => any;
 }
