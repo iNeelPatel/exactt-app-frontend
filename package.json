@@ -1,6 +1,8 @@
 {
    "name": "exactt-app",
-   "version": "0.1.0",
+   "version": "1.0.0",
+   "description": "Exactt LIMS system.",
+   "author": "Exactt Softwares",
    "private": true,
    "dependencies": {
       "@atlaskit/avatar": "^20.0.2",
@@ -39,9 +41,6 @@
       "@types/redux-logger": "^3.0.8",
       "@types/styled-components": "^5.1.2",
       "concurrently": "^5.3.0",
-      "electron": "^10.1.1",
-      "electron-builder": "^22.8.0",
-      "electron-is-dev": "^1.2.0",
       "formik": "^2.1.5",
       "moment": "^2.29.1",
       "parse": "^2.15.0",
@@ -64,12 +63,13 @@
       "wait-on": "^5.2.0"
    },
    "scripts": {
-      "start": "react-scripts start",
+      "start": "electron .",
       "build": "react-scripts build",
       "test": "react-scripts test",
       "eject": "react-scripts eject",
       "ebuild": "npm run build && node_modules/.bin/build",
       "dev": "concurrently \"npm start\" \"wait-on http://localhost:3000 && electron .\"",
+      "dev-web": "react-scripts start",
       "electron": "electron ."
    },
    "eslintConfig": {
@@ -87,8 +87,11 @@
          "last 1 safari version"
       ]
    },
-   "main": "public/main.js",
+   "main": "public/electron.js",
    "devDependencies": {
-      "dotenv": "^8.2.0"
+      "dotenv": "^8.2.0",
+      "electron": "^10.1.1",
+      "electron-builder": "^22.8.0",
+      "electron-is-dev": "^1.2.0"
    }
 }
