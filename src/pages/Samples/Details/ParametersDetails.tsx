@@ -16,13 +16,17 @@ const ParameterDetails = (props: ParameterDetailsProps) => {
    const [isSubmitting, setIsSubmitting] = useState(false);
 
    const handleAssignSubmit = async () => {
-      console.log(assignedParameters);
-      let formData = assignedParameters?.map((parameter) => ({
-         objectId: parameter.objectId,
-         assign_to: parameter.assign_to,
-         assign_date: parameter.assign_date,
-         due_date: parameter.due_date,
-      }));
+      let formData: any[] = [];
+      assignedParameters?.map((parameter) => {
+         if (parameter.assign_to && parameter.assign_date && parameter.due_date) {
+            formData.push({
+               objectId: parameter.objectId,
+               assign_to: parameter.assign_to,
+               assign_date: parameter.assign_date,
+               due_date: parameter.due_date,
+            });
+         }
+      });
       setIsSubmitting(true);
       await assignSample(formData);
       setIsSubmitting(false);
