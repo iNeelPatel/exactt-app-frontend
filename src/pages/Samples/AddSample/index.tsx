@@ -98,6 +98,7 @@ const AddSampleGroup = (props: Props) => {
             if (user.role.name === "hod") {
                hodUserOptions.push({ label: user.name, value: user.objectId });
             } else {
+               console.log("user ", user)
                usersOptions.push({ label: user.name, value: user.objectId });
             }
          });

@@ -64,7 +64,7 @@
       "wait-on": "^5.2.0"
    },
    "scripts": {
-      "start": "electron .",
+      "start": "react-scripts start",
       "build": "react-scripts build",
       "test": "react-scripts test",
       "eject": "react-scripts eject",
