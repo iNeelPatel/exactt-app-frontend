@@ -97,8 +97,7 @@ const AddSampleGroup = (props: Props) => {
          users?.map((user: User) => {
             if (user.role.name === "hod") {
                hodUserOptions.push({ label: user.name, value: user.objectId });
-            } else {
-               console.log("user ", user)
+            } else if (user.role.name !== "admin") {
                usersOptions.push({ label: user.name, value: user.objectId });
             }
          });
