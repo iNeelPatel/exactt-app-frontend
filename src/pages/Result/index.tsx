@@ -1,25 +1,57 @@
 // ====================================== Module imports ======================================
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
 import { connect } from "react-redux";
 import ReportDetails from "./ReportDetail";
 
 // ====================================== File imports ======================================
-import { Breadcrumb } from "../../components";
+import { Breadcrumb, ScreenLoader } from "../../components";
 import AppState from "../../redux/types";
 import { Props } from "./types";
 import SampleDetails from "./SampleDetails";
+import { getUsers } from "../../redux/actions/UserActions";
+import { bindActionCreators } from "redux";
+import { User } from "../../redux/types/UserTypes";
 
 const SampleResult = (props: Props) => {
    const { sampleId } = props.match.params;
-   const { sample } = props;
+   const { sample, getUsers, users } = props;
+
+   const [loading, setLoading] = useState(true);
+   const [hodOptions, setHodOptions] = useState<any>([]);
+
    const breadcrumbItems = [
       { path: "/", name: "Dashboard" },
       { path: "/sample", name: "Sample" },
       { path: `/sample/id/${sampleId}`, name: sampleId },
       { path: `/sample/id/${sampleId}/result`, name: "Result" },
    ];
-   return (
+
+   const focus = async () => {
+      await getUsers();
+      setLoading(false);
+   };
+
+   useEffect(() => {
+      focus();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
+
+   useEffect(() => {
+      if (users) {
+         let hodUserOptions: any[] = [];
+         users?.map((user: User) => {
+            if (user.role.name === "hod") {
+               hodUserOptions.push({ label: user.name, value: user.objectId });
+            }
+         });
+         setHodOptions(hodUserOptions);
+      }
+   }, [users]);
+
+   return loading ? (
+      <ScreenLoader />
+   ) : (
       <Page>
          <Grid spacing="compact" layout="fluid">
             <GridColumn medium={12}>
@@ -37,7 +69,10 @@ const SampleResult = (props: Props) => {
                      },
                      parameter: parameter.parameter.toJSON(),
                   }))}
-                  onSubmit={() => {}}
+                  hodOptions={hodOptions}
+                  onSubmit={(data) => {
+                     console.log(data);
+                  }}
                />
             </GridColumn>
          </Grid>
@@ -48,6 +83,13 @@ const SampleResult = (props: Props) => {
 const mapStateToProps = (state: AppState) => ({
    sampleResultPermission: state.user.user.role.permission.samples_id_result,
    sample: state.samples.sample,
+   users: state.user.users,
 });
 
-export default connect(mapStateToProps)(SampleResult);
+function mapDispatchToProps(dispatch: any) {
+   return {
+      ...bindActionCreators({ getUsers }, dispatch),
+   };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SampleResult);

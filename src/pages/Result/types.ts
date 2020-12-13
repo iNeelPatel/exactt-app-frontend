@@ -1,5 +1,6 @@
 import { RouteComponentProps } from "react-router-dom";
 import { Sample, SampleResultParameters } from "../../redux/types/SampleTypes";
+import { User } from "../../redux/types/UserTypes";
 
 export interface Props extends RouteComponentProps {
    sampleResultPermission: {
@@ -8,6 +9,8 @@ export interface Props extends RouteComponentProps {
    };
    match: any;
    sample: Sample | undefined;
+   users: User[] | undefined;
+   getUsers: () => any;
 }
 
 export interface SampleDetailsProps {
@@ -19,5 +22,6 @@ export interface ReportDetailsProps {}
 
 export interface ReportDetailProps {
    onSubmit: (arg0: object) => any;
+   hodOptions: any[];
    parameters: SampleResultParameters[] | undefined;
 }

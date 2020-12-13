@@ -1,7 +1,7 @@
 // ====================================== Module imports ======================================
 import React, { Fragment, useState, useCallback } from "react";
 import Page, { Grid, GridColumn } from "@atlaskit/page";
-import Form, { Field } from "@atlaskit/form";
+import Form, { Field, ErrorMessage } from "@atlaskit/form";
 import TextField from "@atlaskit/textfield";
 import Button from "@atlaskit/button";
 import { DatePicker } from "@atlaskit/datetime-picker";
@@ -23,8 +23,8 @@ import { ReportDetailProps } from "./types";
 import { SampleResultParameters } from "../../redux/types/SampleTypes";
 
 const TestDetailsForm = (props: ReportDetailProps) => {
-   const { parameters } = props;
-   const [resultsParameter, setResultsParameter] = useState<SampleResultParameters[] | undefined>(parameters);
+   const { parameters, hodOptions } = props;
+   const [resultsParameters, setResultsParameters] = useState<SampleResultParameters[] | undefined>(parameters);
    const [files, setFiles] = useState<File[]>([]);
 
    const onDrop = useCallback(
@@ -35,6 +35,8 @@ const TestDetailsForm = (props: ReportDetailProps) => {
       },
       [files]
    );
+
+   console.log(files);
 
    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
@@ -58,25 +60,68 @@ const TestDetailsForm = (props: ReportDetailProps) => {
             <GridColumn medium={12}>
                <Form
                   onSubmit={async (data: any) => {
-                     props.onSubmit(data);
+                     let fromData: any = { ...data, resultsParameters };
+                     props.onSubmit(fromData);
                   }}
                >
                   {({ formProps, submitting }: any) => (
                      <form {...formProps} noValidate={true}>
                         <Grid spacing="cosy" layout="fluid">
                            <GridColumn medium={3}>
-                              <Field label="Analysis date" isRequired name="analysisDate">
-                                 {({ fieldProps }: any) => <DatePicker {...fieldProps} dateFormat="DD/MM/YYYY" placeholder="select date" />}
+                              <Field
+                                 label="Analysis date"
+                                 isRequired
+                                 name="analysisDate"
+                                 validate={(value: any) => {
+                                    if (!value) {
+                                       return "ANALYSIS_DATE_REQUIRED";
+                                    }
+                                 }}
+                              >
+                                 {({ fieldProps, error }: any) => (
+                                    <React.Fragment>
+                                       <DatePicker {...fieldProps} dateFormat="DD/MM/YYYY" placeholder="select date" />
+                                       {error === "ANALYSIS_DATE_REQUIRED" ? <ErrorMessage>Analysis date is required</ErrorMessage> : null}
+                                    </React.Fragment>
+                                 )}
                               </Field>
                            </GridColumn>
                            <GridColumn medium={3}>
-                              <Field label="Complete date" isRequired name="completeDate">
-                                 {({ fieldProps }: any) => <DatePicker {...fieldProps} dateFormat="DD/MM/YYYY" placeholder="select date" />}
+                              <Field
+                                 label="Complete date"
+                                 isRequired
+                                 name="completeDate"
+                                 validate={(value: any) => {
+                                    if (!value) {
+                                       return "COMPLETE_DATE_REQUIRED";
+                                    }
+                                 }}
+                              >
+                                 {({ fieldProps, error }: any) => (
+                                    <React.Fragment>
+                                       <DatePicker {...fieldProps} dateFormat="DD/MM/YYYY" placeholder="select date" />
+                                       {error === "COMPLETE_DATE_REQUIRED" ? <ErrorMessage>Complete date is required</ErrorMessage> : null}
+                                    </React.Fragment>
+                                 )}
                               </Field>
                            </GridColumn>
                            <GridColumn medium={3}>
-                              <Field label="Report date" isRequired name="reportDate">
-                                 {({ fieldProps }: any) => <DatePicker {...fieldProps} dateFormat="DD/MM/YYYY" placeholder="select date" />}
+                              <Field
+                                 label="Report date"
+                                 isRequired
+                                 name="reportDate"
+                                 validate={(value: any) => {
+                                    if (!value) {
+                                       return "REPORT_DATE_REQUIRED";
+                                    }
+                                 }}
+                              >
+                                 {({ fieldProps, error }: any) => (
+                                    <React.Fragment>
+                                       <DatePicker {...fieldProps} dateFormat="DD/MM/YYYY" placeholder="select date" />
+                                       {error === "REPORT_DATE_REQUIRED" ? <ErrorMessage>Report date is required</ErrorMessage> : null}
+                                    </React.Fragment>
+                                 )}
                               </Field>
                            </GridColumn>
                            <GridColumn medium={3}>
@@ -143,21 +188,6 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                                     >
                                        Division
                                     </Heading>
-                                    {/* <Heading
-                                       mixin={typography.h200}
-                                       style={{
-                                          margin: 0,
-                                          paddingLeft: 4,
-                                          minWidth: 120,
-                                          borderBottomWidth: 1,
-                                          borderBottomColor: colors.N40,
-                                          borderBottomStyle: "solid",
-                                          paddingBottom: 10,
-                                          marginBottom: 5,
-                                       }}
-                                    >
-                                       HOD Name
-                                    </Heading> */}
                                     <Heading
                                        mixin={typography.h200}
                                        style={{
@@ -249,7 +279,7 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                                        Nagative
                                     </Heading>
                                  </div>
-                                 {resultsParameter?.map((parameter, idx) => {
+                                 {resultsParameters?.map((parameter, idx) => {
                                     let validOptions;
                                     let invalidOptions: any;
                                     let options;
@@ -282,10 +312,10 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                                                       let nagative = !(
                                                          resultInt >= parameter.validation.min && resultInt <= parameter.validation.max
                                                       );
-                                                      let updateParameters: any = resultsParameter.map((data, index) =>
+                                                      let updateParameters: any = resultsParameters.map((data, index) =>
                                                          index === idx ? { ...data, result, nagative } : data
                                                       );
-                                                      setResultsParameter(updateParameters);
+                                                      setResultsParameters(updateParameters);
                                                    }}
                                                    value={parameter.result}
                                                 />
@@ -297,10 +327,10 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                                                    onChange={(result: any) => {
                                                       let nagative =
                                                          invalidOptions.find((item: any) => item === result.value) !== undefined;
-                                                      let updateParameters: any = resultsParameter.map((data, index) =>
+                                                      let updateParameters: any = resultsParameters.map((data, index) =>
                                                          index === idx ? { ...data, result, nagative } : data
                                                       );
-                                                      setResultsParameter(updateParameters);
+                                                      setResultsParameters(updateParameters);
                                                    }}
                                                 />
                                              ) : null}
@@ -314,10 +344,10 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                                                    onChange={(result: any) => {
                                                       let invalidResult = parameter.validation.invalidResult.split(",");
                                                       let nagative = invalidResult.find((item: any) => item === result.value) !== undefined;
-                                                      let updateParameters: any = resultsParameter.map((data, index) =>
+                                                      let updateParameters: any = resultsParameters.map((data, index) =>
                                                          index === idx ? { ...data, result, nagative } : data
                                                       );
-                                                      setResultsParameter(updateParameters);
+                                                      setResultsParameters(updateParameters);
                                                    }}
                                                    value={parameter.result}
                                                 />
@@ -328,10 +358,10 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                                                    onChange={(event: any) => {
                                                       let result = event.target.value;
                                                       let nagative = false;
-                                                      let updateParameters: any = resultsParameter.map((data, index) =>
+                                                      let updateParameters: any = resultsParameters.map((data, index) =>
                                                          index === idx ? { ...data, result, nagative } : data
                                                       );
-                                                      setResultsParameter(updateParameters);
+                                                      setResultsParameters(updateParameters);
                                                    }}
                                                    value={parameter.result}
                                                 />
@@ -342,10 +372,10 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                                                    onChange={(event: any) => {
                                                       let result = event.target.value;
                                                       let nagative = false;
-                                                      let updateParameters: any = resultsParameter.map((data, index) =>
+                                                      let updateParameters: any = resultsParameters.map((data, index) =>
                                                          index === idx ? { ...data, result, nagative } : data
                                                       );
-                                                      setResultsParameter(updateParameters);
+                                                      setResultsParameters(updateParameters);
                                                    }}
                                                    value={parameter.result}
                                                 />
@@ -365,10 +395,10 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                                                 isChecked={parameter.nabl}
                                                 onChange={() => {
                                                    if (!parameter.condition_type) {
-                                                      let updateParameters: any = resultsParameter.map((data, index) =>
+                                                      let updateParameters: any = resultsParameters.map((data, index) =>
                                                          index === idx ? { ...data, nabl: !parameter.nabl } : data
                                                       );
-                                                      setResultsParameter(updateParameters);
+                                                      setResultsParameters(updateParameters);
                                                    }
                                                 }}
                                                 name="all-parameters"
@@ -391,10 +421,10 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                                                    (parameter.result && parameter.condition_type === "complies") ||
                                                    !parameter.condition_type
                                                 ) {
-                                                   let updateParameters: any = resultsParameter.map((data, index) =>
+                                                   let updateParameters: any = resultsParameters.map((data, index) =>
                                                       index === idx ? { ...data, nagative: !parameter.nagative } : data
                                                    );
-                                                   setResultsParameter(updateParameters);
+                                                   setResultsParameters(updateParameters);
                                                 }
                                              }}
                                           >
@@ -490,8 +520,23 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                               </Field>
                            </GridColumn>
                            <GridColumn medium={4}>
-                              <Field label="Authorized Signature" name="remarks">
-                                 {({ fieldProps }: any) => <TextField {...fieldProps} />}
+                              <Field label="Authorized Signature" isRequired name="authorizedSignature">
+                                 {({ fieldProps, error }: any) => (
+                                    <Fragment>
+                                       <Select
+                                          {...fieldProps}
+                                          validationState={error === "REQUIRED" && "error"}
+                                          options={hodOptions}
+                                          placeholder="Select authorized user"
+                                          validate={(value: any) => {
+                                             if (!value) {
+                                                return "REQUIRED";
+                                             }
+                                          }}
+                                       />
+                                       {error === "REQUIRED" && <ErrorMessage>Authorized user is required.</ErrorMessage>}
+                                    </Fragment>
+                                 )}
                               </Field>
                            </GridColumn>
                         </Grid>
