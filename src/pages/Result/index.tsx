@@ -59,6 +59,7 @@ const SampleResult = (props: Props) => {
             </GridColumn>
             <GridColumn medium={12}>
                <SampleDetails sampleDetails={sample} sampleId={sampleId} />
+               {console.log(sample)}
                <ReportDetails
                   parameters={sample?.sampleResultParameters.map((parameter) => ({
                      ...parameter,
@@ -71,7 +72,7 @@ const SampleResult = (props: Props) => {
                   }))}
                   hodOptions={hodOptions}
                   onSubmit={(data) => {
-                     console.log(data);
+                     console.log(JSON.stringify({...data, resultsId: sample?.results.id }));
                   }}
                />
             </GridColumn>

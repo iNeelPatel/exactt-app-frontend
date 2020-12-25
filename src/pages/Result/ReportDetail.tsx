@@ -36,8 +36,6 @@ const TestDetailsForm = (props: ReportDetailProps) => {
       [files]
    );
 
-   console.log(files);
-
    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
    const formatFileSize = (bytes: any, decimalPoint: any): any => {
@@ -61,7 +59,24 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                <Form
                   onSubmit={async (data: any) => {
                      let fromData: any = { ...data, resultsParameters };
-                     props.onSubmit(fromData);
+                     let dataToSend: any = {};
+                     dataToSend["analysisDate"] = fromData.analysisDate;
+                     dataToSend["completeDate"] = fromData.completeDate;
+                     dataToSend["reportDate"] = fromData.reportDate;
+                     dataToSend["url"] = fromData.url;
+                     dataToSend["remarks"] = fromData.remarks;
+                     dataToSend["authorizedSignature"] = fromData.authorizedSignature.value;
+                     dataToSend["resultsParameters"] = fromData.resultsParameters.map((item: any) => ({
+                        objectId: item.objectId,
+                        unit: item.parameter.unit,
+                        result: item.result,
+                        nabl: item.nabl ? item.nabl : false,
+                        requirement: item.requirement,
+                        nagative: item.nagative ? item.nagative : false,
+                        files: files,
+                     }));
+
+                     props.onSubmit(dataToSend);
                   }}
                >
                   {({ formProps, submitting }: any) => (

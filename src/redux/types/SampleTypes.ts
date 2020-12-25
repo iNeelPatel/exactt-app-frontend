@@ -87,6 +87,7 @@ export interface SampleResultParameters {
 }
 
 export interface SampleResults {
+   id: string;
    sample: Object;
    analysisDate: Date;
    completeDate: Date;
