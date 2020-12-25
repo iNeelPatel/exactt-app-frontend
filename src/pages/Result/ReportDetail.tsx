@@ -16,6 +16,7 @@ import Video24Icon from "@atlaskit/icon-file-type/glyph/video/24";
 import PdfDocument24Icon from "@atlaskit/icon-file-type/glyph/pdf-document/24";
 import Generic24Icon from "@atlaskit/icon-file-type/glyph/generic/24";
 import AddIcon from "@atlaskit/icon/glyph/add";
+import moment from "moment";
 
 // ====================================== File imports ======================================
 import { Divider, Heading } from "../../components";
@@ -60,9 +61,9 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                   onSubmit={async (data: any) => {
                      let fromData: any = { ...data, resultsParameters };
                      let dataToSend: any = {};
-                     dataToSend["analysisDate"] = fromData.analysisDate;
-                     dataToSend["completeDate"] = fromData.completeDate;
-                     dataToSend["reportDate"] = fromData.reportDate;
+                     dataToSend["analysisDate"] = moment(fromData.analysisDate, "YYYY-MM-DD").toDate();
+                     dataToSend["completeDate"] = moment(fromData.completeDate, "YYYY-MM-DD").toDate();
+                     dataToSend["reportDate"] = moment(fromData.reportDate, "YYYY-MM-DD").toDate();
                      dataToSend["url"] = fromData.url;
                      dataToSend["remarks"] = fromData.remarks;
                      dataToSend["authorizedSignature"] = fromData.authorizedSignature.value;
@@ -76,7 +77,7 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                         files: files,
                      }));
 
-                     props.onSubmit(dataToSend);
+                     await props.onSubmit(dataToSend);
                   }}
                >
                   {({ formProps, submitting }: any) => (

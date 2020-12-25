@@ -72,3 +72,20 @@ export function assignSample(data: SampleResultParameters[]) {
       }
    };
 }
+
+export function addResults(data: any) {
+   return async (dispatch: DispatchType): Promise<Sample[]> => {
+      try {
+         let res = await Parse.Cloud.run("addResults", data);
+         dispatch({
+            type: ActionsTypes.SAMPLE_ASSIGN,
+            payload: res,
+         });
+         AlertBox(dispatch, "confirmation", "Result added successfully.");
+         return res;
+      } catch (error) {
+         AlertBox(dispatch, "error", error.message);
+         return error;
+      }
+   };
+}

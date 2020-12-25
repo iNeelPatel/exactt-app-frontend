@@ -9,6 +9,7 @@ export interface SampleState {
    searchedSample: Sample[] | [];
    sample: Sample | undefined;
    sampleAssign: SampleResultParameters[] | [];
+   sampleResult: any;
 }
 
 export interface Sample {

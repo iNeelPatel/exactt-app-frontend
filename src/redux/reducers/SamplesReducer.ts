@@ -7,6 +7,7 @@ const initialState: SampleState = {
    sample: undefined,
    searchedSample: [],
    sampleAssign: [],
+   sampleResult: undefined,
 };
 
 export default (state: SampleState = initialState, action: ActionInterface): SampleState => {
@@ -33,6 +34,12 @@ export default (state: SampleState = initialState, action: ActionInterface): Sam
          return {
             ...state,
             sampleAssign: action.payload,
+         };
+
+      case ActionTypes.ADD_RESULT:
+         return {
+            ...state,
+            sampleResult: action.payload,
          };
 
       default:

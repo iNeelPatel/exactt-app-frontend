@@ -11,6 +11,7 @@ export interface Props extends RouteComponentProps {
    sample: Sample | undefined;
    users: User[] | undefined;
    getUsers: () => any;
+   addResults: (data: any) => any;
 }
 
 export interface SampleDetailsProps {

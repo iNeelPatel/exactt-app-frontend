@@ -10,12 +10,13 @@ import AppState from "../../redux/types";
 import { Props } from "./types";
 import SampleDetails from "./SampleDetails";
 import { getUsers } from "../../redux/actions/UserActions";
+import { addResults } from "../../redux/actions/SamplesActions";
 import { bindActionCreators } from "redux";
 import { User } from "../../redux/types/UserTypes";
 
 const SampleResult = (props: Props) => {
    const { sampleId } = props.match.params;
-   const { sample, getUsers, users } = props;
+   const { sample, getUsers, users, addResults } = props;
 
    const [loading, setLoading] = useState(true);
    const [hodOptions, setHodOptions] = useState<any>([]);
@@ -30,6 +31,11 @@ const SampleResult = (props: Props) => {
    const focus = async () => {
       await getUsers();
       setLoading(false);
+   };
+
+   const handleAddResults = async (data: any) => {
+      await addResults(data);
+      props.history.goBack();
    };
 
    useEffect(() => {
@@ -59,7 +65,6 @@ const SampleResult = (props: Props) => {
             </GridColumn>
             <GridColumn medium={12}>
                <SampleDetails sampleDetails={sample} sampleId={sampleId} />
-               {console.log(sample)}
                <ReportDetails
                   parameters={sample?.sampleResultParameters.map((parameter) => ({
                      ...parameter,
@@ -71,9 +76,7 @@ const SampleResult = (props: Props) => {
                      parameter: parameter.parameter.toJSON(),
                   }))}
                   hodOptions={hodOptions}
-                  onSubmit={(data) => {
-                     console.log(JSON.stringify({...data, resultsId: sample?.results.id }));
-                  }}
+                  onSubmit={async (data) => await handleAddResults({ ...data, resultsId: sample?.results.id })}
                />
             </GridColumn>
          </Grid>
@@ -89,7 +92,7 @@ const mapStateToProps = (state: AppState) => ({
 
 function mapDispatchToProps(dispatch: any) {
    return {
-      ...bindActionCreators({ getUsers }, dispatch),
+      ...bindActionCreators({ getUsers, addResults }, dispatch),
    };
 }
 

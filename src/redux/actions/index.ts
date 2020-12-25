@@ -62,6 +62,7 @@ interface ActionsTypes {
    UPDATE_SAMPLE: string;
    SEARCH_SAMPLE: string;
    SAMPLE_ASSIGN: string;
+   ADD_RESULT: string;
 }
 
 const Actions: ActionsTypes = {
@@ -146,6 +147,7 @@ const Actions: ActionsTypes = {
    UPDATE_SAMPLE: "UPDATE_SAMPLE",
    SEARCH_SAMPLE: "SEARCH_SAMPLE",
    SAMPLE_ASSIGN: "SAMPLE_ASSIGN",
+   ADD_RESULT: "ADD_RESULT",
 };
 
 export default Actions;
