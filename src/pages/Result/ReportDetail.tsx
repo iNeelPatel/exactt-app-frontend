@@ -282,7 +282,7 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                                  {resultsParameters?.map((parameter, idx) => {
                                     let validOptions;
                                     let invalidOptions: any;
-                                    let options;
+                                    let options: any;
                                     if (parameter.condition_type === "options") {
                                        validOptions = parameter.validation.validOptions.split(",");
                                        invalidOptions = parameter.validation.invalidOptions.split(",");
@@ -292,79 +292,160 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                                     }
 
                                     return (
-                                       <div style={{ display: "flex", alignItems: "center", marginBottom: 5 }}>
-                                          <div style={{ margin: 0, minWidth: 25, maxWidth: 25 }}>{idx + 1}.</div>
-                                          <div style={{ margin: 0, minWidth: 150, maxWidth: 150 }}>{parameter.name}</div>
-                                          <div style={{ margin: 0, paddingLeft: 4, minWidth: 120, maxWidth: 120 }}>
+                                       <div style={{ display: "flex", marginBottom: 5 }}>
+                                          <div style={{ margin: 0, minWidth: 25, maxWidth: 25, alignSelf: "center" }}>{idx + 1}.</div>
+                                          <div style={{ margin: 0, minWidth: 150, maxWidth: 150, alignSelf: "center" }}>
+                                             {parameter.name}
+                                          </div>
+                                          <div style={{ margin: 0, paddingLeft: 4, minWidth: 120, maxWidth: 120, alignSelf: "center" }}>
                                              {parameter?.department?.get("name")}
                                           </div>
-                                          <div style={{ margin: 0, paddingLeft: 4, minWidth: 150, maxWidth: 150 }}>
+                                          <div style={{ margin: 0, paddingLeft: 4, minWidth: 150, maxWidth: 150, alignSelf: "center" }}>
                                              {parameter.assign_to ? parameter.assign_to.name : "N/A"}
                                           </div>
                                           <div style={{ margin: 0, paddingLeft: 4, minWidth: 170, maxWidth: 170 }}>
                                              {parameter.condition_type === "range" ? (
-                                                <TextField
-                                                   type="number"
-                                                   style={{ maxWidth: 170 }}
-                                                   onChange={(event: any) => {
-                                                      let result = event.target.value;
-                                                      let resultInt = parseFloat(result);
-                                                      let nagative = !(
-                                                         resultInt >= parameter.validation.min && resultInt <= parameter.validation.max
-                                                      );
-                                                      let updateParameters: any = resultsParameters.map((data, index) =>
-                                                         index === idx ? { ...data, result, nagative } : data
-                                                      );
-                                                      setResultsParameters(updateParameters);
-                                                   }}
-                                                   value={parameter.result}
-                                                />
+                                                <Fragment>
+                                                   <Field
+                                                      isRequired
+                                                      name={`result${idx}`}
+                                                      validate={(value: any) => {
+                                                         if (!value) {
+                                                            return "REQUIRED";
+                                                         }
+                                                      }}
+                                                   >
+                                                      {({ fieldProps, error }: any) => (
+                                                         <Fragment>
+                                                            <TextField
+                                                               {...fieldProps}
+                                                               type="number"
+                                                               style={{ maxWidth: 170 }}
+                                                               onChange={(event: any) => {
+                                                                  fieldProps.onChange(event);
+                                                                  let result = event.target.value;
+                                                                  let resultInt = parseFloat(result);
+                                                                  let nagative = !(
+                                                                     resultInt >= parameter.validation.min &&
+                                                                     resultInt <= parameter.validation.max
+                                                                  );
+                                                                  let updateParameters: any = resultsParameters.map((data, index) =>
+                                                                     index === idx ? { ...data, result, nagative } : data
+                                                                  );
+                                                                  setResultsParameters(updateParameters);
+                                                               }}
+                                                               value={parameter.result}
+                                                            />
+                                                            {error === "REQUIRED" ? <ErrorMessage>Required</ErrorMessage> : null}
+                                                         </Fragment>
+                                                      )}
+                                                   </Field>
+                                                </Fragment>
                                              ) : null}
                                              {parameter.condition_type === "options" ? (
-                                                <Select
-                                                   options={options}
-                                                   placeholder="Select option"
-                                                   onChange={(result: any) => {
-                                                      let nagative =
-                                                         invalidOptions.find((item: any) => item === result.value) !== undefined;
-                                                      let updateParameters: any = resultsParameters.map((data, index) =>
-                                                         index === idx ? { ...data, result, nagative } : data
-                                                      );
-                                                      setResultsParameters(updateParameters);
-                                                   }}
-                                                />
+                                                <Fragment>
+                                                   <Field
+                                                      isRequired
+                                                      name={`result${idx}`}
+                                                      validate={(value: any) => {
+                                                         if (!value) {
+                                                            return "REQUIRED";
+                                                         }
+                                                      }}
+                                                   >
+                                                      {({ fieldProps, error }: any) => (
+                                                         <Fragment>
+                                                            <Select
+                                                               {...fieldProps}
+                                                               options={options}
+                                                               placeholder="Select option"
+                                                               onChange={(result: any) => {
+                                                                  fieldProps.onChange(result);
+                                                                  let nagative =
+                                                                     invalidOptions.find((item: any) => item === result.value) !==
+                                                                     undefined;
+                                                                  let updateParameters: any = resultsParameters.map((data, index) =>
+                                                                     index === idx ? { ...data, result, nagative } : data
+                                                                  );
+                                                                  setResultsParameters(updateParameters);
+                                                               }}
+                                                            />
+                                                            {error === "REQUIRED" ? <ErrorMessage>Required</ErrorMessage> : null}
+                                                         </Fragment>
+                                                      )}
+                                                   </Field>
+                                                </Fragment>
                                              ) : null}
                                              {parameter.condition_type === "valid" ? (
-                                                <Select
-                                                   options={parameter.validation.validResult
-                                                      ?.split(",")
-                                                      ?.concat(parameter.validation.invalidResult.split(","))
-                                                      ?.map((option: any) => ({ label: option, value: option }))}
-                                                   placeholder="Select option"
-                                                   onChange={(result: any) => {
-                                                      let invalidResult = parameter.validation.invalidResult.split(",");
-                                                      let nagative = invalidResult.find((item: any) => item === result.value) !== undefined;
-                                                      let updateParameters: any = resultsParameters.map((data, index) =>
-                                                         index === idx ? { ...data, result, nagative } : data
-                                                      );
-                                                      setResultsParameters(updateParameters);
-                                                   }}
-                                                   value={parameter.result}
-                                                />
+                                                <Fragment>
+                                                   <Field
+                                                      isRequired
+                                                      name={`result${idx}`}
+                                                      validate={(value: any) => {
+                                                         if (!value) {
+                                                            return "REQUIRED";
+                                                         }
+                                                      }}
+                                                   >
+                                                      {({ fieldProps, error }: any) => (
+                                                         <Fragment>
+                                                            <Select
+                                                               {...fieldProps}
+                                                               options={parameter.validation.validResult
+                                                                  ?.split(",")
+                                                                  ?.concat(parameter.validation.invalidResult.split(","))
+                                                                  ?.map((option: any) => ({ label: option, value: option }))}
+                                                               placeholder="Select option"
+                                                               onChange={(result: any) => {
+                                                                  fieldProps.onChange(result);
+                                                                  let invalidResult = parameter.validation.invalidResult.split(",");
+                                                                  let nagative =
+                                                                     invalidResult.find((item: any) => item === result.value) !== undefined;
+                                                                  let updateParameters: any = resultsParameters.map((data, index) =>
+                                                                     index === idx ? { ...data, result, nagative } : data
+                                                                  );
+                                                                  setResultsParameters(updateParameters);
+                                                               }}
+                                                               value={parameter.result}
+                                                            />
+                                                            {error === "REQUIRED" ? <ErrorMessage>Required</ErrorMessage> : null}
+                                                         </Fragment>
+                                                      )}
+                                                   </Field>
+                                                </Fragment>
                                              ) : null}
                                              {parameter.condition_type === "complies" ? (
-                                                <TextField
-                                                   style={{ maxWidth: 170 }}
-                                                   onChange={(event: any) => {
-                                                      let result = event.target.value;
-                                                      let nagative = false;
-                                                      let updateParameters: any = resultsParameters.map((data, index) =>
-                                                         index === idx ? { ...data, result, nagative } : data
-                                                      );
-                                                      setResultsParameters(updateParameters);
-                                                   }}
-                                                   value={parameter.result}
-                                                />
+                                                <Fragment>
+                                                   <Field
+                                                      isRequired
+                                                      name={`result${idx}`}
+                                                      validate={(value: any) => {
+                                                         if (!value) {
+                                                            return "REQUIRED";
+                                                         }
+                                                      }}
+                                                   >
+                                                      {({ fieldProps, error }: any) => (
+                                                         <Fragment>
+                                                            <TextField
+                                                               {...fieldProps}
+                                                               style={{ maxWidth: 170 }}
+                                                               onChange={(event: any) => {
+                                                                  fieldProps.onChange(event);
+                                                                  let result = event.target.value;
+                                                                  let nagative = false;
+                                                                  let updateParameters: any = resultsParameters.map((data, index) =>
+                                                                     index === idx ? { ...data, result, nagative } : data
+                                                                  );
+                                                                  setResultsParameters(updateParameters);
+                                                               }}
+                                                               value={parameter.result}
+                                                            />
+                                                            {error === "REQUIRED" ? <ErrorMessage>Required</ErrorMessage> : null}
+                                                         </Fragment>
+                                                      )}
+                                                   </Field>
+                                                </Fragment>
                                              ) : null}
                                              {!parameter.condition_type ? (
                                                 <TextField
@@ -382,14 +463,48 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                                              ) : null}
                                           </div>
                                           <div style={{ margin: 0, paddingLeft: 4, minWidth: 90, maxWidth: 90 }}>
-                                             <TextField style={{ maxWidth: 90 }} value={parameter.parameter.unit} />
+                                             <Field
+                                                // isRequired
+                                                name={`unit${idx}`}
+                                                // validate={(value: any) => {
+                                                //    if (!value) {
+                                                //       return "REQUIRED";
+                                                //    }
+                                                // }}
+                                             >
+                                                {({ fieldProps, error }: any) => (
+                                                   <Fragment>
+                                                      <TextField
+                                                         {...fieldProps}
+                                                         style={{ maxWidth: 90 }}
+                                                         value={parameter.parameter.unit}
+                                                      />
+                                                      {error === "REQUIRED" ? <ErrorMessage>Required</ErrorMessage> : null}
+                                                   </Fragment>
+                                                )}
+                                             </Field>
                                           </div>
                                           <div style={{ margin: 0, paddingLeft: 4, minWidth: 170, maxWidth: 170 }}>
-                                             <TextField value={parameter.requirement} />
+                                             <Field
+                                                // isRequired
+                                                name={`requirement${idx}`}
+                                                // validate={(value: any) => {
+                                                //    if (!value) {
+                                                //       return "REQUIRED";
+                                                //    }
+                                                // }}
+                                             >
+                                                {({ fieldProps, error }: any) => (
+                                                   <Fragment>
+                                                      <TextField {...fieldProps} value={parameter.requirement} />
+                                                      {error === "REQUIRED" ? <ErrorMessage>Required</ErrorMessage> : null}
+                                                   </Fragment>
+                                                )}
+                                             </Field>
                                           </div>
-                                          <div style={{ margin: 0, paddingLeft: 4, minWidth: 50, maxWidth: 50 }}>
+                                          <div style={{ margin: 0, paddingLeft: 4, minWidth: 50, maxWidth: 50, alignSelf: "center" }}>
                                              <Checkbox
-                                                value="Generate URL number"
+                                                value="nabl"
                                                 label=""
                                                 isDisabled={!parameter.condition_type ? false : true}
                                                 isChecked={parameter.nabl}
@@ -410,6 +525,7 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                                                 paddingLeft: 4,
                                                 minWidth: 60,
                                                 maxWidth: 60,
+                                                alignSelf: "center",
                                                 cursor:
                                                    (parameter.result && parameter.condition_type === "complies") ||
                                                    !parameter.condition_type
@@ -520,7 +636,16 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                               </Field>
                            </GridColumn>
                            <GridColumn medium={4}>
-                              <Field label="Authorized Signature" isRequired name="authorizedSignature">
+                              <Field
+                                 label="Authorized Signature"
+                                 isRequired
+                                 name="authorizedSignature"
+                                 validate={(value: any) => {
+                                    if (!value) {
+                                       return "REQUIRED";
+                                    }
+                                 }}
+                              >
                                  {({ fieldProps, error }: any) => (
                                     <Fragment>
                                        <Select
@@ -528,11 +653,6 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                                           validationState={error === "REQUIRED" && "error"}
                                           options={hodOptions}
                                           placeholder="Select authorized user"
-                                          validate={(value: any) => {
-                                             if (!value) {
-                                                return "REQUIRED";
-                                             }
-                                          }}
                                        />
                                        {error === "REQUIRED" && <ErrorMessage>Authorized user is required.</ErrorMessage>}
                                     </Fragment>
