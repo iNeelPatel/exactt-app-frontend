@@ -32,7 +32,8 @@ const normalText: CSSProperties = {
 };
 
 const orgLogo: CSSProperties = {
-   height: 120,
+   height: 80,
+   padding: 10,
 };
 
 const documentBody: CSSProperties = {
