@@ -70,7 +70,7 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                      dataToSend["resultsParameters"] = fromData.resultsParameters.map((item: any) => ({
                         objectId: item.objectId,
                         unit: item.parameter.unit,
-                        result: item.result,
+                        result: item.condition_type || item.condition_type === "options" ? item.result.value : item.result,
                         nabl: item.nabl ? item.nabl : false,
                         requirement: item.requirement,
                         nagative: item.nagative ? item.nagative : false,

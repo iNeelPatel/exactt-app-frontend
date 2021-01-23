@@ -154,8 +154,8 @@ const AddSampleGroup = (props: Props) => {
       formData["parameters"] = testingData.parameters;
 
       try {
-         await createSample(formData);
-         onBack();
+         let response: any = await createSample(formData);
+         props.history.push(`/sample/id/${prefix}-${response.sampleId}`)
       } catch (error) {
          console.log(error);
       }
