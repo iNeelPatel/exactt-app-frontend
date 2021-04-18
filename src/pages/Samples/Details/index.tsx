@@ -20,21 +20,15 @@ import TestDetails from "./TestDetails";
 import ParametersDetails from "./ParametersDetails";
 import { getSample, assignSample } from "../../../redux/actions/SamplesActions";
 import { getUsers } from "../../../redux/actions/UserActions";
-
-// ====================================== Print Page imports ======================================
-import JobAllotmentPrint from "../../../PrintPages/JobAllotment";
-import TestRequest from "../../../PrintPages/TestRequest";
-import JobSheet from "../../../PrintPages/JobSheet";
-
-let JobAllotementRef: any;
-let TestRequestRef: any;
-let JobSheetRef: any;
+import PDFViewer from "../../../components/PDFViewer";
 
 const SampleDetails = (props: Props) => {
    const { samplePermission, getSample, prefix, sample, getUsers, users, assignSample } = props;
    const { sampleId } = props.match.params;
    const [loading, setLoading] = useState(true);
    const [usersOptions, setusersOptions] = useState<any>([]);
+   const [pdfURL, setPdfURL] = useState<string | undefined>("");
+
    const sampleIdWithoutPrefix: string = sampleId.replace(`${prefix}-`, "");
 
    const PrinterIcon = require("../../../assets/images/printer.svg");
@@ -89,44 +83,38 @@ const SampleDetails = (props: Props) => {
                   screen={sampleId}
                   right={
                      <div>
-                        <ReactToPrint content={() => JobAllotementRef}>
-                           <PrintContextConsumer>
-                              {({ handlePrint }) => (
-                                 <Button style={{ height: 38, marginLeft: 10, marginTop: 9 }} appearance="link" onClick={handlePrint}>
-                                    <span>
-                                       <img src={PrinterIcon} alt="printer" width={12} style={{ marginRight: 5 }} />
-                                    </span>{" "}
-                                    Job Allotment
-                                 </Button>
-                              )}
-                           </PrintContextConsumer>
-                        </ReactToPrint>
+                        <Button
+                           style={{ height: 38, marginLeft: 10, marginTop: 9 }}
+                           appearance="link"
+                           onClick={() => setPdfURL(sample?.jobAllotmentUrl)}
+                        >
+                           <span>
+                              <img src={PrinterIcon} alt="printer" width={12} style={{ marginRight: 5 }} />
+                           </span>{" "}
+                           Job Allotment
+                        </Button>
 
-                        <ReactToPrint content={() => TestRequestRef}>
-                           <PrintContextConsumer>
-                              {({ handlePrint }) => (
-                                 <Button style={{ height: 38, marginLeft: 10, marginTop: 9 }} appearance="link" onClick={handlePrint}>
-                                    <span>
-                                       <img src={PrinterIcon} alt="printer" width={12} style={{ marginRight: 5 }} />
-                                    </span>{" "}
-                                    Test Request
-                                 </Button>
-                              )}
-                           </PrintContextConsumer>
-                        </ReactToPrint>
+                        <Button
+                           style={{ height: 38, marginLeft: 10, marginTop: 9 }}
+                           appearance="link"
+                           onClick={() => setPdfURL(sample?.testRequestUrl)}
+                        >
+                           <span>
+                              <img src={PrinterIcon} alt="printer" width={12} style={{ marginRight: 5 }} />
+                           </span>{" "}
+                           Test Request
+                        </Button>
 
-                        <ReactToPrint content={() => JobSheetRef}>
-                           <PrintContextConsumer>
-                              {({ handlePrint }) => (
-                                 <Button style={{ height: 38, marginLeft: 10, marginTop: 9 }} appearance="link" onClick={handlePrint}>
-                                    <span>
-                                       <img src={PrinterIcon} alt="printer" width={12} style={{ marginRight: 5 }} />
-                                    </span>{" "}
-                                    Job Sheet
-                                 </Button>
-                              )}
-                           </PrintContextConsumer>
-                        </ReactToPrint>
+                        <Button
+                           style={{ height: 38, marginLeft: 10, marginTop: 9 }}
+                           appearance="link"
+                           onClick={() => setPdfURL(sample?.jobSheetUrl)}
+                        >
+                           <span>
+                              <img src={PrinterIcon} alt="printer" width={12} style={{ marginRight: 5 }} />
+                           </span>{" "}
+                           Job Sheet
+                        </Button>
 
                         {samplePermission.write && (
                            <Button
@@ -155,7 +143,7 @@ const SampleDetails = (props: Props) => {
                />
             </GridColumn>
             <GridColumn medium={12}>
-               <div style={{ display: "none" }}>
+               {/* <div style={{ display: "none" }}>
                   <JobAllotmentPrint sample={sample} details={props.organization} ref={(el) => (JobAllotementRef = el)} />
                </div>
 
@@ -165,7 +153,7 @@ const SampleDetails = (props: Props) => {
 
                <div style={{ display: "none" }}>
                   <JobSheet sample={sample} details={props.organization} ref={(el) => (JobSheetRef = el)} />
-               </div>
+               </div> */}
 
                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div style={{ paddingRight: 50 }}>
@@ -245,6 +233,7 @@ const SampleDetails = (props: Props) => {
                <Divider />
             </GridColumn>
          </Grid>
+         <PDFViewer url={pdfURL} isOpen={pdfURL ? true : false} onClose={() => setPdfURL("")} />
       </Page>
    );
 };

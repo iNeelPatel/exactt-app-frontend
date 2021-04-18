@@ -64,6 +64,9 @@ export interface Sample {
    parameters: any[];
    results_id?: string;
    status: number;
+   jobAllotmentUrl: string;
+   jobSheetUrl: string;
+   testRequestUrl: string;
 }
 
 export interface SampleResultParameters {
