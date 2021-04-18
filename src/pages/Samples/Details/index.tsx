@@ -7,7 +7,6 @@ import FileIcon from "@atlaskit/icon/glyph/file";
 import { typography } from "@atlaskit/theme";
 import { connect } from "react-redux";
 import Lozenge from "@atlaskit/lozenge";
-import ReactToPrint, { PrintContextConsumer } from "react-to-print";
 import { bindActionCreators } from "redux";
 
 // ====================================== File imports ======================================
