@@ -56,10 +56,10 @@ export function getSample(sampleId: string) {
    };
 }
 
-export function assignSample(data: SampleResultParameters[]) {
+export function assignSample(data: SampleResultParameters[], sampleId: string) {
    return async (dispatch: DispatchType): Promise<Sample[]> => {
       try {
-         let res = await Parse.Cloud.run("assignSample", { parameters: data });
+         let res = await Parse.Cloud.run("assignSample", { parameters: data, sampleId });
          dispatch({
             type: ActionsTypes.SAMPLE_ASSIGN,
             payload: res,

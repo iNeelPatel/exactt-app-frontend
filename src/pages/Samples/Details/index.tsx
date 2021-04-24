@@ -40,7 +40,7 @@ const SampleDetails = (props: Props) => {
 
    const handleAssignSample = async (data: any) => {
       try {
-         await assignSample(data);
+         await assignSample(data, sampleIdWithoutPrefix);
          setLoading(true);
          await getSample(sampleIdWithoutPrefix);
          setLoading(false);

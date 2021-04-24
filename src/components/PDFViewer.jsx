@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "@atlaskit/button";
+import { colors } from "@atlaskit/theme";
 
 // interface Props {
 //    url: string | undefined;
@@ -39,13 +40,13 @@ export default function PDFViewer(props) {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            background: "rgb(49, 54, 57)",
+            background: colors.DN40,
             zIndex: 1000,
             flex: 1,
          }}
       >
          <iframe id="localiframe" title="PDFViewer" style={{ display: "none", width: "210mm" }} />
-         <div style={{ flex: 1, background: "rgb(49, 54, 57)", justifyContent: "center", alignItems: "center" }}>
+         <div style={{ flex: 1, justifyContent: "center", alignItems: "center", paddingTop: 10, paddingBottom: 10 }}>
             <iframe
                id="ifmcontentstoprint"
                title="PDFViewer"
@@ -54,8 +55,8 @@ export default function PDFViewer(props) {
                frameBorder={0}
             ></iframe>
          </div>
-         <div style={{ background: "rgb(49, 54, 57)", padding: 5, display: "flex", justifyContent: "flex-end" }}>
-            <Button onClick={onClose} appearance="danger">
+         <div style={{ padding: 5, display: "flex", justifyContent: "flex-end" }}>
+            <Button onClick={onClose} appearance="danger" style={{ marginRight: 10 }}>
                Close
             </Button>
             <Button onClick={handlePrint} appearance="primary">
