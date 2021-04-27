@@ -464,18 +464,37 @@ const TestDetailsForm = (props: ReportDetailProps) => {
                                                 </Fragment>
                                              ) : null}
                                              {!parameter.condition_type ? (
-                                                <TextField
-                                                   style={{ maxWidth: 170 }}
-                                                   onChange={(event: any) => {
-                                                      let result = event.target.value;
-                                                      let nagative = false;
-                                                      let updateParameters: any = resultsParameters.map((data, index) =>
-                                                         index === idx ? { ...data, result, nagative } : data
-                                                      );
-                                                      setResultsParameters(updateParameters);
-                                                   }}
-                                                   value={parameter.result}
-                                                />
+                                                <Fragment>
+                                                   <Field
+                                                      isRequired
+                                                      name={`result${idx}`}
+                                                      validate={(value: any) => {
+                                                         if (!value) {
+                                                            return "REQUIRED";
+                                                         }
+                                                      }}
+                                                   >
+                                                      {({ fieldProps, error }: any) => (
+                                                         <Fragment>
+                                                            <TextField
+                                                               {...fieldProps}
+                                                               style={{ maxWidth: 170 }}
+                                                               onChange={(event: any) => {
+                                                                  fieldProps.onChange(event);
+                                                                  let result = event.target.value;
+                                                                  let nagative = false;
+                                                                  let updateParameters: any = resultsParameters.map((data, index) =>
+                                                                     index === idx ? { ...data, result, nagative } : data
+                                                                  );
+                                                                  setResultsParameters(updateParameters);
+                                                               }}
+                                                               value={parameter.result}
+                                                            />
+                                                            {error === "REQUIRED" ? <ErrorMessage>Required</ErrorMessage> : null}
+                                                         </Fragment>
+                                                      )}
+                                                   </Field>
+                                                </Fragment>
                                              ) : null}
                                           </div>
                                           <div style={{ margin: 0, paddingLeft: 4, minWidth: 90, maxWidth: 90 }}>
