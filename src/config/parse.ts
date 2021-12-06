@@ -7,7 +7,7 @@ interface ParseConfig {
 const parseConfig: ParseConfig = {
    organizationId: "exactt-backend",
    organizationSecret: "vMvvybc1z4*Q$!J*k4P4NNx",
-   url: "https://exactt-dev.herokuapp.com/api",
+   url: "http://localhost:1337/api",
 };
 
 export default parseConfig;
